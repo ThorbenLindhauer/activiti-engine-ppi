@@ -698,8 +698,22 @@ public class BpmnParse extends Parse {
 
   protected void parseProcessDefinitionCustomExtensions(Element scopeElement, ProcessDefinition definition) {
     parseStartAuthorization(scopeElement, definition);
+    parsePPIElements(scopeElement, definition);
+  }
+  
+  protected void parsePPIElements(Element scopeElement, ProcessDefinition definition) {
+	  Element extentionsElement = scopeElement.element("extensionElements");
+	  List<Element> ppiSetElements = extentionsElement.elementsNS(BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppiset");
+	  for (Element ppiSetElement : ppiSetElements) {
+		  parsePPISet(ppiSetElement, definition);
+	  }
   }
 
+  protected void parsePPISet(Element ppiSetElement, ProcessDefinition definition) {
+	  // TODO: parse all necessary elements, as are: aggregatedMeasure, TimeConnector, ppi (in the first example)
+	  List<Element> ppiSetElements = extentionsElement.elementsNS(BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppiset");
+  }
+  
   protected void parseStartAuthorization(Element scopeElement, ProcessDefinition definition) {
     ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) definition;
 

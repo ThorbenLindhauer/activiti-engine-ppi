@@ -65,6 +65,11 @@ public class BpmnParser extends Parser {
    * The Schema-Instance namespace.
    */
   public static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+  
+  /**
+   * The namespace of the PPI extensions.
+   */
+  public static final String PPI_BPMN_EXTENSIONS_NS = "http://www.isa.us.es/ppinot";
 
   protected ExpressionManager expressionManager;
   protected List<BpmnParseListener> parseListeners = new ArrayList<BpmnParseListener>();
