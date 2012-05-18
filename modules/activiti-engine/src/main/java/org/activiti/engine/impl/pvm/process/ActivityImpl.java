@@ -48,11 +48,13 @@ public class ActivityImpl extends ScopeImpl implements PvmActivity, HasDIBounds 
   protected int height = -1;
   
   // PPI information
-  protected List<BaseMeasure> measures;
+  protected List<BaseMeasure> startMeasures;
+  protected List<BaseMeasure> endMeasures;
   
   public ActivityImpl(String id, ProcessDefinitionImpl processDefinition) {
     super(id, processDefinition);
-    this.measures = new ArrayList<BaseMeasure>();
+    this.startMeasures = new ArrayList<BaseMeasure>();
+    this.endMeasures = new ArrayList<BaseMeasure>();
   }
 
   public TransitionImpl createOutgoingTransition() {
@@ -89,12 +91,20 @@ public class ActivityImpl extends ScopeImpl implements PvmActivity, HasDIBounds 
     return null;
   }
   
-  public void addBaseMeasure(BaseMeasure measure) {
-	  measures.add(measure);
+  public void addStartMeasure(BaseMeasure measure) {
+	  startMeasures.add(measure);
   }
   
-  public List<BaseMeasure> getMeasures() {
-	  return measures;
+  public void addEndMeasure(BaseMeasure measure) {
+	  endMeasures.add(measure);
+  }
+  
+  public List<BaseMeasure> getStartMeasures() {
+	  return startMeasures;
+  }
+  
+  public List<BaseMeasure> getEndMeasures() {
+	  return endMeasures;
   }
 
 
