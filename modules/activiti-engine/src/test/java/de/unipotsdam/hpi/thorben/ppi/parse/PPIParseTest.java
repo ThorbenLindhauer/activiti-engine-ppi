@@ -1,6 +1,9 @@
 package de.unipotsdam.hpi.thorben.ppi.parse;
 
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngineConfiguration;
+import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
@@ -16,42 +19,63 @@ public class PPIParseTest extends PluggableActivitiTestCase {
 
 	private Logger logger = Logger.getLogger(PPIParseTest.class);
 	private ProcessEngine engine;
-	
-	@Deployment(resources = {"de/uni-potsdam/hpi/thorben/ppi/SimpleServiceTask.bpmn20.xml"})
+	private static final String PPI_ENGINE_CONFIG = "de/uni-potsdam/hpi/thorben/ppi/activiti.cfg.xml";
+
+	protected void initializeProcessEngine() {
+		if (cachedProcessEngine == null) {
+			cachedProcessEngine = ProcessEngineConfiguration
+					.createProcessEngineConfigurationFromResource(
+							PPI_ENGINE_CONFIG).buildProcessEngine();
+			if (cachedProcessEngine == null) {
+				throw new ActivitiException(
+						"no default process engine available");
+			}
+		}
+		processEngine = cachedProcessEngine;
+	}
+
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleServiceTask.bpmn20.xml" })
 	public void testParsePPIDefinition() {
-		CommandExecutor commandExecutor = processEngineConfiguration.getCommandExecutorTxRequired();
-	    ProcessDefinitionEntity processDefinitionEntity = commandExecutor.execute(new Command<ProcessDefinitionEntity>() {
-	      public ProcessDefinitionEntity execute(CommandContext commandContext) {
-	        return Context
-	          .getProcessEngineConfiguration()
-	          .getDeploymentCache()
-	          .findDeployedLatestProcessDefinitionByKey("simpleServiceTask");
-	      }
-	    });
-	    
-	    System.out.println("got " + processDefinitionEntity.getActivities().size() + " activities");
-	    for (ActivityImpl activity : processDefinitionEntity.getActivities()) {
-	    	if (activity.getId().equals("serviceTask")) {
-	    		logger.info("Found service task");
-//	    		Assert.assertEquals();
-	    	}
-	    }
+		CommandExecutor commandExecutor = processEngineConfiguration
+				.getCommandExecutorTxRequired();
+		ProcessDefinitionEntity processDefinitionEntity = commandExecutor
+				.execute(new Command<ProcessDefinitionEntity>() {
+					public ProcessDefinitionEntity execute(
+							CommandContext commandContext) {
+						return Context
+								.getProcessEngineConfiguration()
+								.getDeploymentCache()
+								.findDeployedLatestProcessDefinitionByKey(
+										"simpleServiceTask");
+					}
+				});
+
+		System.out.println("got "
+				+ processDefinitionEntity.getActivities().size()
+				+ " activities");
+		for (ActivityImpl activity : processDefinitionEntity.getActivities()) {
+			if (activity.getId().equals("serviceTask")) {
+				logger.info("Found service task");
+				activity.
+				// Assert.assertEquals();
+			}
+		}
 		Assert.assertTrue(true);
 	}
-	
-//	@Before
-//	public void setUp() {
-//		engine = ProcessEngines.getDefaultProcessEngine();
-//	}
-//	
-//	@Test
-//	public void test() {
-//		RepositoryService repoService = engine.getRepositoryService();
-//		
-//		repoService.createDeployment().addClasspathResource("SimpleServiceTask.bpmn20.xml").deploy();		
-//		
-//		RuntimeService runtime = engine.getRuntimeService();
-//		runtime.startProcessInstanceByKey("simpleServiceTask");
-//	}
+
+	// @Before
+	// public void setUp() {
+	// engine = ProcessEngines.getDefaultProcessEngine();
+	// }
+	//
+	// @Test
+	// public void test() {
+	// RepositoryService repoService = engine.getRepositoryService();
+	//
+	// repoService.createDeployment().addClasspathResource("SimpleServiceTask.bpmn20.xml").deploy();
+	//
+	// RuntimeService runtime = engine.getRuntimeService();
+	// runtime.startProcessInstanceByKey("simpleServiceTask");
+	// }
 
 }

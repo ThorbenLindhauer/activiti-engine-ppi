@@ -1,5 +1,6 @@
 package de.unipotsdam.hpi.thorben.ppi.proxy;
 
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperation;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperationActivityEnd;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
@@ -13,6 +14,8 @@ public class AtomicOperationActivityEndPPIProxy implements AtomicOperation {
 
 	@Override
 	public void execute(InterpretableExecution execution) {
+		ActivityImpl activity = (ActivityImpl) execution.getActivity();
+		// TODO do some stuff
 		wrappedOperation.execute(execution);
 		
 	}
