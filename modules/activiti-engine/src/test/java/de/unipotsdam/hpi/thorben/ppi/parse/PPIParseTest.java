@@ -2,7 +2,6 @@ package de.unipotsdam.hpi.thorben.ppi.parse;
 
 import java.util.List;
 
-import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
@@ -35,9 +34,6 @@ public class PPIParseTest extends AbstractPPITest {
 					}
 				});
 
-		System.out.println("got "
-				+ processDefinitionEntity.getActivities().size()
-				+ " activities");
 		for (ActivityImpl activity : processDefinitionEntity.getActivities()) {
 			if (activity.getId().equals("serviceTask")) {
 				logger.info("Found service task");
