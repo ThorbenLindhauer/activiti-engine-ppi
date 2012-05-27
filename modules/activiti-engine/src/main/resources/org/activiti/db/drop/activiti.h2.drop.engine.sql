@@ -59,3 +59,7 @@ drop table ACT_RU_TASK if exists;
 drop table ACT_RU_IDENTITYLINK if exists;
 drop table ACT_RU_VARIABLE if exists;
 drop table ACT_RU_EVENT_SUBSCR if exists;
+
+
+/* PPI tables */
+drop table PPI_BASE_TIME_MEASURE if exists;

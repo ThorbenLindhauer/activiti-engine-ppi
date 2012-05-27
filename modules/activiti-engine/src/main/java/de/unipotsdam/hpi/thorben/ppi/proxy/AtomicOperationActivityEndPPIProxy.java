@@ -1,9 +1,13 @@
 package de.unipotsdam.hpi.thorben.ppi.proxy;
 
+import org.activiti.engine.impl.context.Context;
+import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperation;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperationActivityEnd;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
+
+import de.unipotsdam.hpi.thorben.ppi.measure.BaseMeasure;
 
 public class AtomicOperationActivityEndPPIProxy implements AtomicOperation {
 	
@@ -14,8 +18,11 @@ public class AtomicOperationActivityEndPPIProxy implements AtomicOperation {
 
 	@Override
 	public void execute(InterpretableExecution execution) {
+		CommandContext commandContext = Context.getCommandContext();
 		ActivityImpl activity = (ActivityImpl) execution.getActivity();
-		// TODO do some stuff
+		for (BaseMeasure measure : activity.getEndMeasures()) {
+			measure.measure(execution, commandContext);
+		}
 		wrappedOperation.execute(execution);
 		
 	}

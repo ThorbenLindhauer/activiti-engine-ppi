@@ -155,6 +155,8 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.apache.ibatis.type.JdbcType;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.entity.BaseMeasureManager;
+
 
 /**
  * @author Tom Baeyens
@@ -605,6 +607,9 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
       addSessionFactory(new GenericManagerFactory(UserManager.class));
       addSessionFactory(new GenericManagerFactory(VariableInstanceManager.class));
       addSessionFactory(new GenericManagerFactory(EventSubscriptionManager.class));
+      
+      //PPI
+      addSessionFactory(new GenericManagerFactory(BaseMeasureManager.class));
     }
     if (customSessionFactories!=null) {
       for (SessionFactory sessionFactory: customSessionFactories) {

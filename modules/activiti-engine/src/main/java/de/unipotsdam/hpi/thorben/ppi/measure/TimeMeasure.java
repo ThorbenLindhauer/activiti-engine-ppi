@@ -1,6 +1,13 @@
 package de.unipotsdam.hpi.thorben.ppi.measure;
 
+import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
+import org.activiti.engine.impl.util.ClockUtil;
+import org.activiti.engine.runtime.Execution;
+
+import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue;
 
 public class TimeMeasure extends BaseMeasure {
 
@@ -12,7 +19,18 @@ public class TimeMeasure extends BaseMeasure {
 	}
 	
 	@Override
-	public void measure() {
+	public void measure(InterpretableExecution execution, CommandContext context) {
+		TimeMeasureValue timeMeasureValue = new TimeMeasureValue();
+		String processInstanceId = execution.getProcessInstanceId();
+		ActivityImpl activity = (ActivityImpl) execution.getActivity();
+		if (activity.getId().equals(fromActivity.getId())) {
+			timeMeasureValue.setFrom(ClockUtil.getCurrentTime());
+		} else if (activity.getId().equals(toActivity.getId())){
+			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
+		}
+		timeMeasureValue.setMeasureId(id);
+		timeMeasureValue.setProcessInstanceId(processInstanceId);
+		new InsertTimeValueCommand(timeMeasureValue).execute(context);
 		System.out.println("executed measure");
 	}
 	

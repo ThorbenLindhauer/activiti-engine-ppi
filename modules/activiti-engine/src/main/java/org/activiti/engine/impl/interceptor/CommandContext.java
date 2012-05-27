@@ -48,6 +48,8 @@ import org.activiti.engine.impl.persistence.entity.VariableInstanceManager;
 import org.activiti.engine.impl.pvm.runtime.AtomicOperation;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.entity.BaseMeasureManager;
+
 /**
  * @author Tom Baeyens
  * @author Agim Emruli
@@ -276,6 +278,11 @@ public class CommandContext {
 
   public PropertyManager getPropertyManager() {
     return getSession(PropertyManager.class);
+  }
+  
+  // PPI
+  public BaseMeasureManager getBaseMeasureManager() {
+	  return getSession(BaseMeasureManager.class);
   }
 
   // getters and setters //////////////////////////////////////////////////////

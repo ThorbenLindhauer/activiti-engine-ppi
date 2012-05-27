@@ -28,5 +28,8 @@
     <mapper resource="org/activiti/db/mapping/entity/User.xml" />
     <mapper resource="org/activiti/db/mapping/entity/VariableInstance.xml" />
     <mapper resource="org/activiti/db/mapping/entity/EventSubscription.xml" />
+    
+    <!-- PPI -->
+    <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/TimeMeasureValue.xml" />
 	</mappers>
 </configuration>
