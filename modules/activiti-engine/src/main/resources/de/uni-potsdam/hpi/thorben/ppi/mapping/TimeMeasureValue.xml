@@ -4,17 +4,18 @@
 
   <!-- Write a measured value -->
 
-  <insert id="insertFromValue" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
-    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, FROM_)
+  <insert id="insertTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
+    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, FROM_, TO_)
     values (
       #{id ,jdbcType=VARCHAR},
       #{measureId ,jdbcType=VARCHAR},
       #{processInstanceId ,jdbcType=VARCHAR},
-      #{from ,jdbcType=VARCHAR}
+      #{from ,jdbcType=VARCHAR},
+      #{to ,jdbcType=VARCHAR}
     )
   </insert>
   
-  <insert id="insertToValue" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
+  <!-- <insert id="insertToValue" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
     insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, TO_)
     values (
       #{id ,jdbcType=VARCHAR},
@@ -22,5 +23,5 @@
       #{processInstanceId ,jdbcType=VARCHAR},
       #{to ,jdbcType=VARCHAR}
     )
-  </insert>
+  </insert> -->
 </mapper>

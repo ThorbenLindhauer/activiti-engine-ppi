@@ -10,7 +10,7 @@ public class InsertTimeValueCommand implements Command<Void> {
 	public InsertTimeValueCommand(TimeMeasureValue timeMeasureValue) {
 		this.timeMeasureValue = timeMeasureValue;
 	}
-	
+
 	@Override
 	public Void execute(CommandContext commandContext) {
 		commandContext.getBaseMeasureManager().insertTimeMeasureValue(timeMeasureValue);
