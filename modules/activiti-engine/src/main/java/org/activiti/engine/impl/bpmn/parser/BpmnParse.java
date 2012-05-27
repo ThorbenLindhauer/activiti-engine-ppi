@@ -699,7 +699,7 @@ public class BpmnParse extends Parse {
   protected void parseProcessDefinitionCustomExtensions(Element scopeElement, ProcessDefinition definition) {
     parseStartAuthorization(scopeElement, definition);
   }
-
+    
   protected void parseStartAuthorization(Element scopeElement, ProcessDefinition definition) {
     ProcessDefinitionEntity processDefinition = (ProcessDefinitionEntity) definition;
 

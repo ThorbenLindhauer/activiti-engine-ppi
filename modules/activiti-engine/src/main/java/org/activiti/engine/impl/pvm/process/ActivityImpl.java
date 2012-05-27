@@ -23,6 +23,8 @@ import org.activiti.engine.impl.pvm.PvmException;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.delegate.ActivityBehavior;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.BaseMeasure;
+
 
 /**
  * @author Tom Baeyens
@@ -45,8 +47,14 @@ public class ActivityImpl extends ScopeImpl implements PvmActivity, HasDIBounds 
   protected int width = -1;
   protected int height = -1;
   
+  // PPI information
+  protected List<BaseMeasure> startMeasures;
+  protected List<BaseMeasure> endMeasures;
+  
   public ActivityImpl(String id, ProcessDefinitionImpl processDefinition) {
     super(id, processDefinition);
+    this.startMeasures = new ArrayList<BaseMeasure>();
+    this.endMeasures = new ArrayList<BaseMeasure>();
   }
 
   public TransitionImpl createOutgoingTransition() {
@@ -81,6 +89,22 @@ public class ActivityImpl extends ScopeImpl implements PvmActivity, HasDIBounds 
       return (ActivityImpl) parent;
     }
     return null;
+  }
+  
+  public void addStartMeasure(BaseMeasure measure) {
+	  startMeasures.add(measure);
+  }
+  
+  public void addEndMeasure(BaseMeasure measure) {
+	  endMeasures.add(measure);
+  }
+  
+  public List<BaseMeasure> getStartMeasures() {
+	  return startMeasures;
+  }
+  
+  public List<BaseMeasure> getEndMeasures() {
+	  return endMeasures;
   }
 
 

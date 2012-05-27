@@ -141,6 +141,17 @@ create table ACT_RU_EVENT_SUBSCR (
     primary key (ID_)
 );
 
+
+/* PPI tables */
+create table PPI_BASE_TIME_MEASURE (
+	ID_ varchar(64) not null,
+	MEASURE_ID_ varchar(64),
+	PROC_INST_ID varchar(64),
+	FROM_ timestamp,
+	TO_ timestamp,
+	primary key (ID_)
+);
+
 create index ACT_IDX_EXEC_BUSKEY on ACT_RU_EXECUTION(BUSINESS_KEY_);
 create index ACT_IDX_TASK_CREATE on ACT_RU_TASK(CREATE_TIME_);
 create index ACT_IDX_IDENT_LNK_USER on ACT_RU_IDENTITYLINK(USER_ID_);

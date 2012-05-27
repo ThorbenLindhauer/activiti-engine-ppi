@@ -12,6 +12,9 @@
  */
 package org.activiti.engine.impl.pvm.runtime;
 
+import de.unipotsdam.hpi.thorben.ppi.proxy.AtomicOperationActivityEndPPIProxy;
+import de.unipotsdam.hpi.thorben.ppi.proxy.AtomicOperationActivityStartPPIProxy;
+
 
 
 /**
@@ -19,13 +22,16 @@ package org.activiti.engine.impl.pvm.runtime;
  * @author Daniel Meyer
  */
 public interface AtomicOperation {
+	
+  AtomicOperationActivityStart ORIG_ACTIVITY_START = new AtomicOperationActivityStart();
+  AtomicOperationActivityEnd ORIG_ACTIVITY_END = new AtomicOperationActivityEnd();
   
   AtomicOperation PROCESS_START = new AtomicOperationProcessStart();
   AtomicOperation PROCESS_START_INITIAL = new AtomicOperationProcessStartInitial();
   AtomicOperation PROCESS_END = new AtomicOperationProcessEnd();
-  AtomicOperation ACTIVITY_START = new AtomicOperationActivityStart();
+  AtomicOperation ACTIVITY_START = new AtomicOperationActivityStartPPIProxy(ORIG_ACTIVITY_START);
   AtomicOperation ACTIVITY_EXECUTE = new AtomicOperationActivityExecute();
-  AtomicOperation ACTIVITY_END = new AtomicOperationActivityEnd();
+  AtomicOperation ACTIVITY_END = new AtomicOperationActivityEndPPIProxy(ORIG_ACTIVITY_END);
   AtomicOperation TRANSITION_NOTIFY_LISTENER_END = new AtomicOperationTransitionNotifyListenerEnd();
   AtomicOperation TRANSITION_DESTROY_SCOPE = new AtomicOperationTransitionDestroyScope();
   AtomicOperation TRANSITION_NOTIFY_LISTENER_TAKE = new AtomicOperationTransitionNotifyListenerTake();
