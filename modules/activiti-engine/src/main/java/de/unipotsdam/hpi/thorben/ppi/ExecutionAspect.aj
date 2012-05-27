@@ -1,18 +1,22 @@
 package de.unipotsdam.hpi.thorben.ppi;
 
-import java.util.List;
-
-import org.activiti.engine.impl.pvm.delegate.ActivityBehavior;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.runtime.AtomicOperation;
+import org.activiti.engine.impl.pvm.runtime.AtomicOperationActivityExecute;
+import org.activiti.engine.impl.pvm.runtime.AtomicOperationTransitionDestroyScope;
 
 public aspect ExecutionAspect {
-
-	pointcut executes(ActivityBehavior activity) : target(activity) && call(void ActivityBehavior.execute(..));
+	pointcut execute(AtomicOperationActivityExecute operation, ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
 	
-	before(ActivityBehavior activity) : executes(activity) {
-		System.out.println("Start of Activity" + activity.toString());
+	before(AtomicOperationActivityExecute operation, ExecutionEntity execution) : execute(operation, execution) {
+		ActivityImpl activity = (ActivityImpl) execution.getActivity();
+		System.out.println("In execution " + execution.toString() + " Start of " + activity.toString() + " with behavior " + operation.toString());
 	}
 	
-	after(ActivityBehavior activity) : executes(activity) {
-		System.out.println("End of Activity" + activity.toString());
+	pointcut finish(AtomicOperationTransitionDestroyScope operation, ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
+	before(AtomicOperationTransitionDestroyScope operation, ExecutionEntity execution) : finish(operation, execution) {
+		ActivityImpl activity = (ActivityImpl) execution.getActivity();
+		System.out.println("In execution " + execution.toString() + " End of " + activity.toString() + " with behavior " + operation.toString());
 	}
 }
