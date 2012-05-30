@@ -16,9 +16,10 @@ package org.activiti.engine.impl.pvm.process;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 import org.activiti.engine.impl.pvm.PvmProcessElement;
+
+import de.unipotsdam.hpi.thorben.observer.Observable;
 
 
 /** common properties for process definition, activity and transition 

@@ -1,7 +1,5 @@
 package de.unipotsdam.hpi.thorben.ppi.measure;
 
-import java.util.Observable;
-
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.util.ClockUtil;
@@ -52,8 +50,7 @@ public class TimeMeasure extends BaseMeasure {
 	}
 
 	@Override
-	public void update(Observable processElement, Object eventObject) {
-		ConditionEvent event = (ConditionEvent)eventObject;
+	public void update(ConditionEvent event) {
 		TimeMeasureValue timeMeasureValue;
 		if (fromCondition.isFulfilledBy(event)) {
 			timeMeasureValue = new TimeMeasureValue();

@@ -1,11 +1,11 @@
 package de.unipotsdam.hpi.thorben.ppi.measure;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 import org.apache.log4j.Logger;
+
+import de.unipotsdam.hpi.thorben.observer.Observer;
+import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 
 public class BaseMeasure implements Observer {
 	private Logger log = Logger.getLogger(BaseMeasure.class);
@@ -20,7 +20,9 @@ public class BaseMeasure implements Observer {
 	}
 
 	@Override
-	public void update(Observable processElement, Object event) {
-		// do nothing here
+	public void update(ConditionEvent event) {
+		// do nothing here, override in subclasses that are interested in some kind of events.
 	}
+
+	
 }

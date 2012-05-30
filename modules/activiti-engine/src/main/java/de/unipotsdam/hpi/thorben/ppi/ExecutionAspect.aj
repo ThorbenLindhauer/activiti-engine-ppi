@@ -19,6 +19,7 @@ public aspect ExecutionAspect {
 		
 		ConditionEvent event = new ActivityStartEvent(activity);
 		event.setProcessInstanceId(execution.getProcessInstanceId());
+
 		activity.notifyObservers(event);
 	}
 	

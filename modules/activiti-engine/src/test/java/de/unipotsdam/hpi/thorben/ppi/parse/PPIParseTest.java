@@ -12,7 +12,7 @@ import org.activiti.engine.test.Deployment;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.BaseMeasure;
+import de.unipotsdam.hpi.thorben.observer.Observer;
 
 public class PPIParseTest extends AbstractPPITest {
 
@@ -47,10 +47,10 @@ public class PPIParseTest extends AbstractPPITest {
 //				BaseMeasure endMeasure = endMeasures.get(0);
 //				Assert.assertTrue(startMeasure == endMeasure);
 				
-				int measuresOfActivity = activity.countObservers();
+				List<Observer> measures = activity.getObservers();
 				
 				// nur 1, da die Observers in einem set gespeichert sind (auch wenn die TimeMeasure zweimal hinzugefügt wurde)
-				Assert.assertEquals(1, measuresOfActivity);
+				Assert.assertEquals(1, measures.size());
 			}
 		}
 		Assert.assertTrue(true);
