@@ -1,5 +1,7 @@
 package de.unipotsdam.hpi.thorben.ppi.measure;
 
+import java.util.Date;
+
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.util.ClockUtil;

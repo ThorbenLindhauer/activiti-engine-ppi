@@ -147,8 +147,8 @@ create table PPI_BASE_TIME_MEASURE (
 	ID_ varchar(64) not null,
 	MEASURE_ID_ varchar(64),
 	PROC_INST_ID varchar(64),
-	FROM_ timestamp,
-	TO_ timestamp,
+	FROM_ timestamp null,
+	TO_ timestamp null,
 	primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
