@@ -4,12 +4,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="processEngineConfiguration" class="de.unipotsdam.hpi.thorben.ppi.engine.PPIStandaloneInMemProcessEngineConfiguration">
+  <bean id="processEngineConfiguration" class="de.unipotsdam.hpi.thorben.ppi.engine.PPIStandaloneProcessEngineConfiguration">
   
-    <property name="jdbcUrl" value="jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000" />
-    <property name="jdbcDriver" value="org.h2.Driver" />
-    <property name="jdbcUsername" value="sa" />
-    <property name="jdbcPassword" value="" />
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/activiti" />
+    <property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
+    <property name="jdbcUsername" value="root" />
+    <property name="jdbcPassword" value="root" />
     
     <!-- Database configurations -->
     <property name="databaseSchemaUpdate" value="true" />

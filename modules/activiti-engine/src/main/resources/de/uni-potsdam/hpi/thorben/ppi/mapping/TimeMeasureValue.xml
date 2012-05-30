@@ -15,6 +15,22 @@
     )
   </insert>
   
+  <!-- USER RESULTMAP -->
+
+  <resultMap id="measureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
+    <id property="id" column="ID_" jdbcType="VARCHAR" />
+    <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
+    <result property="processInstanceId" column="PROC_INST_ID" jdbcType="VARCHAR" />
+    <result property="from" column="FROM_" jdbcType="VARCHAR" />
+    <result property="to" column="TO_" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- USER SELECT -->
+
+  <select id="selectMeasureById" parameterType="string" resultMap="measureResultMap">
+    select * from ${prefix}PPI_BASE_TIME_MEASURE where ID_ = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <!-- <insert id="insertToValue" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
     insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, TO_)
     values (
