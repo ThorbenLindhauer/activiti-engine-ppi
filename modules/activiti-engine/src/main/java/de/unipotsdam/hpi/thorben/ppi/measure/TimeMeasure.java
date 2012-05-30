@@ -18,29 +18,7 @@ public class TimeMeasure extends BaseMeasure {
 	public TimeMeasure(String id) {
 		super(id);
 	}
-	
-	
-
-//	@Override
-//	public void measure(InterpretableExecution execution, CommandContext context) {
-//		TimeMeasureValue timeMeasureValue = new TimeMeasureValue();
-//		String processInstanceId = execution.getProcessInstanceId();
-//		ActivityImpl activity = (ActivityImpl) execution.getActivity();
-//		
-//		// TODO das ist nicht korrekt, da from und toActivity gleich sein können
-////		rot hier, da hier weiter arbeiten
-//		if (activity.getId().equals(fromActivity.getId())) {
-//			timeMeasureValue.setFrom(ClockUtil.getCurrentTime());
-//		} else if (activity.getId().equals(toActivity.getId())) {
-//			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
-//			return;
-//		}
-//		timeMeasureValue.setMeasureId(id);
-//		timeMeasureValue.setProcessInstanceId(processInstanceId);
-//		new InsertTimeValueCommand(timeMeasureValue).execute(context);
-//		System.out.println("executed measure");
-//	}
-	
+		
 	public void setFromCondition(PPICondition fromCondition) {
 		this.fromCondition = fromCondition;
 	}
@@ -52,6 +30,8 @@ public class TimeMeasure extends BaseMeasure {
 	@Override
 	public void update(ConditionEvent event) {
 		TimeMeasureValue timeMeasureValue;
+		
+		// TODO refactor
 		if (fromCondition.isFulfilledBy(event)) {
 			timeMeasureValue = new TimeMeasureValue();
 			String processInstanceId = event.getProcessInstanceId();

@@ -37,15 +37,6 @@ public class PPIParseTest extends AbstractPPITest {
 		for (ActivityImpl activity : processDefinitionEntity.getActivities()) {
 			if (activity.getId().equals("serviceTask")) {
 				logger.info("Found service task");
-//				List<BaseMeasure> startMeasures = activity.getStartMeasures();
-//				List<BaseMeasure> endMeasures = activity.getEndMeasures();
-//				
-//				Assert.assertEquals(1, startMeasures.size());
-//				Assert.assertEquals(1, endMeasures.size());
-//				
-//				BaseMeasure startMeasure = startMeasures.get(0);
-//				BaseMeasure endMeasure = endMeasures.get(0);
-//				Assert.assertTrue(startMeasure == endMeasure);
 				
 				List<Observer> measures = activity.getObservers();
 				
@@ -55,20 +46,4 @@ public class PPIParseTest extends AbstractPPITest {
 		}
 		Assert.assertTrue(true);
 	}
-
-	// @Before
-	// public void setUp() {
-	// engine = ProcessEngines.getDefaultProcessEngine();
-	// }
-	//
-	// @Test
-	// public void test() {
-	// RepositoryService repoService = engine.getRepositoryService();
-	//
-	// repoService.createDeployment().addClasspathResource("SimpleServiceTask.bpmn20.xml").deploy();
-	//
-	// RuntimeService runtime = engine.getRuntimeService();
-	// runtime.startProcessInstanceByKey("simpleServiceTask");
-	// }
-
 }
