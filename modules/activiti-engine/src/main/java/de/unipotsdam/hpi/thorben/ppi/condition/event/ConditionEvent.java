@@ -6,6 +6,19 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 
 public abstract class ConditionEvent {
 
+	private String processInstanceId;
+	
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	/*
+	 *  pseudo double dispatch methods, to be overriden in subclasses
+	 */
 	public boolean fulfills(PPICondition condition) {
 		return false;
 	}
@@ -16,5 +29,5 @@ public abstract class ConditionEvent {
 	
 	public boolean fulfills(ActivityEndCondition condition) {
 		return false;	
-	}
+	}	
 }

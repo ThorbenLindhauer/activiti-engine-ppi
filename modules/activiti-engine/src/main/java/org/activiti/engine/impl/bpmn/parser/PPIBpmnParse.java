@@ -10,12 +10,14 @@ import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.util.xml.Element;
 import org.activiti.engine.repository.ProcessDefinition;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.BaseMeasure;
+import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
+import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
+import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.measure.TimeMeasure;
 
 public class PPIBpmnParse extends BpmnParse {
 
-	protected Map<String, BaseMeasure> baseMeasures = new HashMap<String, BaseMeasure>();
+	protected Map<String, TimeMeasure> timeMeasures = new HashMap<String, TimeMeasure>();
 
 	PPIBpmnParse(BpmnParser parser) {
 		super(parser);
@@ -83,9 +85,9 @@ public class PPIBpmnParse extends BpmnParse {
 
 	private void parseTimeMeasure(Element baseMeasure,
 			ProcessDefinition definition) {
-		String baseMeasureId = baseMeasure.attribute("id");
-		BaseMeasure timeMeasure = new TimeMeasure(baseMeasureId);
-		baseMeasures.put(baseMeasureId, timeMeasure);
+		String timeMeasureId = baseMeasure.attribute("id");
+		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId);
+		timeMeasures.put(timeMeasureId, timeMeasure);
 	}
 
 	private void parsePPI(Element ppi, ProcessDefinition definition) {
@@ -97,7 +99,7 @@ public class PPIBpmnParse extends BpmnParse {
 			ProcessDefinition definition) {
 
 		String sourceMeasureId = timeConnector.attribute("sourceRef");
-		TimeMeasure timeMeasure = (TimeMeasure) baseMeasures
+		TimeMeasure timeMeasure = (TimeMeasure) timeMeasures
 				.get(sourceMeasureId);
 
 		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) definition;
@@ -107,28 +109,31 @@ public class PPIBpmnParse extends BpmnParse {
 
 		String conditionType = timeConnector.attribute("conditiontype");
 
-		if (conditionType.equals("From")) {
-			timeMeasure.setFromActivity(activity);
-		} else if (conditionType.equals("To")) {
-			timeMeasure.setToActivity(activity);
-		} else {
-			throw new ActivitiException(
-					"Unknow content of condition type tag for time connector "
-							+ timeConnector.attribute("id") + ": "
-							+ conditionType);
-		}
-
+		PPICondition condition;
 		String measurePoint = timeConnector.attribute("counatend");
 		if (measurePoint.equals("Start")) {
-			activity.addStartMeasure(timeMeasure);
+			condition = new ActivityStartCondition(activity);
 		} else if (measurePoint.equals("End")) {
-			activity.addEndMeasure(timeMeasure);
+			condition = new ActivityEndCondition(activity);
 		} else {
 			throw new ActivitiException(
 					"Unknow content of countatend tag for time connector "
 							+ timeConnector.attribute("id") + ": "
 							+ measurePoint);
 		}
+		
+		if (conditionType.equals("From")) {
+			timeMeasure.setFromCondition(condition);
+		} else if (conditionType.equals("To")) {
+			timeMeasure.setToCondition(condition);
+		} else {
+			throw new ActivitiException(
+					"Unknow content of condition type tag for time connector "
+							+ timeConnector.attribute("id") + ": "
+							+ conditionType);
+		}
+		
+		activity.addObserver(timeMeasure);
 
 	}
 

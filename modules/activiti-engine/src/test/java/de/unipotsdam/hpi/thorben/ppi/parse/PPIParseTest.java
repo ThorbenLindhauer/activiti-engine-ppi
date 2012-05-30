@@ -37,15 +37,20 @@ public class PPIParseTest extends AbstractPPITest {
 		for (ActivityImpl activity : processDefinitionEntity.getActivities()) {
 			if (activity.getId().equals("serviceTask")) {
 				logger.info("Found service task");
-				List<BaseMeasure> startMeasures = activity.getStartMeasures();
-				List<BaseMeasure> endMeasures = activity.getEndMeasures();
+//				List<BaseMeasure> startMeasures = activity.getStartMeasures();
+//				List<BaseMeasure> endMeasures = activity.getEndMeasures();
+//				
+//				Assert.assertEquals(1, startMeasures.size());
+//				Assert.assertEquals(1, endMeasures.size());
+//				
+//				BaseMeasure startMeasure = startMeasures.get(0);
+//				BaseMeasure endMeasure = endMeasures.get(0);
+//				Assert.assertTrue(startMeasure == endMeasure);
 				
-				Assert.assertEquals(1, startMeasures.size());
-				Assert.assertEquals(1, endMeasures.size());
+				int measuresOfActivity = activity.countObservers();
 				
-				BaseMeasure startMeasure = startMeasures.get(0);
-				BaseMeasure endMeasure = endMeasures.get(0);
-				Assert.assertTrue(startMeasure == endMeasure);
+				// nur 1, da die Observers in einem set gespeichert sind (auch wenn die TimeMeasure zweimal hinzugefügt wurde)
+				Assert.assertEquals(1, measuresOfActivity);
 			}
 		}
 		Assert.assertTrue(true);

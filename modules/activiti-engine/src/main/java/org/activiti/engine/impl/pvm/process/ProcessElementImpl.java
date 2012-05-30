@@ -16,6 +16,7 @@ package org.activiti.engine.impl.pvm.process;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import org.activiti.engine.impl.pvm.PvmProcessElement;
 
@@ -25,7 +26,7 @@ import org.activiti.engine.impl.pvm.PvmProcessElement;
  * 
  * @author Tom Baeyens
  */
-public class ProcessElementImpl implements PvmProcessElement {
+public class ProcessElementImpl extends Observable implements PvmProcessElement {
 
   private static final long serialVersionUID = 1L;
   
