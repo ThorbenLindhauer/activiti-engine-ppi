@@ -14,6 +14,8 @@ public class InsertTimeValueCommand implements Command<Void> {
 	@Override
 	public Void execute(CommandContext commandContext) {
 		commandContext.getBaseMeasureManager().insertTimeMeasureValue(timeMeasureValue);
+		// commit this stuff immediately
+		commandContext.getDbSqlSession().flush();
 		return null;
 	}
 

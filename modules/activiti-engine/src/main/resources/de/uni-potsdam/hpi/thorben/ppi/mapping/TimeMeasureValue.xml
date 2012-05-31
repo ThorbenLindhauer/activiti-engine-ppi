@@ -5,7 +5,7 @@
   <!-- Write a measured value -->
 
   <insert id="insertTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
-    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, FROM_, TO_)
+    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_, FROM_, TO_)
     values (
       #{id ,jdbcType=VARCHAR},
       #{measureId ,jdbcType=VARCHAR},
@@ -15,29 +15,59 @@
     )
   </insert>
   
+  <update id="updateTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
+    update ${prefix}PPI_BASE_TIME_MEASURE set
+      ID_ = #{id ,jdbcType=VARCHAR},
+      MEASURE_ID_ = #{measureId ,jdbcType=VARCHAR},
+      PROC_INST_ID_ = #{processInstanceId ,jdbcType=VARCHAR},
+      FROM_ = #{from ,jdbcType=VARCHAR},
+      TO_ = #{to ,jdbcType=VARCHAR}
+    where ID_ = #{id}
+  </update>
+  
   <!-- USER RESULTMAP -->
 
-  <resultMap id="measureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
+  <resultMap id="timeMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
-    <result property="processInstanceId" column="PROC_INST_ID" jdbcType="VARCHAR" />
+    <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
     <result property="from" column="FROM_" jdbcType="VARCHAR" />
     <result property="to" column="TO_" jdbcType="VARCHAR" />
   </resultMap>
   
   <!-- USER SELECT -->
 
-  <select id="selectMeasureById" parameterType="string" resultMap="measureResultMap">
+  <select id="selectMeasureById" parameterType="string" resultMap="timeMeasureResultMap">
     select * from ${prefix}PPI_BASE_TIME_MEASURE where ID_ = #{id,jdbcType=VARCHAR}
   </select>
   
-  <!-- <insert id="insertToValue" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
-    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID, TO_)
-    values (
-      #{id ,jdbcType=VARCHAR},
-      #{measureId ,jdbcType=VARCHAR},
-      #{processInstanceId ,jdbcType=VARCHAR},
-      #{to ,jdbcType=VARCHAR}
-    )
-  </insert> -->
+   <select id="selectTimeMeasureValueByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl" resultMap="timeMeasureResultMap">
+  	${limitBefore}
+    select *
+    <include refid="selectTimeMeasureValueByQueryCriteriaSql" />
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    ${limitAfter}
+  </select>
+  
+   <select id="selectTimeMeasureValueCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl" resultType="long">
+    select count(U.ID_)
+    <include refid="selectTimeMeasureValueByQueryCriteriaSql" />
+  </select>
+  
+  <sql id="selectTimeMeasureValueByQueryCriteriaSql">
+    from ${prefix}PPI_BASE_TIME_MEASURE 
+    <where>
+      <if test="id != null">
+        ID_ = #{id}
+      </if>
+      <if test="measureId != null">
+        and MEASURE_ID_ = #{measureId}
+      </if>
+      <if test="processInstanceId != null">
+        and PROC_INST_ID_ like #{processInstanceId}
+      </if>      
+    </where>
+  </sql>
 </mapper>

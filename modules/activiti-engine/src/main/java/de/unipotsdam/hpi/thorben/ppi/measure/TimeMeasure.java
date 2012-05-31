@@ -1,6 +1,6 @@
 package de.unipotsdam.hpi.thorben.ppi.measure;
 
-import java.util.Date;
+import java.util.List;
 
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
@@ -10,6 +10,8 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertTimeValueCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
 
 public class TimeMeasure extends BaseMeasure {
 
@@ -41,18 +43,29 @@ public class TimeMeasure extends BaseMeasure {
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
 			CommandContext commandContext = Context.getCommandContext();
+			
 			new InsertTimeValueCommand(timeMeasureValue).execute(commandContext);
+			commandContext.getDbSqlSession().flush();
 		}
 		
 		
 		if (toCondition.isFulfilledBy(event)) {
+			
 			timeMeasureValue = new TimeMeasureValue();
 			String processInstanceId = event.getProcessInstanceId();
-			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
-			timeMeasureValue.setMeasureId(id);
-			timeMeasureValue.setProcessInstanceId(processInstanceId);
-			CommandContext commandContext = Context.getCommandContext();
-			new InsertTimeValueCommand(timeMeasureValue).execute(commandContext);
+			
+			
+			TimeMeasureValueQuery query = new TimeMeasureValueQueryImpl();
+			TimeMeasureValue value = query.measureId(id).processInstanceId(processInstanceId).singleResult();			
+			
+//			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
+//			timeMeasureValue.setMeasureId(id);
+//			timeMeasureValue.setProcessInstanceId(processInstanceId);
+			
+			value.setTo(ClockUtil.getCurrentTime());
+//			
+//			CommandContext commandContext = Context.getCommandContext();
+//			new InsertTimeValueCommand(timeMeasureValue).execute(commandContext);
 		}
 		
 	}	

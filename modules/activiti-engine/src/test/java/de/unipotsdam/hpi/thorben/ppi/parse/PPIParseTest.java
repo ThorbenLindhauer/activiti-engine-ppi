@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 
 import de.unipotsdam.hpi.thorben.observer.Observer;
+import de.unipotsdam.hpi.thorben.ppi.AbstractPPITest;
 
 public class PPIParseTest extends AbstractPPITest {
 

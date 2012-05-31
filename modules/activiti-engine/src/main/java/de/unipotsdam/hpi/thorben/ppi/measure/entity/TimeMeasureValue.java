@@ -1,6 +1,8 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.entity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.activiti.engine.impl.db.PersistentObject;
 
@@ -46,7 +48,13 @@ public class TimeMeasureValue implements PersistentObject {
 	
 	@Override
 	public Object getPersistentState() {
-		return null;
+		Map<String, Object> persistentState = new HashMap<String, Object>();
+	    persistentState.put("id", id);
+	    persistentState.put("from", from);
+	    persistentState.put("to", to);
+	    persistentState.put("measureId", measureId);
+	    persistentState.put("processInstanceId", processInstanceId);
+	    return persistentState;
 	}
 	
 	
