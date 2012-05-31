@@ -8,20 +8,17 @@ import org.activiti.engine.test.Deployment;
 
 public class PPIParallelExecutionTest extends AbstractPPITest {
 
-	private static final String PROCESS_DEFINITION_ID = "simpleTimeMeasure";
+	private static final String TIME_MEASURE_DEFINITION_ID = "simpleTimeMeasure";
+	private static final String COUNT_MEASURE_DEFINITION_ID = "simpleCountMeasure";
 	private static final int INSTANCES = 20;
 
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
-	public void testPPIProcessExecution() throws InterruptedException {
+	public void testTimeMeasureExecution() throws InterruptedException {
 		final RuntimeService runtime = processEngine.getRuntimeService();
 		
 		List<Thread> instanceThreads = new ArrayList<Thread>();
 		for (int i = 0; i < INSTANCES; i++) {
-			Thread t = new Thread(new Runnable() {
-				public void run() {
-					runtime.startProcessInstanceByKey(PROCESS_DEFINITION_ID);
-				}
-			});
+			Thread t = createInstantiationThread(runtime, TIME_MEASURE_DEFINITION_ID);
 			t.start();
 			instanceThreads.add(t);
 		}
@@ -31,5 +28,31 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 			t.join();
 		}
 		// TODO assert that values have been written to the database
+	}
+	
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
+	public void testCountMeasureExecution() throws InterruptedException {
+		final RuntimeService runtime = processEngine.getRuntimeService();
+		
+		List<Thread> instanceThreads = new ArrayList<Thread>();
+		for (int i = 0; i < INSTANCES; i++) {
+			Thread t = createInstantiationThread(runtime, COUNT_MEASURE_DEFINITION_ID);
+			t.start();
+			instanceThreads.add(t);
+		}
+		
+		// wait until all threads are done
+		for (Thread t : instanceThreads) {
+			t.join();
+		}
+		// TODO assert that values have been written to the database
+	}
+	
+	private Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey) {
+		return new Thread(new Runnable() {
+			public void run() {
+				runtime.startProcessInstanceByKey(processDefinitionKey);
+			}
+		});
 	}
 }
