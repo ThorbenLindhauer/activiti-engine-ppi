@@ -13,11 +13,13 @@ import org.activiti.engine.repository.ProcessDefinition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
+import de.unipotsdam.hpi.thorben.ppi.measure.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.TimeMeasure;
 
 public class PPIBpmnParse extends BpmnParse {
 
 	protected Map<String, TimeMeasure> timeMeasures = new HashMap<String, TimeMeasure>();
+	protected Map<String, CountMeasure> countMeasures = new HashMap<String, CountMeasure>();
 
 	PPIBpmnParse(BpmnParser parser) {
 		super(parser);
@@ -58,6 +60,12 @@ public class PPIBpmnParse extends BpmnParse {
 		for (Element timeConnector : timeConnectorElements) {
 			parseTimeConnector(timeConnector, definition);
 		}
+		
+		List<Element> appliesToConnectorElements = ppiSetElement.elementsNS(
+				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "appliesToConnector");
+		for (Element appliesToConnector : appliesToConnectorElements) {
+			parseAppliesToConnector(appliesToConnector, definition);
+		}
 
 		List<Element> ppiElements = ppiSetElement.elementsNS(
 				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppi");
@@ -65,6 +73,7 @@ public class PPIBpmnParse extends BpmnParse {
 			parsePPI(ppi, definition);
 		}
 	}
+
 
 	private void parseAggMeasure(Element aggMeasure,
 			ProcessDefinition definition) {
@@ -77,14 +86,19 @@ public class PPIBpmnParse extends BpmnParse {
 
 	private void parseBaseMeasure(Element baseMeasure,
 			ProcessDefinition definition) {
-		if (baseMeasure.getTagName().equals("timeMeasure")) {
+		String tagName = baseMeasure.getTagName();
+		if (tagName.equals("timeMeasure")) {
 			parseTimeMeasure(baseMeasure, definition);
-		} else {
+		} else if (tagName.equals("countMeasure")) {
+			parseCountMeasure(baseMeasure, definition);
+		}
+		else {
 			throw new ActivitiException("Unsupported base measure type "
 					+ baseMeasure.getTagName());
 		}
 
 	}
+
 
 	private void parseTimeMeasure(Element baseMeasure,
 			ProcessDefinition definition) {
@@ -92,10 +106,46 @@ public class PPIBpmnParse extends BpmnParse {
 		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId);
 		timeMeasures.put(timeMeasureId, timeMeasure);
 	}
+	
+
+	private void parseCountMeasure(Element baseMeasure,
+			ProcessDefinition definition) {
+		String countMeasureId = baseMeasure.attribute("id");
+		CountMeasure countMeasure = new CountMeasure(countMeasureId);
+		countMeasures.put(countMeasureId, countMeasure);
+		
+	}
 
 	private void parsePPI(Element ppi, ProcessDefinition definition) {
 		// TODO Auto-generated method stub
 
+	}
+	
+
+	private void parseAppliesToConnector(Element appliesToConnector,
+			ProcessDefinition definition) {
+		String sourceMeasureId = appliesToConnector.attribute("sourceRef");
+		CountMeasure countMeasure = (CountMeasure) countMeasures.get(sourceMeasureId);
+		
+		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) definition;
+		String targetActivityId = appliesToConnector.attribute("targetRef");
+		ActivityImpl activity = findActivityById(
+				definitionEntity.getActivities(), targetActivityId);
+		
+		PPICondition condition;
+		String measurePoint = appliesToConnector.attribute("counatend");
+		if (measurePoint.equals("Start")) {
+			condition = new ActivityStartCondition(activity);
+		} else if (measurePoint.equals("End")) {
+			condition = new ActivityEndCondition(activity);
+		} else {
+			throw new ActivitiException(
+					"Unknow content of countatend tag for time connector "
+							+ appliesToConnector.attribute("id") + ": "
+							+ measurePoint);
+		}
+		countMeasure.setCondition(condition);
+		activity.addObserver(countMeasure);
 	}
 
 	private void parseTimeConnector(Element timeConnector,

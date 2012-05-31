@@ -25,8 +25,6 @@
     where ID_ = #{id}
   </update>
   
-  <!-- USER RESULTMAP -->
-
   <resultMap id="timeMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue">
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
@@ -35,10 +33,11 @@
     <result property="to" column="TO_" jdbcType="VARCHAR" />
   </resultMap>
   
-  <!-- USER SELECT -->
 
-  <select id="selectMeasureById" parameterType="string" resultMap="timeMeasureResultMap">
-    select * from ${prefix}PPI_BASE_TIME_MEASURE where ID_ = #{id,jdbcType=VARCHAR}
+  <select id="selectTMVByMeasureIdAndProcessInstance" parameterType="map" resultMap="timeMeasureResultMap">
+    select * from ${prefix}PPI_BASE_TIME_MEASURE 
+    	where MEASURE_ID_ = #{measureId,jdbcType=VARCHAR} 
+    	and PROC_INST_ID_ = #{processInstanceId,jdbcType=VARCHAR} 
   </select>
   
    <select id="selectTimeMeasureValueByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl" resultMap="timeMeasureResultMap">

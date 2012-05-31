@@ -1,10 +1,13 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.AbstractManager;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
@@ -13,6 +16,24 @@ public class BaseMeasureManager extends AbstractManager {
 
 	public void insertTimeMeasureValue(TimeMeasureValue value) {
 		getDbSqlSession().insert(value);
+	}
+	
+	public void insertTimeCountValue(CountMeasureValue value) {
+		getDbSqlSession().insert(value);
+	}
+	
+	public TimeMeasureValue findTimeMeasureValue(String measureId, String processInstanceId) {
+	    Map<String, String> parameters = new HashMap<String, String>();
+	    parameters.put("measureId", measureId);
+	    parameters.put("processInstanceId", processInstanceId);
+	    return (TimeMeasureValue) getDbSqlSession().selectOne("selectTMVByMeasureIdAndProcessInstance", parameters);
+	}
+	
+	public CountMeasureValue findCountMeasureValue(String measureId, String processInstanceId) {
+	    Map<String, String> parameters = new HashMap<String, String>();
+	    parameters.put("measureId", measureId);
+	    parameters.put("processInstanceId", processInstanceId);
+	    return (CountMeasureValue) getDbSqlSession().selectOne("selectCMVByMeasureIdAndProcessInstance", parameters);
 	}
 	
 //	public void updateUser(TimeMeasureValue updatedValue) {
@@ -29,6 +50,8 @@ public class BaseMeasureManager extends AbstractManager {
 			TimeMeasureValueQueryImpl query, Page page) {
 		return getDbSqlSession().selectList("selectTimeMeasureValueByQueryCriteria", query, page);
 	}
+
+	
 	
 //	public void updateTimeMeasureValue(TimeMeasureValue measure) {
 //		TimeMeasureValue measureEntity = findTimeMeasureById(measure.getMeasureId());

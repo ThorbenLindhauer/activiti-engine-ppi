@@ -31,5 +31,6 @@
     
     <!-- PPI -->
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/TimeMeasureValue.xml" />
+    <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/CountMeasureValue.xml" />
 	</mappers>
 </configuration>

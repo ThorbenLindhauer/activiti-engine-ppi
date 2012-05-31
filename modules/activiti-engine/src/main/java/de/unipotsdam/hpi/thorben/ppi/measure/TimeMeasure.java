@@ -6,7 +6,7 @@ import org.activiti.engine.impl.util.ClockUtil;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertOrUpdateTimeValueCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
@@ -42,10 +42,9 @@ public class TimeMeasure extends BaseMeasure {
 			timeMeasureValue.setFrom(ClockUtil.getCurrentTime());
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
-			CommandContext commandContext = Context.getCommandContext();
 			
-			new InsertTimeValueCommand(timeMeasureValue).execute(commandContext);
-			commandContext.getDbSqlSession().flush();
+			CommandContext commandContext = Context.getCommandContext();			
+			new InsertOrUpdateTimeValueCommand(timeMeasureValue).execute(commandContext);
 		}
 		
 		
@@ -53,19 +52,13 @@ public class TimeMeasure extends BaseMeasure {
 			
 			timeMeasureValue = new TimeMeasureValue();
 			String processInstanceId = event.getProcessInstanceId();
+			timeMeasureValue.setMeasureId(id);
+			timeMeasureValue.setProcessInstanceId(processInstanceId);
 			
+			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
 			
-			TimeMeasureValueQuery query = new TimeMeasureValueQueryImpl();
-			TimeMeasureValue value = query.measureId(id).processInstanceId(processInstanceId).singleResult();			
-			
-//			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
-//			timeMeasureValue.setMeasureId(id);
-//			timeMeasureValue.setProcessInstanceId(processInstanceId);
-			
-			value.setTo(ClockUtil.getCurrentTime());
-//			
-//			CommandContext commandContext = Context.getCommandContext();
-//			new InsertTimeValueCommand(timeMeasureValue).execute(commandContext);
+			CommandContext commandContext = Context.getCommandContext();			
+			new InsertOrUpdateTimeValueCommand(timeMeasureValue).execute(commandContext);
 		}
 		
 	}	
