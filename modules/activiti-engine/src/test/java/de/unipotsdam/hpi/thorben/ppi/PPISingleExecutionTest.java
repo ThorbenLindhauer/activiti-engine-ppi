@@ -5,9 +5,9 @@ import org.activiti.engine.test.Deployment;
 
 public class PPISingleExecutionTest extends AbstractPPITest {
 
-	private static final String PROCESS_DEFINITION_ID = "simpleServiceTask";
+	private static final String PROCESS_DEFINITION_ID = "simpleTimeMeasure";
 
-	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleServiceTask.bpmn20.xml" })
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testPPIProcessExecution() throws InterruptedException {
 		RuntimeService runtime = processEngine.getRuntimeService();
 		runtime.startProcessInstanceByKey(PROCESS_DEFINITION_ID);

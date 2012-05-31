@@ -19,7 +19,7 @@ public class PPIParseTest extends AbstractPPITest {
 
 	private Logger logger = Logger.getLogger(PPIParseTest.class);
 
-	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleServiceTask.bpmn20.xml" })
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testParsePPIDefinition() {
 		CommandExecutor commandExecutor = processEngineConfiguration
 				.getCommandExecutorTxRequired();
@@ -31,7 +31,7 @@ public class PPIParseTest extends AbstractPPITest {
 								.getProcessEngineConfiguration()
 								.getDeploymentCache()
 								.findDeployedLatestProcessDefinitionByKey(
-										"simpleServiceTask");
+										"simpleTimeMeasure");
 					}
 				});
 

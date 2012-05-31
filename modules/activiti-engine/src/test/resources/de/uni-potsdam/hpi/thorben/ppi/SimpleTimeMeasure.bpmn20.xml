@@ -4,7 +4,7 @@
 	targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema"
 	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
 	xmlns:ppinot="http://www.isa.us.es/ppinot">
-	<process id="simpleServiceTask" isExecutable="true">
+	<process id="simpleTimeMeasure" isExecutable="true">
 		<extensionElements>
 			<ppinot:ppiset>
 				<!-- Measures -->

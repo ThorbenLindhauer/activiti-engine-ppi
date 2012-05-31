@@ -33,11 +33,14 @@ public class PPIBpmnParse extends BpmnParse {
 	protected void parsePPIElements(Element scopeElement,
 			ProcessDefinition definition) {
 		Element extentionsElement = scopeElement.element("extensionElements");
-		List<Element> ppiSetElements = extentionsElement.elementsNS(
-				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppiset");
-		for (Element ppiSetElement : ppiSetElements) {
-			parsePPISet(ppiSetElement, definition);
+		if (extentionsElement != null) {
+			List<Element> ppiSetElements = extentionsElement.elementsNS(
+					BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppiset");
+			for (Element ppiSetElement : ppiSetElements) {
+				parsePPISet(ppiSetElement, definition);
+			}
 		}
+		
 	}
 
 	protected void parsePPISet(Element ppiSetElement,

@@ -8,10 +8,10 @@ import org.activiti.engine.test.Deployment;
 
 public class PPIParallelExecutionTest extends AbstractPPITest {
 
-	private static final String PROCESS_DEFINITION_ID = "simpleServiceTask";
+	private static final String PROCESS_DEFINITION_ID = "simpleTimeMeasure";
 	private static final int INSTANCES = 20;
 
-	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleServiceTask.bpmn20.xml" })
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testPPIProcessExecution() throws InterruptedException {
 		final RuntimeService runtime = processEngine.getRuntimeService();
 		
