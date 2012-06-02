@@ -1,14 +1,14 @@
-package de.unipotsdam.hpi.thorben.ppi.measure;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance;
 
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.CountMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertOrUpdateCountValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertOrUpdateTimeValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 
 public class CountMeasure extends BaseMeasure {
 

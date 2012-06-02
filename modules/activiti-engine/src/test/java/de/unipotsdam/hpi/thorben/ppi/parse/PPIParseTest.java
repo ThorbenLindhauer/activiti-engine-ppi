@@ -14,8 +14,8 @@ import org.junit.Assert;
 
 import de.unipotsdam.hpi.thorben.observer.Observer;
 import de.unipotsdam.hpi.thorben.ppi.AbstractPPITest;
-import de.unipotsdam.hpi.thorben.ppi.measure.CountMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.TimeMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
 
 public class PPIParseTest extends AbstractPPITest {
 

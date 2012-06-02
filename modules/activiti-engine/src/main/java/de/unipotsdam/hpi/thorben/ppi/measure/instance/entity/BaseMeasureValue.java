@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.entity;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import org.activiti.engine.impl.db.PersistentObject;
 

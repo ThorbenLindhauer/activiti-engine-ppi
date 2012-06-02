@@ -23,7 +23,7 @@ import org.activiti.engine.impl.pvm.PvmException;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.delegate.ActivityBehavior;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.BaseMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 
 
 /**

@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi.measure;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance;
 
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
@@ -6,8 +6,8 @@ import org.activiti.engine.impl.util.ClockUtil;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.InsertOrUpdateTimeValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
 

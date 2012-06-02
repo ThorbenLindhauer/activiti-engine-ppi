@@ -155,7 +155,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.apache.ibatis.type.JdbcType;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.entity.BaseMeasureManager;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureManager;
 
 
 /**

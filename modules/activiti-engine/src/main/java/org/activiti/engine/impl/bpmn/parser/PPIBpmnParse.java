@@ -13,8 +13,8 @@ import org.activiti.engine.repository.ProcessDefinition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
-import de.unipotsdam.hpi.thorben.ppi.measure.CountMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.TimeMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
 
 public class PPIBpmnParse extends BpmnParse {
 

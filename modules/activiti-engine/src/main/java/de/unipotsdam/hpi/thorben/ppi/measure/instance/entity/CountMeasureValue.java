@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.entity;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import java.util.HashMap;
 import java.util.Map;

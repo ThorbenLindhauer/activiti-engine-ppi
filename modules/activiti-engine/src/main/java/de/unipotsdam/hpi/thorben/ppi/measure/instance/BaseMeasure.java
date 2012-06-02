@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi.measure;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance;
 
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
