@@ -29,5 +29,10 @@ public class CountMeasureValue extends BaseMeasureValue {
 		count = value.count;
 	}
 
+	@Override
+	public Number calculate() {
+		return count;
+	}
+
 
 }

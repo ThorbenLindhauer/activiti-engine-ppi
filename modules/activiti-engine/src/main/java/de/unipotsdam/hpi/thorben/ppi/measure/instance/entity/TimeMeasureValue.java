@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.activiti.engine.ActivitiException;
+
 public class TimeMeasureValue extends BaseMeasureValue {
 
 	private Date from;
@@ -40,5 +42,18 @@ public class TimeMeasureValue extends BaseMeasureValue {
 		if (value.to != null) {
 			this.to = value.to;
 		}
+	}
+	
+	/**
+	 * Returns the difference of the two timestamps in milliseconds
+	 */
+	@Override
+	public Number calculate() {
+		if (to != null && from != null) {
+			return to.getTime() - from.getTime();
+		} else {
+			throw new ActivitiException("Cannot calculate measure: One of the two timestamps not set.");
+		}
+		
 	}
 }

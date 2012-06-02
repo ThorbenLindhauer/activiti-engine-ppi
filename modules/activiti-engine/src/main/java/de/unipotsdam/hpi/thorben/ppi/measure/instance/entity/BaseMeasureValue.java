@@ -26,5 +26,7 @@ public abstract class BaseMeasureValue implements PersistentObject {
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
 	}
+
+	public abstract Number calculate();
 	
 }

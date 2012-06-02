@@ -1,5 +1,7 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.instance;
 
+import java.util.List;
+
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.util.ClockUtil;
@@ -8,10 +10,8 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
 
-public class TimeMeasure extends BaseMeasure {
+public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 
 
 	private PPICondition fromCondition;
@@ -61,5 +61,11 @@ public class TimeMeasure extends BaseMeasure {
 			new InsertOrUpdateTimeValueCommand(timeMeasureValue).execute(commandContext);
 		}
 		
+	}
+
+	@Override
+	public List<TimeMeasureValue> getAllValues() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }

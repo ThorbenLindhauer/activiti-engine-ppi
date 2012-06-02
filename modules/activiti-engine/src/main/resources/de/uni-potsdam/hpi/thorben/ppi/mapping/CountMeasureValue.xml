@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.entity.CountMeasureValue">
+<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
 
   <!-- Write a measured value -->
 
-  <insert id="insertCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.CountMeasureValue">
+  <insert id="insertCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
     insert into ${prefix}PPI_BASE_COUNT_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_, COUNT_)
     values (
       #{id ,jdbcType=VARCHAR},
@@ -14,7 +14,7 @@
     )
   </insert>
   
-  <update id="updateCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.entity.CountMeasureValue">
+  <update id="updateCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
     update ${prefix}PPI_BASE_COUNT_MEASURE set
       ID_ = #{id ,jdbcType=VARCHAR},
       MEASURE_ID_ = #{measureId ,jdbcType=VARCHAR},
@@ -23,7 +23,7 @@
     where ID_ = #{id}
   </update>
   
-  <resultMap id="countMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.entity.CountMeasureValue">
+  <resultMap id="countMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
     <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />

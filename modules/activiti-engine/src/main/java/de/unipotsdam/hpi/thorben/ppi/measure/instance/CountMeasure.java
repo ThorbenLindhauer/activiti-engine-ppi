@@ -1,16 +1,17 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.instance;
 
+import java.util.List;
+
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 
-public class CountMeasure extends BaseMeasure {
+public class CountMeasure extends BaseMeasure<CountMeasureValue> {
 
 	private PPICondition condition;
 	
@@ -40,6 +41,12 @@ public class CountMeasure extends BaseMeasure {
 				new InsertOrUpdateCountValueCommand(value).execute(commandContext);
 			}
 		}
+	}
+
+	@Override
+	public List<CountMeasureValue> getAllValues() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
