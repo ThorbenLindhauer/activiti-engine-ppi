@@ -24,6 +24,8 @@ import org.activiti.engine.impl.pvm.PvmProcessInstance;
 import org.activiti.engine.impl.pvm.runtime.ExecutionImpl;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
+
 
 
 /**
@@ -39,10 +41,20 @@ public class ProcessDefinitionImpl extends ScopeImpl implements PvmProcessDefini
   protected Map<ActivityImpl, List<ActivityImpl>> initialActivityStacks = new HashMap<ActivityImpl, List<ActivityImpl>>();
   protected List<LaneSet> laneSets;
   protected ParticipantProcess participantProcess;
+  
+  protected List<ProcessMeasure<?>> measures = new ArrayList<ProcessMeasure<?>>();
 
   public ProcessDefinitionImpl(String id) {
     super(id, null);
     processDefinition = this;
+  }
+  
+  public void addMeasure(ProcessMeasure<?> measure) {
+	  measures.add(measure);
+  }
+  
+  public List<ProcessMeasure<?>> getMeasures() {
+	  return measures;
   }
 
   public PvmProcessInstance createProcessInstance() {

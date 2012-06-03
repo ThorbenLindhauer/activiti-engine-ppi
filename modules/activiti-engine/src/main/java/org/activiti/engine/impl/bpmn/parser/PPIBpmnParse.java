@@ -7,14 +7,22 @@ import java.util.Map;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
 import org.activiti.engine.impl.util.xml.Element;
 import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
 
 public class PPIBpmnParse extends BpmnParse {
 
@@ -42,7 +50,7 @@ public class PPIBpmnParse extends BpmnParse {
 				parsePPISet(ppiSetElement, definition);
 			}
 		}
-		
+
 	}
 
 	protected void parsePPISet(Element ppiSetElement,
@@ -60,7 +68,7 @@ public class PPIBpmnParse extends BpmnParse {
 		for (Element timeConnector : timeConnectorElements) {
 			parseTimeConnector(timeConnector, definition);
 		}
-		
+
 		List<Element> appliesToConnectorElements = ppiSetElement.elementsNS(
 				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "appliesToConnector");
 		for (Element appliesToConnector : appliesToConnectorElements) {
@@ -74,14 +82,37 @@ public class PPIBpmnParse extends BpmnParse {
 		}
 	}
 
-
 	private void parseAggMeasure(Element aggMeasure,
 			ProcessDefinition definition) {
+		// TODO refactor heavily
+		
 		List<Element> baseMeasures = aggMeasure.elements();
-		for (Element baseMeasure : baseMeasures) {
-			parseBaseMeasure(baseMeasure, definition);
+		if (aggMeasure.elements().size() == 1) {
+			parseBaseMeasure(baseMeasures.get(0), definition);
+			String aggFunction = aggMeasure.attribute("aggregationfunction");
+			String baseMeasureId = baseMeasures.get(0).attribute("id");
+			String baseMeasureType = baseMeasures.get(0).getTagName();
+			
+			if (baseMeasureType.equals("timeMeasure")) {
+				TimeMeasure baseMeasure = (TimeMeasure) lookUpBaseMeasure(baseMeasureId);
+				
+				if (aggFunction.equals("Average")) {
+					TypeHelper<Long> longHelper = new LongHelper();
+					AggregationFunction<Long, TimeMeasureValue> function = new AverageFunction<Long, TimeMeasureValue>(longHelper);
+					AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
+					measure.setBaseMeasure(baseMeasure);
+					measure.setAggregationFunction(function);
+					
+					ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+					definitionImpl.addMeasure(measure);
+				}
+			}			
+			
+		} else if (baseMeasures.size() > 1) {
+			throw new ActivitiException("There should be no more than one child base measure.");
+		} else if(baseMeasures.size() == 0) {
+			throw new ActivitiException("Currently only agg measure supported with base measures as child elements.");
 		}
-
 	}
 
 	private void parseBaseMeasure(Element baseMeasure,
@@ -91,14 +122,12 @@ public class PPIBpmnParse extends BpmnParse {
 			parseTimeMeasure(baseMeasure, definition);
 		} else if (tagName.equals("countMeasure")) {
 			parseCountMeasure(baseMeasure, definition);
-		}
-		else {
+		} else {
 			throw new ActivitiException("Unsupported base measure type "
 					+ baseMeasure.getTagName());
 		}
 
 	}
-
 
 	private void parseTimeMeasure(Element baseMeasure,
 			ProcessDefinition definition) {
@@ -106,32 +135,31 @@ public class PPIBpmnParse extends BpmnParse {
 		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId);
 		timeMeasures.put(timeMeasureId, timeMeasure);
 	}
-	
 
 	private void parseCountMeasure(Element baseMeasure,
 			ProcessDefinition definition) {
 		String countMeasureId = baseMeasure.attribute("id");
 		CountMeasure countMeasure = new CountMeasure(countMeasureId);
 		countMeasures.put(countMeasureId, countMeasure);
-		
+
 	}
 
 	private void parsePPI(Element ppi, ProcessDefinition definition) {
 		// TODO Auto-generated method stub
 
 	}
-	
 
 	private void parseAppliesToConnector(Element appliesToConnector,
 			ProcessDefinition definition) {
 		String sourceMeasureId = appliesToConnector.attribute("sourceRef");
-		CountMeasure countMeasure = (CountMeasure) countMeasures.get(sourceMeasureId);
-		
+		CountMeasure countMeasure = (CountMeasure) countMeasures
+				.get(sourceMeasureId);
+
 		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) definition;
 		String targetActivityId = appliesToConnector.attribute("targetRef");
 		ActivityImpl activity = findActivityById(
 				definitionEntity.getActivities(), targetActivityId);
-		
+
 		PPICondition condition;
 		String measurePoint = appliesToConnector.attribute("counatend");
 		if (measurePoint.equals("Start")) {
@@ -174,7 +202,7 @@ public class PPIBpmnParse extends BpmnParse {
 							+ timeConnector.attribute("id") + ": "
 							+ measurePoint);
 		}
-		
+
 		if (conditionType.equals("From")) {
 			timeMeasure.setFromCondition(condition);
 		} else if (conditionType.equals("To")) {
@@ -185,7 +213,7 @@ public class PPIBpmnParse extends BpmnParse {
 							+ timeConnector.attribute("id") + ": "
 							+ conditionType);
 		}
-		
+
 		activity.addObserver(timeMeasure);
 
 	}
@@ -198,5 +226,14 @@ public class PPIBpmnParse extends BpmnParse {
 			}
 		}
 		throw new ActivitiException("Could not find Activity with id " + id);
+	}
+
+	private BaseMeasure<?> lookUpBaseMeasure(String id) {
+		BaseMeasure<?> measure = timeMeasures.get(id);
+		if (measure == null) {
+			measure = countMeasures.get(id);
+		}
+
+		return measure;
 	}
 }

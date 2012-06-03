@@ -16,6 +16,7 @@ import de.unipotsdam.hpi.thorben.observer.Observer;
 import de.unipotsdam.hpi.thorben.ppi.AbstractPPITest;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 
 public class PPIParseTest extends AbstractPPITest {
 
@@ -77,5 +78,29 @@ public class PPIParseTest extends AbstractPPITest {
 				Assert.assertTrue(measures.get(0) instanceof CountMeasure);
 			}
 		}
+	}
+	
+	// TODO write another test case that base measure is not owned by aggregated measure (see comment below)
+	/**
+	 * Only looking at the case that the aggregated measure has the base measures as sub elements.
+	 */
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
+	public void testParseSimpleAggregatedMeasureDefinition() {
+		CommandExecutor commandExecutor = processEngineConfiguration
+				.getCommandExecutorTxRequired();
+		ProcessDefinitionEntity processDefinitionEntity = commandExecutor
+				.execute(new Command<ProcessDefinitionEntity>() {
+					public ProcessDefinitionEntity execute(
+							CommandContext commandContext) {
+						return Context
+								.getProcessEngineConfiguration()
+								.getDeploymentCache()
+								.findDeployedLatestProcessDefinitionByKey(
+										"simpleTimeMeasure");
+					}
+				});
+
+		List<ProcessMeasure<?>> measures = processDefinitionEntity.getMeasures();
+		Assert.assertEquals(1, measures.size());
 	}
 }
