@@ -5,6 +5,7 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
 
 public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureValue, N extends Number> implements ProcessMeasure<N> {
 
+	private String id;
 	private M baseMeasure;
 	private AggregationFunction<N, V> aggregationFunction;
 	
@@ -14,6 +15,14 @@ public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureVa
 	}
 	
 
+	public String getId() {
+		return id;
+	}
+	
+	public String setId() {
+		return id;
+	}
+	
 	public M getBaseMeasure() {
 		return baseMeasure;
 	}

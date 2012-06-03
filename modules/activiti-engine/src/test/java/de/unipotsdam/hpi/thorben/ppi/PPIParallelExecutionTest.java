@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.test.Deployment;
+import org.junit.Assert;
+
+import de.unipotsdam.hpi.thorben.ppi.engine.PPIProcessEngine;
+import de.unipotsdam.hpi.thorben.ppi.service.PPIService;
 
 public class PPIParallelExecutionTest extends AbstractPPITest {
 
@@ -45,6 +49,29 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		for (Thread t : instanceThreads) {
 			t.join();
 		}
+		// TODO assert that values have been written to the database
+	}
+	
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
+	public void testAggregatedMeasureCalculation() throws InterruptedException {
+		final RuntimeService runtime = processEngine.getRuntimeService();
+		
+		List<Thread> instanceThreads = new ArrayList<Thread>();
+		for (int i = 0; i < INSTANCES; i++) {
+			Thread t = createInstantiationThread(runtime, COUNT_MEASURE_DEFINITION_ID);
+			t.start();
+			instanceThreads.add(t);
+		}
+		
+		// wait until all threads are done
+		for (Thread t : instanceThreads) {
+			t.join();
+		}
+		
+		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
+		PPIService ppiService = engine.getPPIService();
+		Number result = ppiService.calculateAggregatedMeasure("aggMeasure");
+		Assert.assertNotSame(0, result);
 		// TODO assert that values have been written to the database
 	}
 	

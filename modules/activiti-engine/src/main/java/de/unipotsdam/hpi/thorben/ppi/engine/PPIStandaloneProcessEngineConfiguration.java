@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.bpmn.deployer.BpmnDeployer;
 import org.activiti.engine.impl.bpmn.parser.BpmnParser;
 import org.activiti.engine.impl.bpmn.parser.PPIBpmnParser;
@@ -35,4 +36,10 @@ public class PPIStandaloneProcessEngineConfiguration extends
 	    defaultDeployers.add(bpmnDeployer);
 	    return defaultDeployers;
 	  }
+	
+	@Override
+	public ProcessEngine buildProcessEngine() {
+		init();
+		return new PPIProcessEngine(this);
+	}
 }
