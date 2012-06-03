@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.Page;
+import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.persistence.AbstractManager;
-import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.impl.persistence.entity.UserEntity;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
 
 public class BaseMeasureManager extends AbstractManager {
@@ -40,6 +39,10 @@ public class BaseMeasureManager extends AbstractManager {
 //	    UserEntity persistentUser = findUserById(updatedValue.getId());
 //	    persistentUser.update((UserEntity) updatedValue);
 //	  }
+	
+	public TimeMeasureValueQuery createNewTimeMeasureValueQuery() {
+		return new TimeMeasureValueQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+	}
 	
 	public long findTimeMeasureValueCountByQueryCriteria(
 			TimeMeasureValueQueryImpl query) {

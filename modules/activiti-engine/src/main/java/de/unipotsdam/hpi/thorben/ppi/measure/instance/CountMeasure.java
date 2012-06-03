@@ -7,7 +7,6 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
 

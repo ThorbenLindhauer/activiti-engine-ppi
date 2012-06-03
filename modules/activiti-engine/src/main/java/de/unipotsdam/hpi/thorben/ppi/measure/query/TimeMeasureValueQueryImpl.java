@@ -6,6 +6,7 @@ import org.activiti.engine.ActivitiException;
 import org.activiti.engine.impl.AbstractQuery;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.interceptor.CommandContext;
+import org.activiti.engine.impl.interceptor.CommandExecutor;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 
@@ -16,6 +17,9 @@ public class TimeMeasureValueQueryImpl extends AbstractQuery<TimeMeasureValueQue
 	protected String measureId;
 	protected String processInstanceId;
 	
+	public TimeMeasureValueQueryImpl(CommandExecutor commandExecutor) {
+		super(commandExecutor);
+	}
 	
 	@Override
 	public TimeMeasureValueQuery measureId(String measureId) {

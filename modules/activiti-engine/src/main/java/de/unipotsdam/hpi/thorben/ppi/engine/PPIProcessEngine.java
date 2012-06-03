@@ -12,7 +12,9 @@ public class PPIProcessEngine extends ProcessEngineImpl {
 	public PPIProcessEngine(
 			ProcessEngineConfigurationImpl processEngineConfiguration) {
 		super(processEngineConfiguration);
-		ppiService = new PPIServiceImpl();
+		PPIServiceImpl service = new PPIServiceImpl();
+		service.setCommandExecutor(commandExecutor);
+		ppiService = service;
 	}
 	
 	public PPIService getPPIService() {

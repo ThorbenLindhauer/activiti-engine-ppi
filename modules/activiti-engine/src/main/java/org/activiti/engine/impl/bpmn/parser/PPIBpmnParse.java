@@ -100,6 +100,7 @@ public class PPIBpmnParse extends BpmnParse {
 					TypeHelper<Long> longHelper = new LongHelper();
 					AggregationFunction<Long, TimeMeasureValue> function = new AverageFunction<Long, TimeMeasureValue>(longHelper);
 					AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
+					measure.setId(aggMeasure.attribute("id"));
 					measure.setBaseMeasure(baseMeasure);
 					measure.setAggregationFunction(function);
 					

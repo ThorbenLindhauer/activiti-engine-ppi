@@ -52,13 +52,13 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		// TODO assert that values have been written to the database
 	}
 	
-	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testAggregatedMeasureCalculation() throws InterruptedException {
 		final RuntimeService runtime = processEngine.getRuntimeService();
 		
 		List<Thread> instanceThreads = new ArrayList<Thread>();
 		for (int i = 0; i < INSTANCES; i++) {
-			Thread t = createInstantiationThread(runtime, COUNT_MEASURE_DEFINITION_ID);
+			Thread t = createInstantiationThread(runtime, TIME_MEASURE_DEFINITION_ID);
 			t.start();
 			instanceThreads.add(t);
 		}
@@ -70,7 +70,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		
 		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
 		PPIService ppiService = engine.getPPIService();
-		Number result = ppiService.calculateAggregatedMeasure("aggMeasure");
+		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
 		// TODO assert that values have been written to the database
 	}

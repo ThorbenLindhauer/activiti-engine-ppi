@@ -10,6 +10,7 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 
 public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 
@@ -65,7 +66,8 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 
 	@Override
 	public List<TimeMeasureValue> getAllValues() {
-		// TODO Auto-generated method stub
-		return null;
+		CommandContext context = Context.getCommandContext();		
+		TimeMeasureValueQuery query = context.getBaseMeasureManager().createNewTimeMeasureValueQuery();
+		return query.list();
 	}	
 }
