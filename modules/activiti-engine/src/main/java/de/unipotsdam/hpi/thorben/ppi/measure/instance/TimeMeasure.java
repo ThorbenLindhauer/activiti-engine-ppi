@@ -67,7 +67,7 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 	@Override
 	public List<TimeMeasureValue> getAllValues() {
 		CommandContext context = Context.getCommandContext();		
-		TimeMeasureValueQuery query = context.getBaseMeasureManager().createNewTimeMeasureValueQuery();
+		TimeMeasureValueQuery query = context.getBaseMeasureManager().createNewTimeMeasureValueQuery().measureId(id);
 		return query.list();
 	}	
 }

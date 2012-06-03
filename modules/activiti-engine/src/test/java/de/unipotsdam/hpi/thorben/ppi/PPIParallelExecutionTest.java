@@ -72,7 +72,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
-		// TODO assert that values have been written to the database
+		System.out.println(result);
 	}
 	
 	private Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey) {
