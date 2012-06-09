@@ -9,7 +9,7 @@
 			<ppinot:ppiset>
 				<!-- Measures -->
 				<ppinot:aggregatedMeasure analysisperiod=""
-					samplingfrequency="" aggregationfunction="Average"
+					samplingfrequency="" aggregationfunction="Sum"
 					id="aggMeasure">
 					<ppinot:countMeasure id="oryx_count1"
 						unitofmeasure="" scale="" description="" name="" />

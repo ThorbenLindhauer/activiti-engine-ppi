@@ -53,7 +53,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
-	public void testAggregatedMeasureCalculation() throws InterruptedException {
+	public void testAverageMeasureCalculation() throws InterruptedException {
 		final RuntimeService runtime = processEngine.getRuntimeService();
 		
 		List<Thread> instanceThreads = new ArrayList<Thread>();
@@ -71,6 +71,29 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
+		Assert.assertNotSame(0, result);
+		System.out.println(result);
+	}
+	
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
+	public void testSumMeasureCalculation() throws InterruptedException {
+		final RuntimeService runtime = processEngine.getRuntimeService();
+		
+		List<Thread> instanceThreads = new ArrayList<Thread>();
+		for (int i = 0; i < INSTANCES; i++) {
+			Thread t = createInstantiationThread(runtime, COUNT_MEASURE_DEFINITION_ID);
+			t.start();
+			instanceThreads.add(t);
+		}
+		
+		// wait until all threads are done
+		for (Thread t : instanceThreads) {
+			t.join();
+		}
+		
+		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
+		PPIService ppiService = engine.getPPIService();
+		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", COUNT_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
 		System.out.println(result);
 	}

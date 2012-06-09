@@ -8,6 +8,8 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.persistence.AbstractManager;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
 
@@ -52,6 +54,20 @@ public class BaseMeasureManager extends AbstractManager {
 	public List<TimeMeasureValue> findTimeMeasureValueByQueryCriteria(
 			TimeMeasureValueQueryImpl query, Page page) {
 		return getDbSqlSession().selectList("selectTimeMeasureValueByQueryCriteria", query, page);
+	}
+
+	public CountMeasureValueQuery createNewCountMeasureValueQuery() {
+		return new CountMeasureValueQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+	}
+	
+	public long findCountMeasureValueCountByQueryCriteria(
+			CountMeasureValueQueryImpl query) {
+		return (Long) getDbSqlSession().selectOne("selectCountMeasureValueCountByQueryCriteria", query);
+	}
+
+	public List<CountMeasureValue> findCountMeasureValueByQueryCriteria(
+			CountMeasureValueQueryImpl query, Page page) {
+		return getDbSqlSession().selectList("selectCountMeasureValueByQueryCriteria", query, page);
 	}
 
 	

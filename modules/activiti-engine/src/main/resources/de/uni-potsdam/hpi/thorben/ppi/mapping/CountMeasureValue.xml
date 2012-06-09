@@ -27,7 +27,7 @@
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
     <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
-    <result property="count" column="FROM_" jdbcType="INTEGER" />
+    <result property="count" column="COUNT_" jdbcType="INTEGER" />
   </resultMap>
   
   <select id="selectCMVByMeasureIdAndProcessInstance" parameterType="map" resultMap="countMeasureResultMap">
@@ -36,4 +36,33 @@
     	and PROC_INST_ID_ = #{processInstanceId,jdbcType=VARCHAR} 
   </select>
 
+  <select id="selectCountMeasureValueByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl" resultMap="countMeasureResultMap">
+  	${limitBefore}
+    select *
+    <include refid="selectCountMeasureValueByQueryCriteriaSql" />
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    ${limitAfter}
+  </select>
+  
+   <select id="selectCountMeasureValueCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl" resultType="long">
+    select count(U.ID_)
+    <include refid="selectCountMeasureValueByQueryCriteriaSql" />
+  </select>
+  
+  <sql id="selectCountMeasureValueByQueryCriteriaSql">
+    from ${prefix}PPI_BASE_COUNT_MEASURE 
+    <where>
+      <if test="id != null">
+        ID_ = #{id}
+      </if>
+      <if test="measureId != null">
+        and MEASURE_ID_ = #{measureId}
+      </if>
+      <if test="processInstanceId != null">
+        and PROC_INST_ID_ like #{processInstanceId}
+      </if>      
+    </where>
+  </sql>
 </mapper>

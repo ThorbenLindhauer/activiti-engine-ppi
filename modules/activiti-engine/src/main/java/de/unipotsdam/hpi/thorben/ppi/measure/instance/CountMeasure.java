@@ -9,6 +9,7 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQuery;
 
 public class CountMeasure extends BaseMeasure<CountMeasureValue> {
 
@@ -44,8 +45,9 @@ public class CountMeasure extends BaseMeasure<CountMeasureValue> {
 
 	@Override
 	public List<CountMeasureValue> getAllValues() {
-		// TODO Auto-generated method stub
-		return null;
+		CommandContext context = Context.getCommandContext();		
+		CountMeasureValueQuery query = context.getBaseMeasureManager().createNewCountMeasureValueQuery().measureId(id);
+		return query.list();
 	}
 
 }

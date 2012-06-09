@@ -17,11 +17,14 @@ import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.SumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
 
 public class PPIBpmnParse extends BpmnParse {
@@ -119,12 +122,13 @@ public class PPIBpmnParse extends BpmnParse {
 			String aggregationFunctionName, TypeHelper<N> typeHelper) {
 		if (aggregationFunctionName.equals("Average")) {
 			return new AverageFunction<N, T>(typeHelper);
+		} else if (aggregationFunctionName.equals("Sum")) {
+			return new SumFunction<N, T>(typeHelper);
 		} else {
-			throw new ActivitiException(
-					"Unsupported aggregation function type "
-							+ aggregationFunctionName);
+			throw new ActivitiException("Unsupported aggregation function type "
+					+ aggregationFunctionName);
 		}
-
+		
 	}
 
 	private void parseTimeMeasure(Element aggregatedMeasure,
@@ -155,6 +159,19 @@ public class PPIBpmnParse extends BpmnParse {
 		String countMeasureId = baseMeasure.attribute("id");
 		CountMeasure countMeasure = new CountMeasure(countMeasureId);
 		countMeasures.put(countMeasureId, countMeasure);
+
+		// parse aggregated measure
+		String aggFunction = aggregatedMeasure.attribute("aggregationfunction");
+		TypeHelper<Integer> intHelper = new IntegerHelper();
+		AggregationFunction<Integer, CountMeasureValue> function = parseAggregationFunction(
+				aggFunction, intHelper);
+		AggregatedMeasure<CountMeasure, CountMeasureValue, Integer> measure = new AggregatedMeasure<CountMeasure, CountMeasureValue, Integer>();
+		measure.setId(aggregatedMeasure.attribute("id"));
+		measure.setBaseMeasure(countMeasure);
+		measure.setAggregationFunction(function);
+
+		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+		definitionImpl.addMeasure(measure);
 
 	}
 

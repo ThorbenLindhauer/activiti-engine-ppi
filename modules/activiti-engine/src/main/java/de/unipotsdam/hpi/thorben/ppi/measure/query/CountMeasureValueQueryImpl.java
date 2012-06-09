@@ -8,21 +8,21 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.interceptor.CommandExecutor;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
 
-public class TimeMeasureValueQueryImpl extends AbstractQuery<TimeMeasureValueQuery, TimeMeasureValue> implements TimeMeasureValueQuery {
+public class CountMeasureValueQueryImpl extends AbstractQuery<CountMeasureValueQuery, CountMeasureValue> implements CountMeasureValueQuery{
 
-	private static final long serialVersionUID = -6573102800086133707L;
+	private static final long serialVersionUID = 1L;
 	protected String id;
 	protected String measureId;
 	protected String processInstanceId;
 	
-	public TimeMeasureValueQueryImpl(CommandExecutor commandExecutor) {
+	public CountMeasureValueQueryImpl(CommandExecutor commandExecutor) {
 		super(commandExecutor);
 	}
 	
 	@Override
-	public TimeMeasureValueQuery measureId(String measureId) {
+	public CountMeasureValueQuery measureId(String measureId) {
 		if (measureId == null) {
 		      throw new ActivitiException("Provided measureId is null");
 		    }
@@ -31,12 +31,29 @@ public class TimeMeasureValueQueryImpl extends AbstractQuery<TimeMeasureValueQue
 	}
 
 	@Override
-	public TimeMeasureValueQuery processInstanceId(String processInstanceId) {
+	public CountMeasureValueQuery processInstanceId(String processInstanceId) {
 		if (processInstanceId == null) {
 		      throw new ActivitiException("Provided processInstanceId is null");
 		    }
 		this.processInstanceId = processInstanceId;
 		return this;
+	}
+
+	@Override
+	public long executeCount(CommandContext commandContext) {
+		checkQueryOk();
+	    return commandContext
+	      .getBaseMeasureManager()
+	      .findCountMeasureValueCountByQueryCriteria(this);
+	}
+
+	@Override
+	public List<CountMeasureValue> executeList(CommandContext commandContext,
+			Page page) {
+		checkQueryOk();
+	    return commandContext
+	      .getBaseMeasureManager()
+	      .findCountMeasureValueByQueryCriteria(this, page);
 	}
 
 	public String getMeasureId() {
@@ -46,25 +63,11 @@ public class TimeMeasureValueQueryImpl extends AbstractQuery<TimeMeasureValueQue
 	public String getProcessInstanceId() {
 		return processInstanceId;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
+	
+	
 
-	@Override
-	public long executeCount(CommandContext commandContext) {
-		checkQueryOk();
-	    return commandContext
-	      .getBaseMeasureManager()
-	      .findTimeMeasureValueCountByQueryCriteria(this);
-	}
-
-	@Override
-	public List<TimeMeasureValue> executeList(CommandContext commandContext,
-			Page page) {
-		checkQueryOk();
-	    return commandContext
-	      .getBaseMeasureManager()
-	      .findTimeMeasureValueByQueryCriteria(this, page);
-	}
 }
