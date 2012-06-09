@@ -7,8 +7,8 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
 public class AverageFunction<T extends Number, K extends BaseMeasureValue> implements AggregationFunction<T, K> {
 
 	private TypeHelper<T> helper;
-	public AverageFunction(TypeHelper<T> helper) {
-		this.helper = helper;
+	public AverageFunction(TypeHelper<T> typeHelper) {
+		this.helper = typeHelper;
 	}
 	
 	@Override

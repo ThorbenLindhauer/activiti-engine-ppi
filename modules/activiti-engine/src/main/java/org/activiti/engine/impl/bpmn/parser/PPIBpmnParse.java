@@ -14,9 +14,9 @@ import org.activiti.engine.repository.ProcessDefinition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
@@ -84,45 +84,30 @@ public class PPIBpmnParse extends BpmnParse {
 
 	private void parseAggMeasure(Element aggMeasure,
 			ProcessDefinition definition) {
-		// TODO refactor heavily
-		
 		List<Element> baseMeasures = aggMeasure.elements();
 		if (aggMeasure.elements().size() == 1) {
-			parseBaseMeasure(baseMeasures.get(0), definition);
-			String aggFunction = aggMeasure.attribute("aggregationfunction");
-			String baseMeasureId = baseMeasures.get(0).attribute("id");
-			String baseMeasureType = baseMeasures.get(0).getTagName();
-			
-			if (baseMeasureType.equals("timeMeasure")) {
-				TimeMeasure baseMeasure = (TimeMeasure) lookUpBaseMeasure(baseMeasureId);
-				
-				if (aggFunction.equals("Average")) {
-					TypeHelper<Long> longHelper = new LongHelper();
-					AggregationFunction<Long, TimeMeasureValue> function = new AverageFunction<Long, TimeMeasureValue>(longHelper);
-					AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
-					measure.setId(aggMeasure.attribute("id"));
-					measure.setBaseMeasure(baseMeasure);
-					measure.setAggregationFunction(function);
-					
-					ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
-					definitionImpl.addMeasure(measure);
-				}
-			}			
-			
+			parseBaseMeasure(aggMeasure, baseMeasures.get(0), definition);
 		} else if (baseMeasures.size() > 1) {
-			throw new ActivitiException("There should be no more than one child base measure.");
-		} else if(baseMeasures.size() == 0) {
-			throw new ActivitiException("Currently only agg measure supported with base measures as child elements.");
+			throw new ActivitiException(
+					"There should be no more than one child base measure.");
+		} else if (baseMeasures.size() == 0) {
+			throw new ActivitiException(
+					"Currently only agg measure supported with base measures as child elements.");
 		}
 	}
 
-	private void parseBaseMeasure(Element baseMeasure,
-			ProcessDefinition definition) {
+	private void parseBaseMeasure(Element aggregatedMeasure,
+			Element baseMeasure, ProcessDefinition definition) {
+		if (aggregatedMeasure == null) {
+			throw new ActivitiException(
+					"Base Measure has no owning aggregated measure.");
+		}
+
 		String tagName = baseMeasure.getTagName();
 		if (tagName.equals("timeMeasure")) {
-			parseTimeMeasure(baseMeasure, definition);
+			parseTimeMeasure(aggregatedMeasure, baseMeasure, definition);
 		} else if (tagName.equals("countMeasure")) {
-			parseCountMeasure(baseMeasure, definition);
+			parseCountMeasure(aggregatedMeasure, baseMeasure, definition);
 		} else {
 			throw new ActivitiException("Unsupported base measure type "
 					+ baseMeasure.getTagName());
@@ -130,15 +115,43 @@ public class PPIBpmnParse extends BpmnParse {
 
 	}
 
-	private void parseTimeMeasure(Element baseMeasure,
-			ProcessDefinition definition) {
+	private <N extends Number, T extends BaseMeasureValue> AggregationFunction<N, T> parseAggregationFunction(
+			String aggregationFunctionName, TypeHelper<N> typeHelper) {
+		if (aggregationFunctionName.equals("Average")) {
+			return new AverageFunction<N, T>(typeHelper);
+		} else {
+			throw new ActivitiException(
+					"Unsupported aggregation function type "
+							+ aggregationFunctionName);
+		}
+
+	}
+
+	private void parseTimeMeasure(Element aggregatedMeasure,
+			Element baseMeasure, ProcessDefinition definition) {
+
+		// parse time measure
 		String timeMeasureId = baseMeasure.attribute("id");
 		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId);
 		timeMeasures.put(timeMeasureId, timeMeasure);
+
+		// parse aggregated measure
+		String aggFunction = aggregatedMeasure.attribute("aggregationfunction");
+		TypeHelper<Long> longHelper = new LongHelper();
+		AggregationFunction<Long, TimeMeasureValue> function = parseAggregationFunction(
+				aggFunction, longHelper);
+		AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
+		measure.setId(aggregatedMeasure.attribute("id"));
+		measure.setBaseMeasure(timeMeasure);
+		measure.setAggregationFunction(function);
+
+		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+		definitionImpl.addMeasure(measure);
 	}
 
-	private void parseCountMeasure(Element baseMeasure,
-			ProcessDefinition definition) {
+	private void parseCountMeasure(Element aggregatedMeasure,
+			Element baseMeasure, ProcessDefinition definition) {
+		// parse count measure
 		String countMeasureId = baseMeasure.attribute("id");
 		CountMeasure countMeasure = new CountMeasure(countMeasureId);
 		countMeasures.put(countMeasureId, countMeasure);
@@ -227,14 +240,5 @@ public class PPIBpmnParse extends BpmnParse {
 			}
 		}
 		throw new ActivitiException("Could not find Activity with id " + id);
-	}
-
-	private BaseMeasure<?> lookUpBaseMeasure(String id) {
-		BaseMeasure<?> measure = timeMeasures.get(id);
-		if (measure == null) {
-			measure = countMeasures.get(id);
-		}
-
-		return measure;
 	}
 }
