@@ -22,8 +22,10 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.SumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
 
@@ -31,6 +33,8 @@ public class PPIBpmnParse extends BpmnParse {
 
 	protected Map<String, TimeMeasure> timeMeasures = new HashMap<String, TimeMeasure>();
 	protected Map<String, CountMeasure> countMeasures = new HashMap<String, CountMeasure>();
+	protected Map<String, ProcessMeasure<?>> derivableProcessMeasures = new HashMap<String, ProcessMeasure<?>>();
+	protected Map<String, DerivedProcessMeasure> derivingMeasures = new HashMap<String, DerivedProcessMeasure>();
 
 	PPIBpmnParse(BpmnParser parser) {
 		super(parser);
@@ -65,6 +69,12 @@ public class PPIBpmnParse extends BpmnParse {
 		for (Element aggMeasure : aggMeasureElements) {
 			parseAggMeasure(aggMeasure, definition);
 		}
+		
+		List<Element> derivedMeasureElements = ppiSetElement.elementsNS(
+				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "derivedProcessMeasure");
+		for (Element derivedMeasure : derivedMeasureElements) {
+			parseDerivedMeasure(derivedMeasure, definition);
+		}
 
 		List<Element> timeConnectorElements = ppiSetElement.elementsNS(
 				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "TimeConnector");
@@ -77,12 +87,45 @@ public class PPIBpmnParse extends BpmnParse {
 		for (Element appliesToConnector : appliesToConnectorElements) {
 			parseAppliesToConnector(appliesToConnector, definition);
 		}
+		
+		List<Element> usesConnectorElements = ppiSetElement.elementsNS(
+				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "uses");
+		for (Element usesConnector : usesConnectorElements) {
+			parseUsesConnector(usesConnector, definition);
+		}
 
 		List<Element> ppiElements = ppiSetElement.elementsNS(
 				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppi");
 		for (Element ppi : ppiElements) {
 			parsePPI(ppi, definition);
 		}
+	}
+
+
+	private void parseDerivedMeasure(Element derivedMeasure,
+			ProcessDefinition definition) {
+		String measureId = derivedMeasure.attribute("id");
+		String juelFunction = derivedMeasure.attribute("function");
+		
+		DerivedProcessMeasure measure = new DerivedProcessMeasure(measureId);	
+		measure.setFunction(juelFunction);
+		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+		
+		definitionImpl.addMeasure(measure);
+		derivingMeasures.put(measureId, measure);
+		
+	}
+
+	private void parseUsesConnector(Element usesConnector,
+			ProcessDefinition definition) {
+		String sourceMeasureId = usesConnector.attribute("sourceRef");
+		DerivedProcessMeasure derivedMeasure = derivingMeasures.get(sourceMeasureId);
+		
+		String targetMeasureId = usesConnector.attribute("targetRef");
+		ProcessMeasure<?> measure = derivableProcessMeasures.get(targetMeasureId);
+		
+		String variableName = usesConnector.attribute("variable");
+		derivedMeasure.addDerivableMeasure(variableName, measure);
 	}
 
 	private void parseAggMeasure(Element aggMeasure,
@@ -145,12 +188,16 @@ public class PPIBpmnParse extends BpmnParse {
 		AggregationFunction<Long, TimeMeasureValue> function = parseAggregationFunction(
 				aggFunction, longHelper);
 		AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
-		measure.setId(aggregatedMeasure.attribute("id"));
+		
+		// TODO tackle duplicated code in this and parseCountMeasure
+		String aggMeasureId = aggregatedMeasure.attribute("id");
+		measure.setId(aggMeasureId);
 		measure.setBaseMeasure(timeMeasure);
 		measure.setAggregationFunction(function);
 
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
 		definitionImpl.addMeasure(measure);
+		derivableProcessMeasures.put(aggMeasureId, measure);
 	}
 
 	private void parseCountMeasure(Element aggregatedMeasure,
@@ -166,12 +213,14 @@ public class PPIBpmnParse extends BpmnParse {
 		AggregationFunction<Integer, CountMeasureValue> function = parseAggregationFunction(
 				aggFunction, intHelper);
 		AggregatedMeasure<CountMeasure, CountMeasureValue, Integer> measure = new AggregatedMeasure<CountMeasure, CountMeasureValue, Integer>();
-		measure.setId(aggregatedMeasure.attribute("id"));
+		String aggMeasureId = aggregatedMeasure.attribute("id");
+		measure.setId(aggMeasureId);
 		measure.setBaseMeasure(countMeasure);
 		measure.setAggregationFunction(function);
 
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
 		definitionImpl.addMeasure(measure);
+		derivableProcessMeasures.put(aggMeasureId, measure);
 
 	}
 
