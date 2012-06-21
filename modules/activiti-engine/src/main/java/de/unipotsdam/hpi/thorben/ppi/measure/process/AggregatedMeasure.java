@@ -1,9 +1,9 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
-public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureValue, N extends Number> implements ProcessMeasure<N> {
+public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureInstance, N extends Number> implements ProcessMeasure<N> {
 
 	private String id;
 	private M baseMeasure;

@@ -16,9 +16,9 @@ import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
@@ -161,7 +161,7 @@ public class PPIBpmnParse extends BpmnParse {
 
 	}
 
-	private <N extends Number, T extends BaseMeasureValue> AggregationFunction<N, T> parseAggregationFunction(
+	private <N extends Number, T extends BaseMeasureInstance> AggregationFunction<N, T> parseAggregationFunction(
 			String aggregationFunctionName, TypeHelper<N> typeHelper) {
 		if (aggregationFunctionName.equals("Average")) {
 			return new AverageFunction<N, T>(typeHelper);
@@ -185,9 +185,9 @@ public class PPIBpmnParse extends BpmnParse {
 		// parse aggregated measure
 		String aggFunction = aggregatedMeasure.attribute("aggregationfunction");
 		TypeHelper<Long> longHelper = new LongHelper();
-		AggregationFunction<Long, TimeMeasureValue> function = parseAggregationFunction(
+		AggregationFunction<Long, TimeMeasureInstance> function = parseAggregationFunction(
 				aggFunction, longHelper);
-		AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureValue, Long>();
+		AggregatedMeasure<TimeMeasure, TimeMeasureInstance, Long> measure = new AggregatedMeasure<TimeMeasure, TimeMeasureInstance, Long>();
 		
 		// TODO tackle duplicated code in this and parseCountMeasure
 		String aggMeasureId = aggregatedMeasure.attribute("id");
@@ -210,9 +210,9 @@ public class PPIBpmnParse extends BpmnParse {
 		// parse aggregated measure
 		String aggFunction = aggregatedMeasure.attribute("aggregationfunction");
 		TypeHelper<Integer> intHelper = new IntegerHelper();
-		AggregationFunction<Integer, CountMeasureValue> function = parseAggregationFunction(
+		AggregationFunction<Integer, CountMeasureInstance> function = parseAggregationFunction(
 				aggFunction, intHelper);
-		AggregatedMeasure<CountMeasure, CountMeasureValue, Integer> measure = new AggregatedMeasure<CountMeasure, CountMeasureValue, Integer>();
+		AggregatedMeasure<CountMeasure, CountMeasureInstance, Integer> measure = new AggregatedMeasure<CountMeasure, CountMeasureInstance, Integer>();
 		String aggMeasureId = aggregatedMeasure.attribute("id");
 		measure.setId(aggMeasureId);
 		measure.setBaseMeasure(countMeasure);

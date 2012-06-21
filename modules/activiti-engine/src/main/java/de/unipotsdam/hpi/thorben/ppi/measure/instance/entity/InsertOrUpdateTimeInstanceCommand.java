@@ -3,12 +3,12 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
 
-public class InsertOrUpdateTimeValueCommand implements Command<Void> {
+public class InsertOrUpdateTimeInstanceCommand implements Command<Void> {
 
-	private TimeMeasureValue timeMeasureValue;
+	private TimeMeasureInstance timeMeasureValue;
 	private SingleTimeMeasureValue singleValue;
 
-	public InsertOrUpdateTimeValueCommand(TimeMeasureValue timeMeasureValue,
+	public InsertOrUpdateTimeInstanceCommand(TimeMeasureInstance timeMeasureValue,
 			SingleTimeMeasureValue singleValue) {
 		this.timeMeasureValue = timeMeasureValue;
 		this.singleValue = singleValue;
@@ -16,7 +16,7 @@ public class InsertOrUpdateTimeValueCommand implements Command<Void> {
 
 	@Override
 	public Void execute(CommandContext commandContext) {
-		TimeMeasureValue persistedValue = getPersistedTimeMeasureValue(commandContext);
+		TimeMeasureInstance persistedValue = getPersistedTimeMeasureValue(commandContext);
 
 		singleValue.setTimeMeasureId(persistedValue.getId());
 		if (singleValue.getFrom() != null) {
@@ -30,15 +30,15 @@ public class InsertOrUpdateTimeValueCommand implements Command<Void> {
 		return null;
 	}
 
-	private TimeMeasureValue getPersistedTimeMeasureValue(
+	private TimeMeasureInstance getPersistedTimeMeasureValue(
 			CommandContext commandContext) {
 		String measureId = timeMeasureValue.getMeasureId();
 		String processInstanceId = timeMeasureValue.getProcessInstanceId();
-		TimeMeasureValue persistedValue = commandContext
-				.getBaseMeasureManager().findTimeMeasureValue(measureId,
+		TimeMeasureInstance persistedValue = commandContext
+				.getBaseMeasureManager().findTimeMeasureInstance(measureId,
 						processInstanceId);
 		if (persistedValue == null) {
-			commandContext.getBaseMeasureManager().insertTimeMeasureValue(
+			commandContext.getBaseMeasureManager().insertTimeMeasureInstance(
 					timeMeasureValue);
 			persistedValue = timeMeasureValue;
 		}
@@ -59,7 +59,7 @@ public class InsertOrUpdateTimeValueCommand implements Command<Void> {
 	 * @param commandContext
 	 */
 	private void updateExistingSingleTimeMeasureValue(
-			TimeMeasureValue persistedValue, CommandContext commandContext) {
+			TimeMeasureInstance persistedValue, CommandContext commandContext) {
 		for (SingleTimeMeasureValue existingSingleValue : persistedValue
 				.getSingleValues()) {
 			if (existingSingleValue.getTo() == null) {

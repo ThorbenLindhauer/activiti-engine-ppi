@@ -7,11 +7,11 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQuery;
 
-public class CountMeasure extends BaseMeasure<CountMeasureValue> {
+public class CountMeasure extends BaseMeasure<CountMeasureInstance> {
 
 	private PPICondition condition;
 	
@@ -28,10 +28,10 @@ public class CountMeasure extends BaseMeasure<CountMeasureValue> {
 		if (condition.isFulfilledBy(event)) {
 			String processInstanceId = event.getProcessInstanceId();
 			CommandContext commandContext = Context.getCommandContext();
-			CountMeasureValue value = commandContext.getBaseMeasureManager().findCountMeasureValue(id, processInstanceId);
+			CountMeasureInstance value = commandContext.getBaseMeasureManager().findCountMeasureInstance(id, processInstanceId);
 			
 			if (value == null) {
-				value = new CountMeasureValue();
+				value = new CountMeasureInstance();
 				value.setMeasureId(id);
 				value.setProcessInstanceId(processInstanceId);
 				value.increaseCount();
@@ -44,9 +44,9 @@ public class CountMeasure extends BaseMeasure<CountMeasureValue> {
 	}
 
 	@Override
-	public List<CountMeasureValue> getAllValues() {
+	public List<CountMeasureInstance> getAllValues() {
 		CommandContext context = Context.getCommandContext();		
-		CountMeasureValueQuery query = context.getBaseMeasureManager().createNewCountMeasureValueQuery().measureId(id);
+		CountMeasureInstanceQuery query = context.getBaseMeasureManager().createNewCountMeasureValueQuery().measureId(id);
 		return query.list();
 	}
 

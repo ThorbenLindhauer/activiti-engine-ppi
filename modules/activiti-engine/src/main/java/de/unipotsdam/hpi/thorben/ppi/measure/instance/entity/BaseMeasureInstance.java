@@ -2,7 +2,7 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import org.activiti.engine.impl.db.PersistentObject;
 
-public abstract class BaseMeasureValue implements PersistentObject {
+public abstract class BaseMeasureInstance implements PersistentObject {
 
 	protected String id;
 	protected String measureId;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
+<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance">
 
   <!-- Write a measured value -->
 
-  <insert id="insertCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
+  <insert id="insertCountMeasureIn" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance">
     insert into ${prefix}PPI_BASE_COUNT_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_, COUNT_)
     values (
       #{id ,jdbcType=VARCHAR},
@@ -14,7 +14,7 @@
     )
   </insert>
   
-  <update id="updateCountMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
+  <update id="updateCountMeasureIn" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance">
     update ${prefix}PPI_BASE_COUNT_MEASURE set
       ID_ = #{id ,jdbcType=VARCHAR},
       MEASURE_ID_ = #{measureId ,jdbcType=VARCHAR},
@@ -23,35 +23,35 @@
     where ID_ = #{id}
   </update>
   
-  <resultMap id="countMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureValue">
+  <resultMap id="countMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance">
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
     <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
     <result property="count" column="COUNT_" jdbcType="INTEGER" />
   </resultMap>
   
-  <select id="selectCMVByMeasureIdAndProcessInstance" parameterType="map" resultMap="countMeasureResultMap">
+  <select id="selectByMeasureIdAndProcessInstance" parameterType="map" resultMap="countMeasureResultMap">
     select * from ${prefix}PPI_BASE_COUNT_MEASURE 
     	where MEASURE_ID_ = #{measureId,jdbcType=VARCHAR} 
     	and PROC_INST_ID_ = #{processInstanceId,jdbcType=VARCHAR} 
   </select>
 
-  <select id="selectCountMeasureValueByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl" resultMap="countMeasureResultMap">
+  <select id="selectByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQueryImpl" resultMap="countMeasureResultMap">
   	${limitBefore}
     select *
-    <include refid="selectCountMeasureValueByQueryCriteriaSql" />
+    <include refid="selectByQueryCriteriaSql" />
     <if test="orderBy != null">
       order by ${orderBy}
     </if>
     ${limitAfter}
   </select>
   
-   <select id="selectCountMeasureValueCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl" resultType="long">
+   <select id="selectCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQueryImpl" resultType="long">
     select count(U.ID_)
-    <include refid="selectCountMeasureValueByQueryCriteriaSql" />
+    <include refid="selectByQueryCriteriaSql" />
   </select>
   
-  <sql id="selectCountMeasureValueByQueryCriteriaSql">
+  <sql id="selectByQueryCriteriaSql">
     from ${prefix}PPI_BASE_COUNT_MEASURE 
     <where>
       <if test="id != null">

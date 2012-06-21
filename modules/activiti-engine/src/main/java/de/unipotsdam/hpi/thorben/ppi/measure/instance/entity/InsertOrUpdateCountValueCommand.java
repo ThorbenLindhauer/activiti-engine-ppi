@@ -5,9 +5,9 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 
 public class InsertOrUpdateCountValueCommand implements Command<Void> {
 
-	private CountMeasureValue countMeasureValue;
+	private CountMeasureInstance countMeasureValue;
 
-	public InsertOrUpdateCountValueCommand(CountMeasureValue countMeasureValue) {
+	public InsertOrUpdateCountValueCommand(CountMeasureInstance countMeasureValue) {
 		this.countMeasureValue = countMeasureValue;
 	}
 
@@ -15,9 +15,9 @@ public class InsertOrUpdateCountValueCommand implements Command<Void> {
 	public Void execute(CommandContext commandContext) {
 		String measureId = countMeasureValue.getMeasureId();
 		String processInstanceId = countMeasureValue.getProcessInstanceId();
-		CountMeasureValue value = commandContext.getBaseMeasureManager().findCountMeasureValue(measureId, processInstanceId);
+		CountMeasureInstance value = commandContext.getBaseMeasureManager().findCountMeasureInstance(measureId, processInstanceId);
 		if (value == null) {
-			commandContext.getBaseMeasureManager().insertTimeCountValue(countMeasureValue);
+			commandContext.getBaseMeasureManager().insertCountMeasureInstance(countMeasureValue);
 		} else {
 			value.update(countMeasureValue);
 		}

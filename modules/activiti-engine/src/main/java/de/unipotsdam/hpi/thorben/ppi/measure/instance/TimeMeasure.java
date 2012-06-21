@@ -8,12 +8,12 @@ import org.activiti.engine.impl.util.ClockUtil;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
 
-public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
+public class TimeMeasure extends BaseMeasure<TimeMeasureInstance> {
 
 
 	private PPICondition fromCondition;
@@ -33,13 +33,13 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 
 	@Override
 	public void update(ConditionEvent event) {
-		TimeMeasureValue timeMeasureValue;
+		TimeMeasureInstance timeMeasureValue;
 		
 		// TODO refactor
 		// TODO add exception handling for cases in which the time measure was not modelled in a "sound" way, such that 
 		// from and to condition would be triggered in reverse order or multiple times.
 		if (fromCondition.isFulfilledBy(event)) {
-			timeMeasureValue = new TimeMeasureValue();
+			timeMeasureValue = new TimeMeasureInstance();
 			String processInstanceId = event.getProcessInstanceId();
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
@@ -48,13 +48,13 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 			singleValue.setFrom(ClockUtil.getCurrentTime());
 			
 			CommandContext commandContext = Context.getCommandContext();			
-			new InsertOrUpdateTimeValueCommand(timeMeasureValue, singleValue).execute(commandContext);
+			new InsertOrUpdateTimeInstanceCommand(timeMeasureValue, singleValue).execute(commandContext);
 		}
 		
 		
 		if (toCondition.isFulfilledBy(event)) {
 			
-			timeMeasureValue = new TimeMeasureValue();
+			timeMeasureValue = new TimeMeasureInstance();
 			String processInstanceId = event.getProcessInstanceId();
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
@@ -63,15 +63,15 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 			singleValue.setTo(ClockUtil.getCurrentTime());
 			
 			CommandContext commandContext = Context.getCommandContext();			
-			new InsertOrUpdateTimeValueCommand(timeMeasureValue, singleValue).execute(commandContext);
+			new InsertOrUpdateTimeInstanceCommand(timeMeasureValue, singleValue).execute(commandContext);
 		}
 		
 	}
 
 	@Override
-	public List<TimeMeasureValue> getAllValues() {
+	public List<TimeMeasureInstance> getAllValues() {
 		CommandContext context = Context.getCommandContext();		
-		TimeMeasureValueQuery query = context.getBaseMeasureManager().createNewTimeMeasureValueQuery().measureId(id);
+		TimeMeasureInstanceQuery query = context.getBaseMeasureManager().createNewTimeMeasureInstanceQuery().measureId(id);
 		return query.list();
 	}	
 }

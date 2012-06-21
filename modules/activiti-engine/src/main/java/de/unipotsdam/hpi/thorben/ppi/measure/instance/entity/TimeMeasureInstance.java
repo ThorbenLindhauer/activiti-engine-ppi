@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.activiti.engine.ActivitiException;
 
-public class TimeMeasureValue extends BaseMeasureValue {
+public class TimeMeasureInstance extends BaseMeasureInstance {
 
 	private List<SingleTimeMeasureValue> singleValues;
 

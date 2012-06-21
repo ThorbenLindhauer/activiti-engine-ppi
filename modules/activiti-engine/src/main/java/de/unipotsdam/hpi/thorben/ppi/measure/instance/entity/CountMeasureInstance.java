@@ -3,11 +3,11 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CountMeasureValue extends BaseMeasureValue {
+public class CountMeasureInstance extends BaseMeasureInstance {
 
 	private int count;
 	
-	public CountMeasureValue() {
+	public CountMeasureInstance() {
 		count = 0;
 	}
 	
@@ -25,7 +25,7 @@ public class CountMeasureValue extends BaseMeasureValue {
 		count++;
 	}
 	
-	public void update(CountMeasureValue value) {
+	public void update(CountMeasureInstance value) {
 		count = value.count;
 	}
 

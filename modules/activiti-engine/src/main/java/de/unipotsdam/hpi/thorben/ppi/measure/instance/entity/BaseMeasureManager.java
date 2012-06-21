@@ -8,18 +8,18 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.persistence.AbstractManager;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQuery;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureValueQueryImpl;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQueryImpl;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQueryImpl;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQueryImpl;
 
 public class BaseMeasureManager extends AbstractManager {
 
-	public void insertTimeMeasureValue(TimeMeasureValue value) {
+	public void insertTimeMeasureInstance(TimeMeasureInstance value) {
 		getDbSqlSession().insert(value);
 	}
 	
-	public void insertTimeCountValue(CountMeasureValue value) {
+	public void insertCountMeasureInstance(CountMeasureInstance value) {
 		getDbSqlSession().insert(value);
 	}
 	
@@ -27,11 +27,11 @@ public class BaseMeasureManager extends AbstractManager {
 		getDbSqlSession().insert(singleValue);
 	}
 	
-	public TimeMeasureValue findTimeMeasureValue(String measureId, String processInstanceId) {
+	public TimeMeasureInstance findTimeMeasureInstance(String measureId, String processInstanceId) {
 	    Map<String, String> parameters = new HashMap<String, String>();
 	    parameters.put("measureId", measureId);
 	    parameters.put("processInstanceId", processInstanceId);
-	    return (TimeMeasureValue) getDbSqlSession().selectOne("selectTMVByMeasureIdAndProcessInstance", parameters);
+	    return (TimeMeasureInstance) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByMeasureIdAndProcessInstance", parameters);
 	}
 	
 
@@ -41,11 +41,11 @@ public class BaseMeasureManager extends AbstractManager {
 	    return (SingleTimeMeasureValue) getDbSqlSession().selectOne("selectSingleTimeMeasureValue", parameters);
 	}
 	
-	public CountMeasureValue findCountMeasureValue(String measureId, String processInstanceId) {
+	public CountMeasureInstance findCountMeasureInstance(String measureId, String processInstanceId) {
 	    Map<String, String> parameters = new HashMap<String, String>();
 	    parameters.put("measureId", measureId);
 	    parameters.put("processInstanceId", processInstanceId);
-	    return (CountMeasureValue) getDbSqlSession().selectOne("selectCMVByMeasureIdAndProcessInstance", parameters);
+	    return (CountMeasureInstance) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByMeasureIdAndProcessInstance", parameters);
 	}
 	
 //	public void updateUser(TimeMeasureValue updatedValue) {
@@ -53,44 +53,31 @@ public class BaseMeasureManager extends AbstractManager {
 //	    persistentUser.update((UserEntity) updatedValue);
 //	  }
 	
-	public TimeMeasureValueQuery createNewTimeMeasureValueQuery() {
-		return new TimeMeasureValueQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+	public TimeMeasureInstanceQuery createNewTimeMeasureInstanceQuery() {
+		return new TimeMeasureInstanceQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
 	
-	public long findTimeMeasureValueCountByQueryCriteria(
-			TimeMeasureValueQueryImpl query) {
-		return (Long) getDbSqlSession().selectOne("selectTimeMeasureValueCountByQueryCriteria", query);
+	public long findTimeMeasureInstanceCountByQueryCriteria(
+			TimeMeasureInstanceQueryImpl query) {
+		return (Long) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria", query);
 	}
 
-	public List<TimeMeasureValue> findTimeMeasureValueByQueryCriteria(
-			TimeMeasureValueQueryImpl query, Page page) {
-		return getDbSqlSession().selectList("selectTimeMeasureValueByQueryCriteria", query, page);
+	public List<TimeMeasureInstance> findTimeMeasureInstanceByQueryCriteria(
+			TimeMeasureInstanceQueryImpl query, Page page) {
+		return getDbSqlSession().selectList("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria", query, page);
 	}
 
-	public CountMeasureValueQuery createNewCountMeasureValueQuery() {
-		return new CountMeasureValueQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+	public CountMeasureInstanceQuery createNewCountMeasureValueQuery() {
+		return new CountMeasureInstanceQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
 	
-	public long findCountMeasureValueCountByQueryCriteria(
-			CountMeasureValueQueryImpl query) {
-		return (Long) getDbSqlSession().selectOne("selectCountMeasureValueCountByQueryCriteria", query);
+	public long findCountMeasureInstanceCountByQueryCriteria(
+			CountMeasureInstanceQueryImpl query) {
+		return (Long) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectCountByQueryCriteria", query);
 	}
 
-	public List<CountMeasureValue> findCountMeasureValueByQueryCriteria(
-			CountMeasureValueQueryImpl query, Page page) {
-		return getDbSqlSession().selectList("selectCountMeasureValueByQueryCriteria", query, page);
+	public List<CountMeasureInstance> findCountMeasureInstanceByQueryCriteria(
+			CountMeasureInstanceQueryImpl query, Page page) {
+		return getDbSqlSession().selectList("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByQueryCriteria", query, page);
 	}
-
-
-
-	
-	
-//	public void updateTimeMeasureValue(TimeMeasureValue measure) {
-//		TimeMeasureValue measureEntity = findTimeMeasureById(measure.getMeasureId());
-//		value
-//	}
-//	
-//	public TimeMeasureValue findTimeMeasureById(String measureId) {
-//	    return (TimeMeasureValue) getDbSqlSession().selectOne("selectMeasureById", measureId);
-//	  }
 }

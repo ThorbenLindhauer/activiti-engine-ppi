@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 
 import de.unipotsdam.hpi.thorben.observer.Observer;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
-public abstract class BaseMeasure<B extends BaseMeasureValue> implements Observer {
+public abstract class BaseMeasure<B extends BaseMeasureInstance> implements Observer {
 	private Logger log = Logger.getLogger(BaseMeasure.class);
 	protected String id;
 

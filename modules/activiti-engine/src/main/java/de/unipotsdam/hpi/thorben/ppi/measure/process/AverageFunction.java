@@ -2,9 +2,9 @@ package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
 import java.util.List;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureValue;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
-public class AverageFunction<T extends Number, K extends BaseMeasureValue> implements AggregationFunction<T, K> {
+public class AverageFunction<T extends Number, K extends BaseMeasureInstance> implements AggregationFunction<T, K> {
 
 	private TypeHelper<T> helper;
 	public AverageFunction(TypeHelper<T> typeHelper) {
