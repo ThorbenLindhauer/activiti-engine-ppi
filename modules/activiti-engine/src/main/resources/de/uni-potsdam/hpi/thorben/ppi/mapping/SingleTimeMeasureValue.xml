@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
+
+  <!-- Write a measured value -->
+
+  <insert id="insertSingleTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
+    insert into ${prefix}PPI_BASE_SINGLE_TIME_MEASURE (ID_, TIME_MEASURE_ID_, FROM_, TO_)
+    values (
+      #{id ,jdbcType=VARCHAR},
+      #{timeMeasureId ,jdbcType=VARCHAR},
+      #{from ,jdbcType=VARCHAR},
+      #{to ,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <update id="updateSingleTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
+    update ${prefix}PPI_BASE_SINGLE_TIME_MEASURE set
+      ID_ = #{id ,jdbcType=VARCHAR},
+      TIME_MEASURE_ID_ = #{timeMeasureId ,jdbcType=VARCHAR},
+      FROM_ = #{from ,jdbcType=VARCHAR},
+      TO_ = #{to ,jdbcType=VARCHAR}
+    where ID_ = #{id}
+  </update>
+  
+  <select id="selectValuesByTimeMeasureId" parameterType="String" resultMap="singleTimeMeasureResultMap">
+    SELECT * FROM ${prefix}PPI_BASE_SINGLE_TIME_MEASURE
+    where TIME_MEASURE_ID_ = #{id}
+  </select>
+  
+  <select id="selectSingleTimeMeasureValue" parameterType="String" resultMap="singleTimeMeasureResultMap">
+    SELECT * FROM ${prefix}PPI_BASE_SINGLE_TIME_MEASURE
+    where ID_ = #{id}
+  </select>
+  
+  <resultMap id="singleTimeMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
+    <id property="id" column="ID_" jdbcType="VARCHAR" />
+    <result property="timeMeasureId" column="TIME_MEASURE_ID_" jdbcType="VARCHAR" />
+    <result property="from" column="FROM_" jdbcType="VARCHAR" />
+    <result property="to" column="TO_" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

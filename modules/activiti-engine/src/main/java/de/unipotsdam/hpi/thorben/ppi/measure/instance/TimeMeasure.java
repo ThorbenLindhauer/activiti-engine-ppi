@@ -9,6 +9,7 @@ import org.activiti.engine.impl.util.ClockUtil;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureValueQuery;
 
@@ -40,12 +41,14 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 		if (fromCondition.isFulfilledBy(event)) {
 			timeMeasureValue = new TimeMeasureValue();
 			String processInstanceId = event.getProcessInstanceId();
-			timeMeasureValue.setFrom(ClockUtil.getCurrentTime());
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
 			
+			SingleTimeMeasureValue singleValue = new SingleTimeMeasureValue();
+			singleValue.setFrom(ClockUtil.getCurrentTime());
+			
 			CommandContext commandContext = Context.getCommandContext();			
-			new InsertOrUpdateTimeValueCommand(timeMeasureValue).execute(commandContext);
+			new InsertOrUpdateTimeValueCommand(timeMeasureValue, singleValue).execute(commandContext);
 		}
 		
 		
@@ -56,10 +59,11 @@ public class TimeMeasure extends BaseMeasure<TimeMeasureValue> {
 			timeMeasureValue.setMeasureId(id);
 			timeMeasureValue.setProcessInstanceId(processInstanceId);
 			
-			timeMeasureValue.setTo(ClockUtil.getCurrentTime());
+			SingleTimeMeasureValue singleValue = new SingleTimeMeasureValue();
+			singleValue.setTo(ClockUtil.getCurrentTime());
 			
 			CommandContext commandContext = Context.getCommandContext();			
-			new InsertOrUpdateTimeValueCommand(timeMeasureValue).execute(commandContext);
+			new InsertOrUpdateTimeValueCommand(timeMeasureValue, singleValue).execute(commandContext);
 		}
 		
 	}

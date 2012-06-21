@@ -23,11 +23,22 @@ public class BaseMeasureManager extends AbstractManager {
 		getDbSqlSession().insert(value);
 	}
 	
+	public void insertSingleTimeMeasureValue(SingleTimeMeasureValue singleValue) {
+		getDbSqlSession().insert(singleValue);
+	}
+	
 	public TimeMeasureValue findTimeMeasureValue(String measureId, String processInstanceId) {
 	    Map<String, String> parameters = new HashMap<String, String>();
 	    parameters.put("measureId", measureId);
 	    parameters.put("processInstanceId", processInstanceId);
 	    return (TimeMeasureValue) getDbSqlSession().selectOne("selectTMVByMeasureIdAndProcessInstance", parameters);
+	}
+	
+
+	public SingleTimeMeasureValue findSingleTimeMeasureValue(String id) {
+		Map<String, String> parameters = new HashMap<String, String>();
+	    parameters.put("id", id);
+	    return (SingleTimeMeasureValue) getDbSqlSession().selectOne("selectSingleTimeMeasureValue", parameters);
 	}
 	
 	public CountMeasureValue findCountMeasureValue(String measureId, String processInstanceId) {
@@ -69,6 +80,8 @@ public class BaseMeasureManager extends AbstractManager {
 			CountMeasureValueQueryImpl query, Page page) {
 		return getDbSqlSession().selectList("selectCountMeasureValueByQueryCriteria", query, page);
 	}
+
+
 
 	
 	

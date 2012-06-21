@@ -2,58 +2,57 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.ActivitiException;
 
 public class TimeMeasureValue extends BaseMeasureValue {
 
-	private Date from;
-	private Date to;
-	
-	public Date getFrom() {
-		return from;
+	private List<SingleTimeMeasureValue> singleValues;
+
+	public List<SingleTimeMeasureValue> getSingleValues() {
+		return singleValues;
 	}
-	public void setFrom(Date from) {
-		this.from = from;
+
+	public void setSingleValues(List<SingleTimeMeasureValue> singleValues) {
+		this.singleValues = singleValues;
 	}
-	public Date getTo() {
-		return to;
-	}
-	public void setTo(Date to) {
-		this.to = to;
-	}
-	
+
 	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
-	    persistentState.put("id", id);
-	    persistentState.put("from", from);
-	    persistentState.put("to", to);
-	    persistentState.put("measureId", measureId);
-	    persistentState.put("processInstanceId", processInstanceId);
-	    return persistentState;
+		persistentState.put("id", id);
+		persistentState.put("measureId", measureId);
+		persistentState.put("processInstanceId", processInstanceId);
+		return persistentState;
 	}
-	
-	public void update(TimeMeasureValue value) {
-		if (value.from != null) {
-			this.from = value.from;
-		}
-		if (value.to != null) {
-			this.to = value.to;
-		}
-	}
-	
+
 	/**
-	 * Returns the difference of the two timestamps in milliseconds
+	 * Iterates over the list of single values and returns the difference of the
+	 * latest to-timestamp and the earliest from-timestamp.
 	 */
 	@Override
 	public Number calculate() {
-		if (to != null && from != null) {
-			return to.getTime() - from.getTime();
-		} else {
-			throw new ActivitiException("Cannot calculate measure: One of the two timestamps not set.");
+		Date earliestFrom = null;
+		Date latestTo = null;
+		for (SingleTimeMeasureValue singleValue : singleValues) {
+			Date currentFrom = singleValue.getFrom();
+			Date currentTo = singleValue.getTo();
+
+			if (earliestFrom == null || currentFrom.compareTo(earliestFrom) < 0) {
+				earliestFrom = currentFrom;
+			}
+			if (latestTo == null || currentTo.compareTo(latestTo) > 0) {
+				latestTo = currentTo;
+			}
 		}
-		
+
+		if (earliestFrom == null || latestTo == null) {
+			throw new ActivitiException(
+					"Cannot calculate measure: Not enough data collected yet.");
+		}
+		return latestTo.getTime() - earliestFrom.getTime();
+
 	}
 }

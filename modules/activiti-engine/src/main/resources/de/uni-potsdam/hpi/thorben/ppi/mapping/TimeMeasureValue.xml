@@ -5,13 +5,11 @@
   <!-- Write a measured value -->
 
   <insert id="insertTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureValue">
-    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_, FROM_, TO_)
+    insert into ${prefix}PPI_BASE_TIME_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_)
     values (
       #{id ,jdbcType=VARCHAR},
       #{measureId ,jdbcType=VARCHAR},
-      #{processInstanceId ,jdbcType=VARCHAR},
-      #{from ,jdbcType=VARCHAR},
-      #{to ,jdbcType=VARCHAR}
+      #{processInstanceId ,jdbcType=VARCHAR}
     )
   </insert>
   
@@ -19,9 +17,7 @@
     update ${prefix}PPI_BASE_TIME_MEASURE set
       ID_ = #{id ,jdbcType=VARCHAR},
       MEASURE_ID_ = #{measureId ,jdbcType=VARCHAR},
-      PROC_INST_ID_ = #{processInstanceId ,jdbcType=VARCHAR},
-      FROM_ = #{from ,jdbcType=VARCHAR},
-      TO_ = #{to ,jdbcType=VARCHAR}
+      PROC_INST_ID_ = #{processInstanceId ,jdbcType=VARCHAR}
     where ID_ = #{id}
   </update>
   
@@ -29,8 +25,7 @@
     <id property="id" column="ID_" jdbcType="VARCHAR" />
     <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
     <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
-    <result property="from" column="FROM_" jdbcType="VARCHAR" />
-    <result property="to" column="TO_" jdbcType="VARCHAR" />
+    <association property="singleValues" column="ID_" select="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue.selectValuesByTimeMeasureId" />
   </resultMap>
   
 

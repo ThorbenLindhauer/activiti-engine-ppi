@@ -8,7 +8,7 @@ public class SysoutDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		System.out.println("Hello World!");
 		
-		// sleep between 1 and 5 seconds
+		// sleep between 0 and 5 seconds
 		double sleepTime = (Math.random() * 5 * 1000) + 1;
 		Thread.sleep((long)sleepTime);
 	}
