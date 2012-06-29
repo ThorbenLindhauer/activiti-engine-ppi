@@ -64,4 +64,5 @@ drop table ACT_RU_EVENT_SUBSCR if exists;
 /* PPI tables */
 drop table PPI_BASE_TIME_MEASURE if exists;
 drop table PPI_BASE_SINGLE_TIME_MEASURE if exists;
+drop table PPI_BASE_DATA_MEASURE if exists;
 drop table PPI_BASE_COUNT_MEASURE if exists;

@@ -158,6 +158,14 @@ create table PPI_BASE_TIME_MEASURE (
 	primary key (ID_)
 );
 
+create table PPI_BASE_DATA_MEASURE (
+	ID_ varchar(64) not null,
+	MEASURE_ID_ varchar(64),
+	PROC_INST_ID_ varchar(64),
+	DATA_VALUE_ varchar(64),
+	primary key (ID_)
+);
+
 create table PPI_BASE_COUNT_MEASURE (
 	ID_ varchar(64) not null,
 	MEASURE_ID_ varchar(64),

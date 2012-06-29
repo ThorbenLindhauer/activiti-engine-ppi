@@ -33,5 +33,6 @@
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/SingleTimeMeasureValue.xml" />
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/TimeMeasureInstance.xml" />
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/CountMeasureInstance.xml" />
+    <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/DataMeasureInstance.xml" />
 	</mappers>
 </configuration>

@@ -13,6 +13,7 @@
 
 package org.activiti.engine.impl.persistence.entity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.impl.EventSubscriptionQueryImpl;
 import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.JobQueryImpl;
@@ -57,6 +59,8 @@ import org.activiti.engine.impl.variable.VariableDeclaration;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.Job;
 import org.activiti.engine.runtime.ProcessInstance;
+
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
 
 
 /**
@@ -1004,6 +1008,44 @@ public class ExecutionEntity extends VariableScopeImpl implements ActivityExecut
         historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
       }
     }
+  }
+  
+  @Override
+  public void setVariable(String variableName, Object value) {
+		// TODO refactor (move to separate method, remove duplicated code
+		Object currentValue = getVariable(variableName);
+		List<DataMeasure> dataMeasuresForVariable = processDefinition
+				.getWatchedFieldsForVariable(variableName);
+		if (dataMeasuresForVariable != null) {
+			for (DataMeasure dataMeasure : dataMeasuresForVariable) {
+				try {
+					if (currentValue == null) {
+						Class<?> dataObjectClass = value.getClass();
+						Field fieldToTrace = dataObjectClass
+								.getDeclaredField(dataMeasure.getDataFieldName());
+						fieldToTrace.setAccessible(true);
+						Object fieldValue = fieldToTrace.get(value);
+						dataMeasure.updateDataValue(getProcessInstanceId(), fieldValue);
+					} else {
+						Class<?> dataObjectClass = currentValue.getClass();
+						Field fieldToTrace = dataObjectClass
+								.getDeclaredField(dataMeasure.getDataFieldName());
+						fieldToTrace.setAccessible(true);
+						Object fieldValueAfter = fieldToTrace.get(value);
+						Object fieldValueBefore = fieldToTrace.get(currentValue);
+
+						if (fieldValueBefore != fieldValueAfter) {
+							dataMeasure.updateDataValue(getProcessInstanceId(), fieldValueAfter);
+						}
+						
+					}
+				} catch (Exception e) {
+					throw new ActivitiException("Could not track data property", e);
+				} 
+			}
+		}
+		
+		super.setVariable(variableName, value);
   }
 
   // persistent state /////////////////////////////////////////////////////////

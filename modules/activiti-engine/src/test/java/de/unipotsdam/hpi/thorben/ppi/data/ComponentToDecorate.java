@@ -1,7 +1,13 @@
 package de.unipotsdam.hpi.thorben.ppi.data;
 
-public class ComponentToDecorate {
+import java.io.Serializable;
 
+public class ComponentToDecorate implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int number;
 	
 	public ComponentToDecorate() {

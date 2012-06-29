@@ -24,6 +24,7 @@ import org.activiti.engine.impl.pvm.PvmProcessInstance;
 import org.activiti.engine.impl.pvm.runtime.ExecutionImpl;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 
 
@@ -42,19 +43,33 @@ public class ProcessDefinitionImpl extends ScopeImpl implements PvmProcessDefini
   protected List<LaneSet> laneSets;
   protected ParticipantProcess participantProcess;
   
-  protected List<ProcessMeasure<?>> measures = new ArrayList<ProcessMeasure<?>>();
+  protected List<ProcessMeasure<?>> processMeasures = new ArrayList<ProcessMeasure<?>>();
+  protected Map<String, List<DataMeasure>> dataMeasures = new HashMap<String, List<DataMeasure>>();
 
   public ProcessDefinitionImpl(String id) {
     super(id, null);
     processDefinition = this;
   }
   
-  public void addMeasure(ProcessMeasure<?> measure) {
-	  measures.add(measure);
+  public void addProcessMeasure(ProcessMeasure<?> measure) {
+	  processMeasures.add(measure);
+  }
+
+  public List<ProcessMeasure<?>> getProcessMeasures() {
+	  return processMeasures;
   }
   
-  public List<ProcessMeasure<?>> getMeasures() {
-	  return measures;
+  public void addDataMeasure(DataMeasure dataMeasure) {
+	  String dataObjectName = dataMeasure.getDataObjectName();
+	  List<DataMeasure> dataMeasuresForObject = dataMeasures.get(dataObjectName);
+	  if (dataMeasuresForObject == null) {
+		  dataMeasures.put(dataObjectName, new ArrayList<DataMeasure>());
+	  }
+	  dataMeasures.get(dataObjectName).add(dataMeasure);
+  }
+  
+  public List<DataMeasure> getWatchedFieldsForVariable(String variableName) {
+	  return dataMeasures.get(variableName);
   }
 
   public PvmProcessInstance createProcessInstance() {

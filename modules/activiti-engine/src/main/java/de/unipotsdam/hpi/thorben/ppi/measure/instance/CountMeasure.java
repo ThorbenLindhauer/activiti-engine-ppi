@@ -11,7 +11,7 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstanc
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertOrUpdateCountValueCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQuery;
 
-public class CountMeasure extends BaseMeasure<CountMeasureInstance> {
+public class CountMeasure extends EventListeningBaseMeasure<CountMeasureInstance> {
 
 	private PPICondition condition;
 	

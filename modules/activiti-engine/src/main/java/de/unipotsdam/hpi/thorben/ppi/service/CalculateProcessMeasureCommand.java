@@ -25,7 +25,7 @@ public class CalculateProcessMeasureCommand implements Command<Number> {
 				.findDeployedLatestProcessDefinitionByKey(
 						processDefinitionId);
 		
-		for (ProcessMeasure<?> measure : processDefinition.getMeasures()) {
+		for (ProcessMeasure<?> measure : processDefinition.getProcessMeasures()) {
 			if (measure.getId().equals(measureId)) {
 				return measure.calculate();
 			}

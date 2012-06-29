@@ -10,7 +10,7 @@ import de.unipotsdam.hpi.thorben.observer.Observer;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
-public abstract class BaseMeasure<B extends BaseMeasureInstance> implements Observer {
+public abstract class BaseMeasure<B extends BaseMeasureInstance> {
 	private Logger log = Logger.getLogger(BaseMeasure.class);
 	protected String id;
 
@@ -22,8 +22,6 @@ public abstract class BaseMeasure<B extends BaseMeasureInstance> implements Obse
 		log.info("executed measure");
 	}
 
-	@Override
-	public abstract void update(ConditionEvent event);
 	
 	public abstract List<B> getAllValues();
 

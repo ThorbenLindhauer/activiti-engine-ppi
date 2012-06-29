@@ -100,7 +100,7 @@ public class PPIParseTest extends AbstractPPITest {
 					}
 				});
 
-		List<ProcessMeasure<?>> measures = processDefinitionEntity.getMeasures();
+		List<ProcessMeasure<?>> measures = processDefinitionEntity.getProcessMeasures();
 		Assert.assertEquals(1, measures.size());
 	}
 }

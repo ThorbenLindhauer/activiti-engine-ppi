@@ -5,24 +5,30 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.ActivitiException;
+import org.activiti.engine.impl.bpmn.data.IOSpecification;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
+import org.activiti.engine.impl.pvm.process.ScopeImpl;
 import org.activiti.engine.impl.util.xml.Element;
 import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.DoubleHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
@@ -33,8 +39,12 @@ public class PPIBpmnParse extends BpmnParse {
 
 	protected Map<String, TimeMeasure> timeMeasures = new HashMap<String, TimeMeasure>();
 	protected Map<String, CountMeasure> countMeasures = new HashMap<String, CountMeasure>();
+	protected Map<String, DataMeasure> dataMeasures = new HashMap<String, DataMeasure>();
 	protected Map<String, ProcessMeasure<?>> derivableProcessMeasures = new HashMap<String, ProcessMeasure<?>>();
 	protected Map<String, DerivedProcessMeasure> derivingMeasures = new HashMap<String, DerivedProcessMeasure>();
+	
+	// DataObjects: Id -> Name
+	protected Map<String, String> dataObjects = new HashMap<String, String>();
 
 	PPIBpmnParse(BpmnParser parser) {
 		super(parser);
@@ -45,6 +55,29 @@ public class PPIBpmnParse extends BpmnParse {
 			ProcessDefinition definition) {
 		super.parseProcessDefinitionCustomExtensions(scopeElement, definition);
 		parsePPIElements(scopeElement, definition);
+	}
+	
+	@Override
+	public void parseScope(Element scopeElement, ScopeImpl parentScope) {
+		// we have to parse the data objects first, otherwise they are not available when parsing the ppi elements
+		parseDataObjects(scopeElement, parentScope);
+	    super.parseScope(scopeElement, parentScope);
+	   
+	    
+	  }
+
+	private void parseDataObjects(Element scopeElement, ScopeImpl parentScope) {
+		List<Element> dataObjects = scopeElement.elements("dataObject");
+		for (Element dataObject : dataObjects) {
+			parseDataObject(dataObject);
+		}
+		
+	}
+
+	private void parseDataObject(Element dataObject) {
+		String dataObjectId = dataObject.attribute("id");
+		String dataObjectName = dataObject.attribute("name");
+		dataObjects.put(dataObjectId, dataObjectName);
 	}
 
 	protected void parsePPIElements(Element scopeElement,
@@ -111,7 +144,7 @@ public class PPIBpmnParse extends BpmnParse {
 		measure.setFunction(juelFunction);
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
 		
-		definitionImpl.addMeasure(measure);
+		definitionImpl.addProcessMeasure(measure);
 		derivingMeasures.put(measureId, measure);
 		
 	}
@@ -154,12 +187,16 @@ public class PPIBpmnParse extends BpmnParse {
 			parseTimeMeasure(aggregatedMeasure, baseMeasure, definition);
 		} else if (tagName.equals("countMeasure")) {
 			parseCountMeasure(aggregatedMeasure, baseMeasure, definition);
-		} else {
+		} else if (tagName.equals("dataMeasure")) {
+			parseDataMeasure(aggregatedMeasure, baseMeasure, definition);
+		}
+		else {
 			throw new ActivitiException("Unsupported base measure type "
 					+ baseMeasure.getTagName());
 		}
 
 	}
+
 
 	private <N extends Number, T extends BaseMeasureInstance> AggregationFunction<N, T> parseAggregationFunction(
 			String aggregationFunctionName, TypeHelper<N> typeHelper) {
@@ -172,6 +209,34 @@ public class PPIBpmnParse extends BpmnParse {
 					+ aggregationFunctionName);
 		}
 		
+	}
+	
+
+	private void parseDataMeasure(Element aggregatedMeasure,
+			Element baseMeasure, ProcessDefinition definition) {
+		
+		// parse double measure
+		String dataMeasureId = baseMeasure.attribute("id");
+		String dataPropertyToTrack = baseMeasure.attribute("property");
+		DataMeasure dataMeasure = new DataMeasure(dataMeasureId);
+		dataMeasure.setDataFieldName(dataPropertyToTrack);
+		dataMeasures.put(dataMeasureId, dataMeasure);
+		
+		// parse aggregated measure
+		String aggFunction = aggregatedMeasure.attribute("aggregationfunction");
+		TypeHelper<Double> doubleHelper = new DoubleHelper();
+		AggregationFunction<Double, DataMeasureInstance> function = parseAggregationFunction(
+				aggFunction, doubleHelper);
+		AggregatedMeasure<DataMeasure, DataMeasureInstance, Double> measure = new AggregatedMeasure<DataMeasure, DataMeasureInstance, Double>();
+		
+		String aggMeasureId = aggregatedMeasure.attribute("id");
+		measure.setId(aggMeasureId);
+		measure.setBaseMeasure(dataMeasure);
+		measure.setAggregationFunction(function);
+		
+		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+		definitionImpl.addProcessMeasure(measure);
+		derivableProcessMeasures.put(aggMeasureId, measure);
 	}
 
 	private void parseTimeMeasure(Element aggregatedMeasure,
@@ -196,7 +261,7 @@ public class PPIBpmnParse extends BpmnParse {
 		measure.setAggregationFunction(function);
 
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
-		definitionImpl.addMeasure(measure);
+		definitionImpl.addProcessMeasure(measure);
 		derivableProcessMeasures.put(aggMeasureId, measure);
 	}
 
@@ -219,7 +284,7 @@ public class PPIBpmnParse extends BpmnParse {
 		measure.setAggregationFunction(function);
 
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
-		definitionImpl.addMeasure(measure);
+		definitionImpl.addProcessMeasure(measure);
 		derivableProcessMeasures.put(aggMeasureId, measure);
 
 	}
@@ -228,13 +293,10 @@ public class PPIBpmnParse extends BpmnParse {
 		// TODO Auto-generated method stub
 
 	}
-
-	private void parseAppliesToConnector(Element appliesToConnector,
+	
+	private void parseAppliesToActivity(CountMeasure measure, Element appliesToConnector,
 			ProcessDefinition definition) {
-		String sourceMeasureId = appliesToConnector.attribute("sourceRef");
-		CountMeasure countMeasure = (CountMeasure) countMeasures
-				.get(sourceMeasureId);
-
+		
 		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) definition;
 		String targetActivityId = appliesToConnector.attribute("targetRef");
 		ActivityImpl activity = findActivityById(
@@ -248,12 +310,43 @@ public class PPIBpmnParse extends BpmnParse {
 			condition = new ActivityEndCondition(activity);
 		} else {
 			throw new ActivitiException(
-					"Unknow content of countatend tag for time connector "
+					"Unknow content of countatend tag for applies to connector "
 							+ appliesToConnector.attribute("id") + ": "
 							+ measurePoint);
 		}
-		countMeasure.setCondition(condition);
-		activity.addObserver(countMeasure);
+		measure.setCondition(condition);
+		activity.addObserver(measure);
+	}
+	
+	private void parseAppliesToDataObject(DataMeasure measure, Element appliesToConnector,
+			ProcessDefinition definition) {
+		String dataObjectId = appliesToConnector.attribute("targetRef");
+		String dataObjectName = dataObjects.get(dataObjectId);
+		
+		if (dataObjectName == null) {
+			throw new ActivitiException("There is no such data object: " + dataObjectId);
+		}
+		
+		measure.setDataObjectName(dataObjectName);	
+		
+		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
+		definitionImpl.addDataMeasure(measure);
+	}
+
+	private void parseAppliesToConnector(Element appliesToConnector,
+			ProcessDefinition definition) {
+		String sourceMeasureId = appliesToConnector.attribute("sourceRef");
+		CountMeasure countMeasure = countMeasures.get(sourceMeasureId);
+		if (countMeasure != null) {
+			parseAppliesToActivity(countMeasure, appliesToConnector, definition);
+		} else {
+			DataMeasure dataMeasure = dataMeasures.get(sourceMeasureId);
+			if (dataMeasure != null) {
+				parseAppliesToDataObject(dataMeasure, appliesToConnector, definition);
+			}
+		}
+
+		
 	}
 
 	private void parseTimeConnector(Element timeConnector,
@@ -298,6 +391,12 @@ public class PPIBpmnParse extends BpmnParse {
 
 	}
 
+	/**
+	 * Returns null, if there is no such an activity with this id.
+	 * @param activities
+	 * @param id
+	 * @return
+	 */
 	private ActivityImpl findActivityById(List<ActivityImpl> activities,
 			String id) {
 		for (ActivityImpl activity : activities) {
@@ -305,6 +404,6 @@ public class PPIBpmnParse extends BpmnParse {
 				return activity;
 			}
 		}
-		throw new ActivitiException("Could not find Activity with id " + id);
+		return null;
 	}
 }

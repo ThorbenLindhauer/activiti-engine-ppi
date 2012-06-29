@@ -13,7 +13,7 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureVa
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
 
-public class TimeMeasure extends BaseMeasure<TimeMeasureInstance> {
+public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> {
 
 
 	private PPICondition fromCondition;

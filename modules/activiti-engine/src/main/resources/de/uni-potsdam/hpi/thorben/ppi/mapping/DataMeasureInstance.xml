@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance">
+
+  <!-- Write a measured value -->
+
+  <insert id="insertDataMeasureIn" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance">
+    insert into ${prefix}PPI_BASE_DATA_MEASURE (ID_, MEASURE_ID_, PROC_INST_ID_, DATA_VALUE_)
+    values (
+      #{id ,jdbcType=VARCHAR},
+      #{measureId ,jdbcType=VARCHAR},
+      #{processInstanceId ,jdbcType=VARCHAR},
+      #{value ,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <update id="updateDataMeasureIn" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance">
+    update ${prefix}PPI_BASE_DATA_MEASURE set
+      ID_ = #{id ,jdbcType=VARCHAR},
+      MEASURE_ID_ = #{measureId ,jdbcType=VARCHAR},
+      PROC_INST_ID_ = #{processInstanceId ,jdbcType=VARCHAR},
+      DATA_VALUE_ = #{value ,jdbcType=VARCHAR}
+    where ID_ = #{id}
+  </update>
+  
+  <resultMap id="dataMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance">
+    <id property="id" column="ID_" jdbcType="VARCHAR" />
+    <result property="measureId" column="MEASURE_ID_" jdbcType="VARCHAR" />
+    <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
+    <result property="value" column="DATA_VALUE_" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByMeasureIdAndProcessInstance" parameterType="map" resultMap="dataMeasureResultMap">
+    select * from ${prefix}PPI_BASE_DATA_MEASURE 
+    	where MEASURE_ID_ = #{measureId,jdbcType=VARCHAR} 
+    	and PROC_INST_ID_ = #{processInstanceId,jdbcType=VARCHAR} 
+  </select>
+ 
+  <select id="selectByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQueryImpl" resultMap="dataMeasureResultMap">
+  	${limitBefore}
+    select *
+    <include refid="selectByQueryCriteriaSql" />
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    ${limitAfter}
+  </select>
+  
+   <select id="selectCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQueryImpl" resultType="long">
+    select count(U.ID_)
+    <include refid="selectByQueryCriteriaSql" />
+  </select>
+  
+  <sql id="selectByQueryCriteriaSql">
+    from ${prefix}PPI_BASE_DATA_MEASURE 
+    <where>
+      <if test="id != null">
+        ID_ = #{id}
+      </if>
+      <if test="measureId != null">
+        and MEASURE_ID_ = #{measureId}
+      </if>
+      <if test="processInstanceId != null">
+        and PROC_INST_ID_ like #{processInstanceId}
+      </if>      
+    </where>
+  </sql>
+</mapper>
