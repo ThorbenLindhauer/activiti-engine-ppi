@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class DataPropertyListener implements InvocationHandler {
+import javassist.util.proxy.MethodHandler;
+
+public class DataPropertyListener implements MethodHandler {
 	
 	private Object objectToTrace;
 	private Field fieldToTrace;
@@ -30,9 +32,8 @@ public class DataPropertyListener implements InvocationHandler {
 	}
 
 	@Override
-	public Object invoke(Object proxy, Method method, Object[] args)
+	public Object invoke(Object self, Method method, Method proceed, Object[] args)
 			throws Throwable {
-
 		Object fieldValueBefore = fieldToTrace.get(objectToTrace);
 		Object result = method.invoke(this.objectToTrace, args);
 		Object fieldValueAfter = fieldToTrace.get(objectToTrace);
@@ -41,7 +42,6 @@ public class DataPropertyListener implements InvocationHandler {
 			currentValue = fieldValueAfter;
 		}
 
-		// TODO Auto-generated method stub
 		return result;
 	}
 }
