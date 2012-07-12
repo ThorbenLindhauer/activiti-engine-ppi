@@ -132,19 +132,4 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		System.out.println(result);
 	}
 	
-	private Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey) {
-		return new Thread(new Runnable() {
-			public void run() {
-				runtime.startProcessInstanceByKey(processDefinitionKey);
-			}
-		});
-	}
-	
-	private Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey, final Map<String, Object> variables) {
-		return new Thread(new Runnable() {
-			public void run() {
-				runtime.startProcessInstanceByKey(processDefinitionKey, variables);
-			}
-		});
-	}
 }

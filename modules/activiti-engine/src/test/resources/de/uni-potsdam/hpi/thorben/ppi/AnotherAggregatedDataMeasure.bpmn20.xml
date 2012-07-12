@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:activiti="http://activiti.org/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
+	xmlns:ppinot="http://www.isa.us.es/ppinot">
+	<process id="anotherSimpleDataMeasure" isExecutable="true">
+		<extensionElements>
+			<ppinot:ppiset>
+				<!-- Measures -->
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Sum"
+					id="aggMeasure">
+					<ppinot:dataMeasure id="oryx_data1" property="number" state="" unitofmeasure="" scale="" description="" name=""/>
+				</ppinot:aggregatedMeasure>
+
+				<!-- Connectors -->
+				<ppinot:appliesToConnector restriction="" 
+					counatend="" 
+					targetRef="dataObject"
+					 sourceRef="oryx_data1" 
+					 id="appliesToConnector"/>
+					                 
+				<!-- PPIs -->
+				<ppinot:ppi id="oryx_myid"
+					measuredBy="aggMeasure" />
+			</ppinot:ppiset>
+		</extensionElements>
+		<startEvent id="start" name="">
+		</startEvent>
+		<serviceTask id="serviceTask" name="print Hello World"
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.SysoutDelegate">
+		</serviceTask>
+		<endEvent id="end" name="">
+		</endEvent>
+		<sequenceFlow id="flow1" name="" sourceRef="serviceTask"
+			targetRef="end" />
+		<sequenceFlow id="flow2" name="" sourceRef="start"
+			targetRef="serviceTask" />
+		<dataObject isCollection="false" name="dataObject" id="dataObject"/>
+	</process>
+</definitions>

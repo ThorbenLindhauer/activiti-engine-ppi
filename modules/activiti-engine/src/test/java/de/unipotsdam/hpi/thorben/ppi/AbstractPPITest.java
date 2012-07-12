@@ -1,7 +1,10 @@
 package de.unipotsdam.hpi.thorben.ppi;
 
+import java.util.Map;
+
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngineConfiguration;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.impl.test.PluggableActivitiTestCase;
 
 public abstract class AbstractPPITest extends PluggableActivitiTestCase {
@@ -19,5 +22,22 @@ public abstract class AbstractPPITest extends PluggableActivitiTestCase {
 			}
 		}
 		processEngine = cachedProcessEngine;
+	}
+	
+
+	protected Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey) {
+		return new Thread(new Runnable() {
+			public void run() {
+				runtime.startProcessInstanceByKey(processDefinitionKey);
+			}
+		});
+	}
+	
+	protected Thread createInstantiationThread(final RuntimeService runtime, final String processDefinitionKey, final Map<String, Object> variables) {
+		return new Thread(new Runnable() {
+			public void run() {
+				runtime.startProcessInstanceByKey(processDefinitionKey, variables);
+			}
+		});
 	}
 }
