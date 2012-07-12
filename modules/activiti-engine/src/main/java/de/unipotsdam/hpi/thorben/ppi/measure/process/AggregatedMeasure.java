@@ -1,5 +1,7 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
+import java.util.List;
+
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
@@ -10,7 +12,8 @@ public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureIn
 	private AggregationFunction<N, V> aggregationFunction;
 	
 	public N calculate() {
-		return aggregationFunction.calculate(baseMeasure.getAllValues());
+		List<V> values = baseMeasure.getAllValues();
+		return aggregationFunction.calculate(values);
 	}
 	
 

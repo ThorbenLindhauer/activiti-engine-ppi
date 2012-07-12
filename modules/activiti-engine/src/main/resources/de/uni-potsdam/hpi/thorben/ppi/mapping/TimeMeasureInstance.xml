@@ -37,7 +37,7 @@
   
    <select id="selectByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQueryImpl" resultMap="timeMeasureResultMap">
   	${limitBefore}
-    select *
+    select M.*
     <include refid="selectByQueryCriteriaSql" />
     <if test="orderBy != null">
       order by ${orderBy}
@@ -46,7 +46,7 @@
   </select>
   
    <select id="selectCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQueryImpl" resultType="long">
-    select count(U.ID_)
+    select count(*)
     <include refid="selectByQueryCriteriaSql" />
   </select>
   
