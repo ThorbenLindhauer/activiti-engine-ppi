@@ -5,6 +5,7 @@ import java.util.List;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.util.ClockUtil;
+import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
@@ -15,12 +16,11 @@ import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
 
 public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> {
 
-
 	private PPICondition fromCondition;
 	private PPICondition toCondition;
 	
-	public TimeMeasure(String id) {
-		super(id);
+	public TimeMeasure(String id, ProcessDefinition processDefinition) {
+		super(id, processDefinition);
 	}
 		
 	public void setFromCondition(PPICondition fromCondition) {
@@ -71,7 +71,7 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 	@Override
 	public List<TimeMeasureInstance> getAllValues() {
 		CommandContext context = Context.getCommandContext();		
-		TimeMeasureInstanceQuery query = context.getBaseMeasureManager().createNewTimeMeasureInstanceQuery().measureId(id);
+		TimeMeasureInstanceQuery query = context.getBaseMeasureManager().createNewTimeMeasureInstanceQuery().processDefinitionId(processDefinition.getId()).measureId(id);
 		return query.list();
 	}	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
+import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
@@ -15,8 +16,8 @@ public class CountMeasure extends EventListeningBaseMeasure<CountMeasureInstance
 
 	private PPICondition condition;
 	
-	public CountMeasure(String id) {
-		super(id);
+	public CountMeasure(String id, ProcessDefinition processDefinition) {
+		super(id, processDefinition);
 	}
 	
 	public void setCondition(PPICondition condition) {
@@ -46,7 +47,7 @@ public class CountMeasure extends EventListeningBaseMeasure<CountMeasureInstance
 	@Override
 	public List<CountMeasureInstance> getAllValues() {
 		CommandContext context = Context.getCommandContext();		
-		CountMeasureInstanceQuery query = context.getBaseMeasureManager().createNewCountMeasureValueQuery().measureId(id);
+		CountMeasureInstanceQuery query = context.getBaseMeasureManager().createNewCountMeasureValueQuery().processDefinitionId(processDefinition.getId()).measureId(id);
 		return query.list();
 	}
 

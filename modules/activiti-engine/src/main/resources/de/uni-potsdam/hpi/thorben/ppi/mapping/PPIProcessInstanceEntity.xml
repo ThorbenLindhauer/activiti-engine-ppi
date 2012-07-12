@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.PPIProcessInstanceEntity">
+
+  <!-- Write a measured value -->
+
+  <insert id="insertPPIProcessInstance" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.PPIProcessInstanceEntity">
+    insert into ${prefix}PPI_PROC_INST (ID_, PROC_DEF_ID_)
+    values (
+      #{id ,jdbcType=VARCHAR},
+      #{processDefinitionId ,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <resultMap id="ppiProcessInstaceResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.PPIProcessInstanceEntity">
+    <id property="id" column="ID_" jdbcType="VARCHAR" />
+    <result property="processDefinitionId" column="PROC_DEF_ID_" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- <select id="selectByMeasureIdAndProcessInstance" parameterType="map" resultMap="countMeasureResultMap">
+    select * from ${prefix}PPI_BASE_COUNT_MEASURE 
+    	where MEASURE_ID_ = #{measureId,jdbcType=VARCHAR} 
+    	and PROC_INST_ID_ = #{processInstanceId,jdbcType=VARCHAR} 
+  </select> -->
+</mapper>

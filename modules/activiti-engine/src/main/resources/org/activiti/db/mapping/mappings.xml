@@ -30,6 +30,7 @@
     <mapper resource="org/activiti/db/mapping/entity/EventSubscription.xml" />
     
     <!-- PPI -->
+    <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/PPIProcessInstanceEntity.xml" />
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/SingleTimeMeasureValue.xml" />
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/TimeMeasureInstance.xml" />
     <mapper resource="de/uni-potsdam/hpi/thorben/ppi/mapping/CountMeasureInstance.xml" />

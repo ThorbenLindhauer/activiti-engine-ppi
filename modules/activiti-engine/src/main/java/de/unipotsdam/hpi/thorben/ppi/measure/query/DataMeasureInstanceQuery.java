@@ -9,4 +9,6 @@ public interface DataMeasureInstanceQuery extends Query<DataMeasureInstanceQuery
 	DataMeasureInstanceQuery measureId(String measureId);
 	
 	DataMeasureInstanceQuery processInstanceId(String processInstanceId);
+	
+	DataMeasureInstanceQuery processDefinitionId(String processDefinitionId);
 }

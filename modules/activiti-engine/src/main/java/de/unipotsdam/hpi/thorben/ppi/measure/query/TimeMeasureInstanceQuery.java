@@ -9,4 +9,6 @@ public interface TimeMeasureInstanceQuery extends Query<TimeMeasureInstanceQuery
 	TimeMeasureInstanceQuery measureId(String measureId);
 	
 	TimeMeasureInstanceQuery processInstanceId(String processInstanceId);
+	
+	TimeMeasureInstanceQuery processDefinitionId(String processDefinitionId);
 }

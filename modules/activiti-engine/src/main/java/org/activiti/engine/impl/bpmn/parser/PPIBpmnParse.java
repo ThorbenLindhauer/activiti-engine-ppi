@@ -218,7 +218,7 @@ public class PPIBpmnParse extends BpmnParse {
 		// parse double measure
 		String dataMeasureId = baseMeasure.attribute("id");
 		String dataPropertyToTrack = baseMeasure.attribute("property");
-		DataMeasure dataMeasure = new DataMeasure(dataMeasureId);
+		DataMeasure dataMeasure = new DataMeasure(dataMeasureId, definition);
 		dataMeasure.setDataFieldName(dataPropertyToTrack);
 		dataMeasures.put(dataMeasureId, dataMeasure);
 		
@@ -244,7 +244,7 @@ public class PPIBpmnParse extends BpmnParse {
 
 		// parse time measure
 		String timeMeasureId = baseMeasure.attribute("id");
-		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId);
+		TimeMeasure timeMeasure = new TimeMeasure(timeMeasureId, definition);
 		timeMeasures.put(timeMeasureId, timeMeasure);
 
 		// parse aggregated measure
@@ -269,7 +269,7 @@ public class PPIBpmnParse extends BpmnParse {
 			Element baseMeasure, ProcessDefinition definition) {
 		// parse count measure
 		String countMeasureId = baseMeasure.attribute("id");
-		CountMeasure countMeasure = new CountMeasure(countMeasureId);
+		CountMeasure countMeasure = new CountMeasure(countMeasureId, definition);
 		countMeasures.put(countMeasureId, countMeasure);
 
 		// parse aggregated measure

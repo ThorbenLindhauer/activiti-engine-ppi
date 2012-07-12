@@ -143,6 +143,12 @@ create table ACT_RU_EVENT_SUBSCR (
 
 
 /* PPI tables */
+create table PPI_PROC_INST (
+	ID_ varchar(64) not null,
+	PROC_DEF_ID_ varchar(64) not null,
+	primary key (ID_)
+);
+
 create table PPI_BASE_SINGLE_TIME_MEASURE (
 	ID_ varchar(64) not null,
 	TIME_MEASURE_ID_ varchar(64),

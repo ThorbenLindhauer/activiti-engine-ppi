@@ -8,7 +8,6 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.interceptor.CommandExecutor;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
 
 public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInstanceQuery, DataMeasureInstance> implements DataMeasureInstanceQuery {
@@ -17,6 +16,7 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 	protected String id;
 	protected String measureId;
 	protected String processInstanceId;
+	protected String processDefinitionId;
 	
 	public DataMeasureInstanceQueryImpl(
 			CommandExecutor commandExecutorTxRequired) {
@@ -56,6 +56,16 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 	    return commandContext
 	      .getBaseMeasureManager()
 	      .findDataMeasureInstanceByQueryCriteria(this, page);
+	}
+	
+	@Override
+	public DataMeasureInstanceQuery processDefinitionId(
+			String processDefinitionId) {
+		if (processDefinitionId == null) {
+		      throw new ActivitiException("Provided processDefinitionId is null");
+		    }
+		this.processDefinitionId = processDefinitionId;
+		return this;
 	}
 
 }

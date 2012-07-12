@@ -16,6 +16,7 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 	protected String id;
 	protected String measureId;
 	protected String processInstanceId;
+	protected String processDefinitionId;
 	
 	public TimeMeasureInstanceQueryImpl(CommandExecutor commandExecutor) {
 		super(commandExecutor);
@@ -66,5 +67,15 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 	    return commandContext
 	      .getBaseMeasureManager()
 	      .findTimeMeasureInstanceByQueryCriteria(this, page);
+	}
+
+	@Override
+	public TimeMeasureInstanceQuery processDefinitionId(
+			String processDefinitionId) {
+		if (processDefinitionId == null) {
+		      throw new ActivitiException("Provided processDefinitionId is null");
+		    }
+		this.processDefinitionId = processDefinitionId;
+		return this;
 	}
 }

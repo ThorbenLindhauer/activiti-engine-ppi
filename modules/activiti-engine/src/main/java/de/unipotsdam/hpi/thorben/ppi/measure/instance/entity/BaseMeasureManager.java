@@ -20,91 +20,124 @@ public class BaseMeasureManager extends AbstractManager {
 	public void insertTimeMeasureInstance(TimeMeasureInstance value) {
 		getDbSqlSession().insert(value);
 	}
-	
+
 	public void insertCountMeasureInstance(CountMeasureInstance value) {
 		getDbSqlSession().insert(value);
 	}
-	
+
 	public void insertSingleTimeMeasureValue(SingleTimeMeasureValue singleValue) {
 		getDbSqlSession().insert(singleValue);
 	}
-	
+
 	public void insertDataMeasureInstance(DataMeasureInstance value) {
 		getDbSqlSession().insert(value);
 	}
-	
-	public TimeMeasureInstance findTimeMeasureInstance(String measureId, String processInstanceId) {
-	    Map<String, String> parameters = new HashMap<String, String>();
-	    parameters.put("measureId", measureId);
-	    parameters.put("processInstanceId", processInstanceId);
-	    return (TimeMeasureInstance) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByMeasureIdAndProcessInstance", parameters);
+
+	public TimeMeasureInstance findTimeMeasureInstance(String measureId,
+			String processInstanceId) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("measureId", measureId);
+		parameters.put("processInstanceId", processInstanceId);
+		return (TimeMeasureInstance) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByMeasureIdAndProcessInstance",
+						parameters);
 	}
-	
 
 	public SingleTimeMeasureValue findSingleTimeMeasureValue(String id) {
 		Map<String, String> parameters = new HashMap<String, String>();
-	    parameters.put("id", id);
-	    return (SingleTimeMeasureValue) getDbSqlSession().selectOne("selectSingleTimeMeasureValue", parameters);
+		parameters.put("id", id);
+		return (SingleTimeMeasureValue) getDbSqlSession().selectOne(
+				"selectSingleTimeMeasureValue", parameters);
 	}
-	
-	public CountMeasureInstance findCountMeasureInstance(String measureId, String processInstanceId) {
-	    Map<String, String> parameters = new HashMap<String, String>();
-	    parameters.put("measureId", measureId);
-	    parameters.put("processInstanceId", processInstanceId);
-	    return (CountMeasureInstance) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByMeasureIdAndProcessInstance", parameters);
+
+	public CountMeasureInstance findCountMeasureInstance(String measureId,
+			String processInstanceId) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("measureId", measureId);
+		parameters.put("processInstanceId", processInstanceId);
+		return (CountMeasureInstance) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByMeasureIdAndProcessInstance",
+						parameters);
 	}
-	
-	public DataMeasureInstance findDataMeasureInstance(String measureId, String processInstanceId) {
-	    Map<String, String> parameters = new HashMap<String, String>();
-	    parameters.put("measureId", measureId);
-	    parameters.put("processInstanceId", processInstanceId);
-	    return (DataMeasureInstance) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectByMeasureIdAndProcessInstance", parameters);
+
+	public DataMeasureInstance findDataMeasureInstance(String measureId,
+			String processInstanceId) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("measureId", measureId);
+		parameters.put("processInstanceId", processInstanceId);
+		return (DataMeasureInstance) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectByMeasureIdAndProcessInstance",
+						parameters);
 	}
-	
-//	public void updateUser(TimeMeasureValue updatedValue) {
-//	    UserEntity persistentUser = findUserById(updatedValue.getId());
-//	    persistentUser.update((UserEntity) updatedValue);
-//	  }
-	
+
+	// public void updateUser(TimeMeasureValue updatedValue) {
+	// UserEntity persistentUser = findUserById(updatedValue.getId());
+	// persistentUser.update((UserEntity) updatedValue);
+	// }
+
 	public TimeMeasureInstanceQuery createNewTimeMeasureInstanceQuery() {
-		return new TimeMeasureInstanceQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+		return new TimeMeasureInstanceQueryImpl(Context
+				.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
-	
+
 	public long findTimeMeasureInstanceCountByQueryCriteria(
 			TimeMeasureInstanceQueryImpl query) {
-		return (Long) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria", query);
+		return (Long) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria",
+						query);
 	}
 
 	public List<TimeMeasureInstance> findTimeMeasureInstanceByQueryCriteria(
 			TimeMeasureInstanceQueryImpl query, Page page) {
-		return getDbSqlSession().selectList("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria", query, page);
+		return getDbSqlSession()
+				.selectList(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria",
+						query, page);
 	}
 
 	public CountMeasureInstanceQuery createNewCountMeasureValueQuery() {
-		return new CountMeasureInstanceQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+		return new CountMeasureInstanceQueryImpl(Context
+				.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
-	
+
 	public long findCountMeasureInstanceCountByQueryCriteria(
 			CountMeasureInstanceQueryImpl query) {
-		return (Long) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectCountByQueryCriteria", query);
+		return (Long) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectCountByQueryCriteria",
+						query);
 	}
 
 	public List<CountMeasureInstance> findCountMeasureInstanceByQueryCriteria(
 			CountMeasureInstanceQueryImpl query, Page page) {
-		return getDbSqlSession().selectList("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByQueryCriteria", query, page);
+		return getDbSqlSession()
+				.selectList(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance.selectByQueryCriteria",
+						query, page);
 	}
-	
+
 	public DataMeasureInstanceQuery createNewDataMeasureValueQuery() {
-		return new DataMeasureInstanceQueryImpl(Context.getProcessEngineConfiguration().getCommandExecutorTxRequired());
+		return new DataMeasureInstanceQueryImpl(Context
+				.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
-	
+
 	public long findDataMeasureInstanceCountByQueryCriteria(
 			DataMeasureInstanceQueryImpl query) {
-		return (Long) getDbSqlSession().selectOne("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectCountByQueryCriteria", query);
+		return (Long) getDbSqlSession()
+				.selectOne(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectCountByQueryCriteria",
+						query);
 	}
 
 	public List<DataMeasureInstance> findDataMeasureInstanceByQueryCriteria(
 			DataMeasureInstanceQueryImpl query, Page page) {
-		return getDbSqlSession().selectList("de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectByQueryCriteria", query, page);
+		return getDbSqlSession()
+				.selectList(
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance.selectByQueryCriteria",
+						query, page);
 	}
 }

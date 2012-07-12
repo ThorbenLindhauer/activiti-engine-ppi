@@ -52,17 +52,23 @@
   </select>
   
   <sql id="selectByQueryCriteriaSql">
-    from ${prefix}PPI_BASE_COUNT_MEASURE 
+    from ${prefix}PPI_BASE_COUNT_MEASURE M
+    <if test="processDefinitionId != null">
+    	inner join ${prefix}PPI_PROC_INST I on M.PROC_INST_ID_ = I.ID_
+    </if>
     <where>
       <if test="id != null">
-        ID_ = #{id}
+        M.ID_ = #{id}
       </if>
       <if test="measureId != null">
-        and MEASURE_ID_ = #{measureId}
+        and M.MEASURE_ID_ = #{measureId}
       </if>
       <if test="processInstanceId != null">
-        and PROC_INST_ID_ like #{processInstanceId}
-      </if>      
+        and M.PROC_INST_ID_ = #{processInstanceId}
+      </if>
+      <if test="processDefinitionId != null">
+        and I.PROC_DEF_ID_ = #{processDefinitionId}
+      </if>         
     </where>
   </sql>
 </mapper>

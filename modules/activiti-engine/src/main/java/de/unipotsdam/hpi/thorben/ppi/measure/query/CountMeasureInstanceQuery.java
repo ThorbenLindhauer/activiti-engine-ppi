@@ -9,4 +9,6 @@ public interface CountMeasureInstanceQuery extends Query<CountMeasureInstanceQue
 	CountMeasureInstanceQuery measureId(String measureId);
 	
 	CountMeasureInstanceQuery processInstanceId(String processInstanceId);
+	
+	CountMeasureInstanceQuery processDefinitionId(String processDefinitionId);
 }

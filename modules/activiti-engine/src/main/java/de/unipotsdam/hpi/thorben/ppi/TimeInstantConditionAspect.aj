@@ -21,7 +21,8 @@ public aspect TimeInstantConditionAspect {
 	 * @param operation
 	 * @param execution
 	 */
-	pointcut execute(AtomicOperationActivityExecute operation, ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
+	pointcut execute(AtomicOperationActivityExecute operation,
+			ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
 	
 	/**
 	 * Signals the ActivityStartCondition

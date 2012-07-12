@@ -40,7 +40,7 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("derivedMeasure", DERIVED_MEASURE_DEFINITION_ID);
-		Assert.assertNotSame(0, result);
+		Assert.assertFalse(new Long(0).equals(result));
 		System.out.println(result);
 	}
 	
