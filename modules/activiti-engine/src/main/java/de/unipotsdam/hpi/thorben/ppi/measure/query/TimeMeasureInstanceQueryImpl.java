@@ -22,7 +22,6 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 		super(commandExecutor);
 	}
 	
-	@Override
 	public TimeMeasureInstanceQuery measureId(String measureId) {
 		if (measureId == null) {
 		      throw new ActivitiException("Provided measureId is null");
@@ -31,7 +30,6 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 		return this;
 	}
 
-	@Override
 	public TimeMeasureInstanceQuery processInstanceId(String processInstanceId) {
 		if (processInstanceId == null) {
 		      throw new ActivitiException("Provided processInstanceId is null");
@@ -52,7 +50,6 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 		return id;
 	}
 
-	@Override
 	public long executeCount(CommandContext commandContext) {
 		checkQueryOk();
 	    return commandContext
@@ -60,7 +57,6 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 	      .findTimeMeasureInstanceCountByQueryCriteria(this);
 	}
 
-	@Override
 	public List<TimeMeasureInstance> executeList(CommandContext commandContext,
 			Page page) {
 		checkQueryOk();
@@ -69,7 +65,6 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 	      .findTimeMeasureInstanceByQueryCriteria(this, page);
 	}
 
-	@Override
 	public TimeMeasureInstanceQuery processDefinitionId(
 			String processDefinitionId) {
 		if (processDefinitionId == null) {

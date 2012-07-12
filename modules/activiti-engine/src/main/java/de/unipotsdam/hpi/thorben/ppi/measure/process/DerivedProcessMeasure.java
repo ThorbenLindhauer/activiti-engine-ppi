@@ -18,12 +18,10 @@ public class DerivedProcessMeasure implements ProcessMeasure<Number> {
 		this.id = id;
 	}
 
-	@Override
 	public String getId() {
 		return id;
 	}
 
-	@Override
 	public Number calculate() {
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		DerivedMeasureValueResolver resolver = new DerivedMeasureValueResolver(variableContext);

@@ -31,7 +31,6 @@ public class PPIProcessInstanceEntity implements PersistentObject {
 		return entity;
 	}
 	
-	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 	    persistentState.put("id", id);

@@ -11,7 +11,6 @@ public class CountMeasureInstance extends BaseMeasureInstance {
 		count = 0;
 	}
 	
-	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 	    persistentState.put("id", id);

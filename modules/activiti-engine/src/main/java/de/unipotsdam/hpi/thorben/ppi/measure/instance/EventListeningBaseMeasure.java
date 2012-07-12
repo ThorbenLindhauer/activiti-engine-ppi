@@ -12,6 +12,5 @@ public abstract class EventListeningBaseMeasure<B extends BaseMeasureInstance> e
 		super(id, processDefinition);
 	}
 
-	@Override
 	public abstract void update(ConditionEvent event);
 }

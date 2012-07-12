@@ -11,7 +11,6 @@ public class ActivityEndCondition implements PPICondition {
 		this.activity = activity;
 	}
 	
-	@Override
 	public boolean isFulfilledBy(ConditionEvent event) {
 		return event.fulfills(this);
 	}

@@ -17,7 +17,6 @@ public class CalculateProcessMeasureCommand implements Command<Number> {
 		this.processDefinitionId = processDefinitionId;
 	}
 	
-	@Override
 	public Number execute(CommandContext commandContext) {
 		ProcessDefinitionImpl processDefinition = Context
 				.getProcessEngineConfiguration()

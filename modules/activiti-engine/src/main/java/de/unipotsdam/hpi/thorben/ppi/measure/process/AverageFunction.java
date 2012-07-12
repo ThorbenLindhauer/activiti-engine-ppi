@@ -11,7 +11,6 @@ public class AverageFunction<T extends Number, K extends BaseMeasureInstance> im
 		this.helper = typeHelper;
 	}
 	
-	@Override
 	public T calculate(List<K> baseMeasureValues) {
 		T sum = helper.create();
 		for (K k : baseMeasureValues) {

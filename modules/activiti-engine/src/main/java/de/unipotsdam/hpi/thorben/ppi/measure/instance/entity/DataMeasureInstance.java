@@ -7,7 +7,6 @@ public class DataMeasureInstance extends BaseMeasureInstance {
 
 	private String value;
 	
-	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 	    persistentState.put("id", id);

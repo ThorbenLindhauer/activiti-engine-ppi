@@ -11,7 +11,6 @@ public class InsertOrUpdateDataValueCommand implements Command<Void> {
 		this.dataMeasureValue = dataMeasureValue;
 	}
 
-	@Override
 	public Void execute(CommandContext commandContext) {
 		String measureId = dataMeasureValue.getMeasureId();
 		String processInstanceId = dataMeasureValue.getProcessInstanceId();

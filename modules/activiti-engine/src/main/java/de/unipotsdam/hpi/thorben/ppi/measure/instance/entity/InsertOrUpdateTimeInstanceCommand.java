@@ -14,7 +14,6 @@ public class InsertOrUpdateTimeInstanceCommand implements Command<Void> {
 		this.singleValue = singleValue;
 	}
 
-	@Override
 	public Void execute(CommandContext commandContext) {
 		TimeMeasureInstance persistedValue = getPersistedTimeMeasureValue(commandContext);
 

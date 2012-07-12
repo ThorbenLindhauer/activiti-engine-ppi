@@ -11,7 +11,6 @@ public class InsertOrUpdateCountValueCommand implements Command<Void> {
 		this.countMeasureValue = countMeasureValue;
 	}
 
-	@Override
 	public Void execute(CommandContext commandContext) {
 		String measureId = countMeasureValue.getMeasureId();
 		String processInstanceId = countMeasureValue.getProcessInstanceId();

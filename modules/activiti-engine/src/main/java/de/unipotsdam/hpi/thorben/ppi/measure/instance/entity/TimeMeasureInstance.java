@@ -19,7 +19,6 @@ public class TimeMeasureInstance extends BaseMeasureInstance {
 		this.singleValues = singleValues;
 	}
 
-	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 		persistentState.put("id", id);

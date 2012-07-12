@@ -23,7 +23,6 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 		super(commandExecutorTxRequired);
 	}
 
-	@Override
 	public DataMeasureInstanceQuery measureId(String measureId) {
 		if (measureId == null) {
 		      throw new ActivitiException("Provided measureId is null");
@@ -32,7 +31,6 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 		return this;
 	}
 	
-	@Override
 	public DataMeasureInstanceQuery processInstanceId(String processInstanceId) {
 		if (processInstanceId == null) {
 		      throw new ActivitiException("Provided processInstanceId is null");
@@ -41,7 +39,6 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 		return this;
 	}
 	
-	@Override
 	public long executeCount(CommandContext commandContext) {
 		checkQueryOk();
 	    return commandContext
@@ -49,7 +46,6 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 	      .findDataMeasureInstanceCountByQueryCriteria(this);
 	}
 	
-	@Override
 	public List<DataMeasureInstance> executeList(CommandContext commandContext,
 			Page page) {
 		checkQueryOk();
@@ -58,7 +54,6 @@ public class DataMeasureInstanceQueryImpl extends AbstractQuery<DataMeasureInsta
 	      .findDataMeasureInstanceByQueryCriteria(this, page);
 	}
 	
-	@Override
 	public DataMeasureInstanceQuery processDefinitionId(
 			String processDefinitionId) {
 		if (processDefinitionId == null) {

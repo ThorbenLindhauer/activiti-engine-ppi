@@ -9,7 +9,6 @@ public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureIn
 	private M baseMeasure;
 	private AggregationFunction<N, V> aggregationFunction;
 	
-	@Override
 	public N calculate() {
 		return aggregationFunction.calculate(baseMeasure.getAllValues());
 	}

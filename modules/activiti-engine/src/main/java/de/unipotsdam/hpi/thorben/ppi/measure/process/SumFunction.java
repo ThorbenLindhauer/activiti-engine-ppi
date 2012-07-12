@@ -11,7 +11,6 @@ public class SumFunction<T extends Number, K extends BaseMeasureInstance> implem
 		this.helper = typeHelper;
 	}
 	
-	@Override
 	public T calculate(List<K> baseMeasureValues) {
 		T sum = helper.create();
 		for (K k : baseMeasureValues) {

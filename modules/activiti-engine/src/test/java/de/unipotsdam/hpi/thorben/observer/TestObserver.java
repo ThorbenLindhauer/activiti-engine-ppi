@@ -10,7 +10,6 @@ public class TestObserver implements Observer {
 		timesNotified = 0;
 	}
 
-	@Override
 	public void update(ConditionEvent event) {
 		timesNotified++;
 

@@ -22,7 +22,6 @@ public class CountMeasureInstanceQueryImpl extends AbstractQuery<CountMeasureIns
 		super(commandExecutor);
 	}
 	
-	@Override
 	public CountMeasureInstanceQuery measureId(String measureId) {
 		if (measureId == null) {
 		      throw new ActivitiException("Provided measureId is null");
@@ -31,7 +30,6 @@ public class CountMeasureInstanceQueryImpl extends AbstractQuery<CountMeasureIns
 		return this;
 	}
 
-	@Override
 	public CountMeasureInstanceQuery processInstanceId(String processInstanceId) {
 		if (processInstanceId == null) {
 		      throw new ActivitiException("Provided processInstanceId is null");
@@ -40,7 +38,6 @@ public class CountMeasureInstanceQueryImpl extends AbstractQuery<CountMeasureIns
 		return this;
 	}
 
-	@Override
 	public long executeCount(CommandContext commandContext) {
 		checkQueryOk();
 	    return commandContext
@@ -69,7 +66,6 @@ public class CountMeasureInstanceQueryImpl extends AbstractQuery<CountMeasureIns
 		return id;
 	}
 
-	@Override
 	public CountMeasureInstanceQuery processDefinitionId(
 			String processDefinitionId) {
 		if (processDefinitionId == null) {

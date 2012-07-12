@@ -9,7 +9,6 @@ public class CreateTimeMeasureValueQueryCmd implements Command<TimeMeasureInstan
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
 	public TimeMeasureInstanceQuery execute(CommandContext commandContext) {
 		return commandContext
 			      .getBaseMeasureManager()

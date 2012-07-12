@@ -13,12 +13,10 @@ public class SingleTimeMeasureValue implements PersistentObject {
 	private Date to;
 	private String timeMeasureId;
 
-	@Override
 	public String getId() {
 		return id;
 	}
 
-	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -47,7 +45,6 @@ public class SingleTimeMeasureValue implements PersistentObject {
 		this.to = to;
 	}
 
-	@Override
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 	    persistentState.put("id", id);
