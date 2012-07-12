@@ -62,3 +62,4 @@ drop table if exists PPI_BASE_TIME_MEASURE;
 drop table if exists PPI_BASE_SINGLE_TIME_MEASURE;
 drop table if exists PPI_BASE_DATA_MEASURE;
 drop table if exists PPI_BASE_COUNT_MEASURE;
+drop table if exists PPI_PROC_INST;
