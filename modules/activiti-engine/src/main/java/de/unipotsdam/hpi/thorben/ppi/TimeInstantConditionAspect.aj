@@ -10,9 +10,24 @@ import de.unipotsdam.hpi.thorben.ppi.condition.event.ActivityEndEvent;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ActivityStartEvent;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 
-public aspect ExecutionAspect {
+/**
+ * Defines all points of emitting time instant condition events.
+ * @author Thorben
+ *
+ */
+public aspect TimeInstantConditionAspect {
+	/**
+	 * Captures the ActivityStartCondition
+	 * @param operation
+	 * @param execution
+	 */
 	pointcut execute(AtomicOperationActivityExecute operation, ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
 	
+	/**
+	 * Signals the ActivityStartCondition
+	 * @param operation
+	 * @param execution
+	 */
 	before(AtomicOperationActivityExecute operation, ExecutionEntity execution) : execute(operation, execution) {
 		ActivityImpl activity = (ActivityImpl) execution.getActivity();
 		System.out.println("In execution " + execution.toString() + " Start of " + activity.toString() + " with behavior " + operation.toString());
@@ -23,7 +38,18 @@ public aspect ExecutionAspect {
 		activity.notifyObservers(event);
 	}
 	
+	/**
+	 * Captures the ActivityEndCondition
+	 * @param operation
+	 * @param execution
+	 */
 	pointcut finish(AtomicOperationTransitionDestroyScope operation, ExecutionEntity execution) : target(operation) && call(void AtomicOperation+.execute(..)) && args(execution);
+	
+	/**
+	 * Signals the ActivityEndCondition
+	 * @param operation
+	 * @param execution
+	 */
 	before(AtomicOperationTransitionDestroyScope operation, ExecutionEntity execution) : finish(operation, execution) {
 		ActivityImpl activity = (ActivityImpl) execution.getActivity();
 		System.out.println("In execution " + execution.toString() + " End of " + activity.toString() + " with behavior " + operation.toString());
@@ -32,4 +58,6 @@ public aspect ExecutionAspect {
 		event.setProcessInstanceId(execution.getProcessInstanceId());
 		activity.notifyObservers(event);
 	}
+	
+	
 }

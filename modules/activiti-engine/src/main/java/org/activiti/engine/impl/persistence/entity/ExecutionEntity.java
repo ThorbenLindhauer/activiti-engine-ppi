@@ -1011,40 +1011,7 @@ public class ExecutionEntity extends VariableScopeImpl implements ActivityExecut
   }
   
   @Override
-  public void setVariable(String variableName, Object value) {
-		// TODO refactor (move to separate method, remove duplicated code
-		Object currentValue = getVariable(variableName);
-		List<DataMeasure> dataMeasuresForVariable = processDefinition
-				.getWatchedFieldsForVariable(variableName);
-		if (dataMeasuresForVariable != null) {
-			for (DataMeasure dataMeasure : dataMeasuresForVariable) {
-				try {
-					if (currentValue == null) {
-						Class<?> dataObjectClass = value.getClass();
-						Field fieldToTrace = dataObjectClass
-								.getDeclaredField(dataMeasure.getDataFieldName());
-						fieldToTrace.setAccessible(true);
-						Object fieldValue = fieldToTrace.get(value);
-						dataMeasure.updateDataValue(getProcessInstanceId(), fieldValue);
-					} else {
-						Class<?> dataObjectClass = currentValue.getClass();
-						Field fieldToTrace = dataObjectClass
-								.getDeclaredField(dataMeasure.getDataFieldName());
-						fieldToTrace.setAccessible(true);
-						Object fieldValueAfter = fieldToTrace.get(value);
-						Object fieldValueBefore = fieldToTrace.get(currentValue);
-
-						if (fieldValueBefore != fieldValueAfter) {
-							dataMeasure.updateDataValue(getProcessInstanceId(), fieldValueAfter);
-						}
-						
-					}
-				} catch (Exception e) {
-					throw new ActivitiException("Could not track data property", e);
-				} 
-			}
-		}
-		
+  public void setVariable(String variableName, Object value) {		
 		super.setVariable(variableName, value);
   }
 
