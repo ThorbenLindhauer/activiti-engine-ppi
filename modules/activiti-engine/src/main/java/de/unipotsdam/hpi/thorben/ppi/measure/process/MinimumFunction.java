@@ -11,7 +11,7 @@ public class MinimumFunction<T extends Number, K extends BaseMeasureInstance>
 		super(typeHelper);
 	}
 	
-	public T calculate(List<K> baseMeasureValues) {
+	protected T performCalculation(List<K> baseMeasureValues) {
 		T minimum = helper.createMaxValue();
 		for (K k : baseMeasureValues) {
 			T currentValue = helper.asType(k.calculate());

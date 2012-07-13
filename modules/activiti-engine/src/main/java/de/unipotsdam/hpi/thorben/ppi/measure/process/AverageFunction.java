@@ -10,7 +10,7 @@ public class AverageFunction<T extends Number, K extends BaseMeasureInstance> ex
 		super(typeHelper);
 	}
 	
-	public T calculate(List<K> baseMeasureValues) {
+	protected T performCalculation(List<K> baseMeasureValues) {
 		T sum = helper.createZero();
 		for (K k : baseMeasureValues) {
 			sum = helper.add(sum, helper.asType(k.calculate()));

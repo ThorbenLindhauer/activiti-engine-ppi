@@ -3,6 +3,7 @@ package de.unipotsdam.hpi.thorben.ppi.measure.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.activiti.engine.ActivitiException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,6 +96,19 @@ public class AggregationFunctionTest {
 				new IntegerHelper());
 		Integer average = averageFunction.calculate(instances);
 		Assert.assertEquals(new Integer(4), average);
+	}
+	
+	@Test
+	public void testNonExistingInstanceValues() {
+		instances = new ArrayList<CountMeasureInstance>();
+		AverageFunction<Integer, CountMeasureInstance> averageFunction = new AverageFunction<Integer, CountMeasureInstance>(
+				new IntegerHelper());
+		try {
+			averageFunction.calculate(instances);
+			Assert.fail("Should not be successful");
+		} catch (ActivitiException e) {
+			// happy path
+		}
 	}
 
 }
