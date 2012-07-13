@@ -4,11 +4,10 @@ import java.util.List;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
-public class AverageFunction<T extends Number, K extends BaseMeasureInstance> implements AggregationFunction<T, K> {
+public class AverageFunction<T extends Number, K extends BaseMeasureInstance> extends AbstractAggregationFunction<T, K> {
 
-	private TypeHelper<T> helper;
 	public AverageFunction(TypeHelper<T> typeHelper) {
-		this.helper = typeHelper;
+		super(typeHelper);
 	}
 	
 	public T calculate(List<K> baseMeasureValues) {

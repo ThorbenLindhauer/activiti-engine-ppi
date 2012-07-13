@@ -5,11 +5,10 @@ import java.util.List;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
 
 public class MaximumFunction<T extends Number, K extends BaseMeasureInstance>
-		implements AggregationFunction<T, K> {
+		extends AbstractAggregationFunction<T, K> {
 	
-	private TypeHelper<T> helper;
 	public MaximumFunction(TypeHelper<T> typeHelper) {
-		this.helper = typeHelper;
+		super(typeHelper);
 	}
 
 	public T calculate(List<K> baseMeasureValues) {
