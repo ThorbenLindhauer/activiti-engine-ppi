@@ -9,7 +9,7 @@ import org.activiti.engine.impl.test.PluggableActivitiTestCase;
 
 public abstract class AbstractPPITest extends PluggableActivitiTestCase {
 
-	private static final String PPI_ENGINE_CONFIG = "de/uni-potsdam/hpi/thorben/ppi/activiti.mysql.cfg.xml";
+	private static final String PPI_ENGINE_CONFIG = "de/uni-potsdam/hpi/thorben/ppi/activiti.h2.cfg.xml";
 	
 	protected void initializeProcessEngine() {
 		if (cachedProcessEngine == null) {
