@@ -2,7 +2,7 @@ package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
 public interface TypeHelper<T extends Number> {
 
-	T create();
+	T createZero();
 	
 	T add(T summandA, T summandB);
 	
@@ -10,4 +10,23 @@ public interface TypeHelper<T extends Number> {
 	
 	T asType(Number n);
 	
+	T createMaxValue();
+	
+	T createMinValue();
+	
+	/**
+	 * True, if valueA is greater than valueB.
+	 * @param valueA
+	 * @param valueB
+	 * @return
+	 */
+	boolean greaterThan(T valueA, T valueB);
+	
+	/**
+	 * True, if valueA lower than valueB.
+	 * @param valueA
+	 * @param valueB
+	 * @return
+	 */
+	boolean lowerThan(T valueA, T valueB);
 }

@@ -12,7 +12,7 @@ public class SumFunction<T extends Number, K extends BaseMeasureInstance> implem
 	}
 	
 	public T calculate(List<K> baseMeasureValues) {
-		T sum = helper.create();
+		T sum = helper.createZero();
 		for (K k : baseMeasureValues) {
 			sum = helper.add(sum, helper.asType(k.calculate()));
 		}

@@ -47,8 +47,33 @@ public class AggregationFunctionTest {
 	
 	@Test
 	public void testMaxFunction() {
-		// TODO implement
+		MaximumFunction<Integer, CountMeasureInstance> maxFunction = new MaximumFunction<Integer, CountMeasureInstance>(new IntegerHelper());
+		
+		Integer maximum = new Integer(6);
+		CountMeasureInstance maximumInstance = Mockito
+				.mock(CountMeasureInstance.class);
+		Mockito.when(maximumInstance.calculate()).thenReturn(maximum);
+		
+		instances.add(maximumInstance);
+		Integer calculatedMaximum = maxFunction.calculate(instances);
+		Assert.assertEquals(maximum, calculatedMaximum);
 	}
+	
+	@Test
+	public void testMinFunction() {
+		MinimumFunction<Integer, CountMeasureInstance> minFunction = new MinimumFunction<Integer, CountMeasureInstance>(new IntegerHelper());
+		
+		Integer minimum = new Integer(4);
+		CountMeasureInstance minimumInstance = Mockito
+				.mock(CountMeasureInstance.class);
+		Mockito.when(minimumInstance.calculate()).thenReturn(minimum);
+		
+		instances.add(minimumInstance);
+		Integer calculatedMinimum = minFunction.calculate(instances);
+		Assert.assertEquals(minimum, calculatedMinimum);
+	}
+	
+	// TODO test function behavior with no instance values present
 
 	/**
 	 * Tests whether return values of another type are treated as the specified

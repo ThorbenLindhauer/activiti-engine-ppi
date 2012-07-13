@@ -12,14 +12,14 @@ public class AverageFunction<T extends Number, K extends BaseMeasureInstance> im
 	}
 	
 	public T calculate(List<K> baseMeasureValues) {
-		T sum = helper.create();
+		T sum = helper.createZero();
 		for (K k : baseMeasureValues) {
 			sum = helper.add(sum, helper.asType(k.calculate()));
 		}
 		if (baseMeasureValues.size() != 0) {
 			return helper.divide(sum, helper.asType(baseMeasureValues.size()));
 		} else {
-			return helper.create();
+			return helper.createZero();
 		}
 	}
 }

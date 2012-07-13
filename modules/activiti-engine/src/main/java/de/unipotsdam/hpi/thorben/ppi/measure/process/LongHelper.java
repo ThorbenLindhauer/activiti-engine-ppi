@@ -2,7 +2,7 @@ package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
 public class LongHelper implements TypeHelper<Long> {
 
-	public Long create() {
+	public Long createZero() {
 		return new Long(0L);
 	}
 
@@ -16,6 +16,22 @@ public class LongHelper implements TypeHelper<Long> {
 
 	public Long asType(Number n) {
 		return new Long(n.longValue());
+	}
+
+	public Long createMaxValue() {
+		return new Long(Long.MAX_VALUE);
+	}
+
+	public Long createMinValue() {
+		return new Long(Long.MIN_VALUE);
+	}
+
+	public boolean greaterThan(Long valueA, Long valueB) {
+		return valueA > valueB;
+	}
+
+	public boolean lowerThan(Long valueA, Long valueB) {
+		return valueA < valueB;
 	}
 
 }
