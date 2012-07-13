@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.ActivitiException;
-import org.activiti.engine.impl.bpmn.data.IOSpecification;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
@@ -16,7 +15,6 @@ import org.activiti.engine.repository.ProcessDefinition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.BaseMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.CountMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
@@ -31,6 +29,8 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DoubleHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.MaximumFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.MinimumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.SumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
@@ -204,6 +204,10 @@ public class PPIBpmnParse extends BpmnParse {
 			return new AverageFunction<N, T>(typeHelper);
 		} else if (aggregationFunctionName.equals("Sum")) {
 			return new SumFunction<N, T>(typeHelper);
+		} else if (aggregationFunctionName.equals("Maximum")) {
+			return new MaximumFunction<N, T>(typeHelper);
+		} else if (aggregationFunctionName.equals("Minimum")) {
+			return new MinimumFunction<N, T>(typeHelper);
 		} else {
 			throw new ActivitiException("Unsupported aggregation function type "
 					+ aggregationFunctionName);
