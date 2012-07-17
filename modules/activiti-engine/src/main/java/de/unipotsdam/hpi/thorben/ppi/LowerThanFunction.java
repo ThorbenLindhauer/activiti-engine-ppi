@@ -8,7 +8,7 @@ public class LowerThanFunction<N extends Number> extends AbstractTargetFunction<
 		super(typeHelper);
 	}
 
-	public boolean applySpecific(N operator1, N operator2) {
+	protected boolean applySpecific(N operator1, N operator2) {
 		return helper.lowerThan(operator1, operator2);
 	}
 }

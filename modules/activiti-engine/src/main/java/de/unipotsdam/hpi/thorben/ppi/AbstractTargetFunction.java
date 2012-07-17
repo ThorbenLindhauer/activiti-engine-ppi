@@ -16,5 +16,5 @@ public abstract class AbstractTargetFunction<N extends Number> implements
 		return applySpecific(helper.asType(operator1), helper.asType(operator2));
 	}
 
-	public abstract boolean applySpecific(N operator1, N operator2);
+	protected abstract boolean applySpecific(N operator1, N operator2);
 }
