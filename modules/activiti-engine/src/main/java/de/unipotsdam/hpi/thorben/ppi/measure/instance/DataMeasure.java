@@ -10,6 +10,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.GetDataMeasureInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertDataInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQuery;
 
 public class DataMeasure extends BaseMeasure<DataMeasureInstance> {
@@ -23,11 +24,16 @@ public class DataMeasure extends BaseMeasure<DataMeasureInstance> {
 	}
 
 	public void updateDataValue(String processInstanceId, Object value) {
-		DataMeasureInstance dataMeasureInstance = findDataMeasureInstance(processInstanceId);
+		DataMeasureInstance dataMeasureInstance = findCachedDataMeasureInstance(processInstanceId);
 		dataMeasureInstance.setValue(value.toString());
 	}
 
-	private DataMeasureInstance findDataMeasureInstance(String processInstanceId) {
+	/**
+	 * Finds a data measure instance (or creates one) and ensures that it is in Activiti's cache
+	 * @param processInstanceId
+	 * @return
+	 */
+	private DataMeasureInstance findCachedDataMeasureInstance(String processInstanceId) {
 		CommandContext commandContext = Context.getCommandContext();
 		DataMeasureInstance dataMeasureValue = new GetDataMeasureInstanceCommand(id, processInstanceId).execute(commandContext);
 		if (dataMeasureValue == null) {

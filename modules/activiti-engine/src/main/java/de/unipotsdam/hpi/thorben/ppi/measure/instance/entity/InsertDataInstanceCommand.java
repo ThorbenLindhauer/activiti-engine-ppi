@@ -1,9 +1,8 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.instance;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
 
 public class InsertDataInstanceCommand implements Command<Void> {
 
