@@ -21,24 +21,12 @@ public class DataMeasure extends BaseMeasure<DataMeasureInstance> {
 
 	public void updateDataValue(String processInstanceId, Object value) {
 		CommandContext commandContext = Context.getCommandContext();
-		// TODO: refactor: the check is also made in the insert or update
-		// command so it can be removed.
-		DataMeasureInstance dataMeasureInstance = commandContext
-				.getBaseMeasureManager().findDataMeasureInstance(id,
-						processInstanceId);
-
-		if (dataMeasureInstance == null) {
-			dataMeasureInstance = new DataMeasureInstance();
-			dataMeasureInstance.setMeasureId(id);
-			dataMeasureInstance.setProcessInstanceId(processInstanceId);
-			dataMeasureInstance.setValue(value.toString());
-			new InsertOrUpdateDataValueCommand(dataMeasureInstance)
-					.execute(commandContext);
-		} else {
-			dataMeasureInstance.setValue(value.toString());
-			new InsertOrUpdateDataValueCommand(dataMeasureInstance)
-					.execute(commandContext);
-		}
+		DataMeasureInstance dataMeasureInstance = new DataMeasureInstance();
+		dataMeasureInstance.setMeasureId(id);
+		dataMeasureInstance.setProcessInstanceId(processInstanceId);
+		dataMeasureInstance.setValue(value.toString());
+		new InsertOrUpdateDataValueCommand(dataMeasureInstance)
+				.execute(commandContext);
 	}
 
 	@Override
