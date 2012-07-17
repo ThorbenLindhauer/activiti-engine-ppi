@@ -1,5 +1,6 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.process;
+package de.unipotsdam.hpi.thorben.ppi;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.process.TargetFunction;
 import de.unipotsdam.hpi.thorben.ppi.typehelper.TypeHelper;
 
 public abstract class AbstractTargetFunction<N extends Number> implements

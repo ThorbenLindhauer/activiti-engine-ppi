@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.process;
+package de.unipotsdam.hpi.thorben.ppi;
 
 import de.unipotsdam.hpi.thorben.ppi.typehelper.TypeHelper;
 

@@ -6,7 +6,7 @@ import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.pvm.process.ProcessDefinitionImpl;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
+import de.unipotsdam.hpi.thorben.ppi.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 
 public class PPIFulfilledCommand implements Command<Boolean> {

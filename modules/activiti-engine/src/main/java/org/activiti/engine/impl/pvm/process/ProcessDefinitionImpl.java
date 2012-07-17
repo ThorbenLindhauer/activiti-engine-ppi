@@ -24,8 +24,8 @@ import org.activiti.engine.impl.pvm.PvmProcessInstance;
 import org.activiti.engine.impl.pvm.runtime.ExecutionImpl;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 
+import de.unipotsdam.hpi.thorben.ppi.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 
 
