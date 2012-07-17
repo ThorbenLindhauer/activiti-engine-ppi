@@ -35,7 +35,6 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 	public void update(ConditionEvent event) {
 		TimeMeasureInstance timeMeasureValue;
 		
-		// TODO refactor
 		// TODO add exception handling for cases in which the time measure was not modelled in a "sound" way, such that 
 		// from and to condition would be triggered in reverse order or multiple times.
 		if (fromCondition.isFulfilledBy(event)) {

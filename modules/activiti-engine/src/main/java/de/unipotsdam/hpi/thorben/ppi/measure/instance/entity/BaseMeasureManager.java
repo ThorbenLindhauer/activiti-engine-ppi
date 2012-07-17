@@ -73,11 +73,6 @@ public class BaseMeasureManager extends AbstractManager {
 						parameters);
 	}
 
-	// public void updateUser(TimeMeasureValue updatedValue) {
-	// UserEntity persistentUser = findUserById(updatedValue.getId());
-	// persistentUser.update((UserEntity) updatedValue);
-	// }
-
 	public TimeMeasureInstanceQuery createNewTimeMeasureInstanceQuery() {
 		return new TimeMeasureInstanceQueryImpl(Context
 				.getProcessEngineConfiguration().getCommandExecutorTxRequired());

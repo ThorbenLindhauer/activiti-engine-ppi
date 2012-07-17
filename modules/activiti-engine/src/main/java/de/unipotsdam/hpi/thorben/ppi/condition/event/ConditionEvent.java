@@ -4,6 +4,11 @@ import de.unipotsdam.hpi.thorben.ppi.condition.ActivityEndCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.ActivityStartCondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 
+/**
+ * Corresponds to Time Instant Conditions in the PPI ontology.
+ * @author Thorben
+ *
+ */
 public abstract class ConditionEvent {
 
 	private String processInstanceId;

@@ -20,21 +20,28 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testTimeMeasureExecution() throws InterruptedException {
-		RuntimeService runtime = processEngine.getRuntimeService();
-		runtime.startProcessInstanceByKey(TIME_MEASURE_DEFINITION_ID);
-
+		try {
+			RuntimeService runtime = processEngine.getRuntimeService();
+			runtime.startProcessInstanceByKey(TIME_MEASURE_DEFINITION_ID);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+		
 		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
-		System.out.println(result);
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
 	public void testCountMeasureExecution() throws InterruptedException {
-		RuntimeService runtime = processEngine.getRuntimeService();
-		runtime.startProcessInstanceByKey(COUNT_MEASURE_DEFINITION_ID);
-		// TODO assert that values have been written to the database
+		try {
+			RuntimeService runtime = processEngine.getRuntimeService();
+			runtime.startProcessInstanceByKey(COUNT_MEASURE_DEFINITION_ID);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+		
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleDerivedProcessMeasure.bpmn20.xml" })

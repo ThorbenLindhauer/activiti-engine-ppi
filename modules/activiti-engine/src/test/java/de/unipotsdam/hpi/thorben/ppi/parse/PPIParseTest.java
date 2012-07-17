@@ -44,7 +44,7 @@ public class PPIParseTest extends AbstractPPITest {
 				
 				List<Observer> measures = activity.getObservers();
 				
-				// nur 1, da die Observers in einem set gespeichert sind (auch wenn die TimeMeasure zweimal hinzugefügt wurde)
+				// only 1, as the observers are stored in a set
 				Assert.assertEquals(1, measures.size());
 				Assert.assertTrue(measures.get(0) instanceof TimeMeasure);
 			}
@@ -73,7 +73,7 @@ public class PPIParseTest extends AbstractPPITest {
 				
 				List<Observer> measures = activity.getObservers();
 				
-				// nur 1, da die Observers in einem set gespeichert sind (auch wenn die TimeMeasure zweimal hinzugefügt wurde)
+				// only 1, as the observers are stored in a set
 				Assert.assertEquals(1, measures.size());
 				Assert.assertTrue(measures.get(0) instanceof CountMeasure);
 			}
