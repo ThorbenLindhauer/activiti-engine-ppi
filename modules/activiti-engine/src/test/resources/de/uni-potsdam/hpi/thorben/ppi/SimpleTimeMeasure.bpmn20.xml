@@ -25,7 +25,7 @@
 
 				<!-- PPIs -->
 				<ppinot:ppi id="my_ppi"
-					measuredBy="aggMeasure" />
+					measuredBy="aggMeasure" target="&lt; 7000" />
 			</ppinot:ppiset>
 		</extensionElements>
 		<startEvent id="start" name="">
