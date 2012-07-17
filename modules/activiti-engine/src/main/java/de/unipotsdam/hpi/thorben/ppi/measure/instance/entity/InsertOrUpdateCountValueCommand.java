@@ -21,8 +21,6 @@ public class InsertOrUpdateCountValueCommand implements Command<Void> {
 			value.update(countMeasureValue);
 		}
 		
-		// commit this stuff immediately
-		commandContext.getDbSqlSession().flush();
 		return null;
 	}
 

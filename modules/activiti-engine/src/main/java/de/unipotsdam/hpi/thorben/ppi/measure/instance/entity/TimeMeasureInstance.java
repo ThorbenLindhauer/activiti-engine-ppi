@@ -1,5 +1,6 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import org.activiti.engine.ActivitiException;
 
 public class TimeMeasureInstance extends BaseMeasureInstance {
 
-	private List<SingleTimeMeasureValue> singleValues;
+	private List<SingleTimeMeasureValue> singleValues = new ArrayList<SingleTimeMeasureValue>();
 
 	public List<SingleTimeMeasureValue> getSingleValues() {
 		return singleValues;

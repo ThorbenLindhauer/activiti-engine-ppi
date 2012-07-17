@@ -21,8 +21,6 @@ public class InsertOrUpdateDataValueCommand implements Command<Void> {
 			value.update(dataMeasureValue);
 		}
 		
-		// commit this stuff immediately
-		commandContext.getDbSqlSession().flush();
 		return null;
 	}
 
