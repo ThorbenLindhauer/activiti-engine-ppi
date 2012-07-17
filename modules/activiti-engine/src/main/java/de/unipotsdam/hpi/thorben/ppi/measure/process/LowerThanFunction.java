@@ -1,0 +1,13 @@
+package de.unipotsdam.hpi.thorben.ppi.measure.process;
+
+public class LowerThanFunction<N extends Number> extends AbstractTargetFunction<N> {
+
+	public LowerThanFunction(TypeHelper<N> typeHelper) {
+		super(typeHelper);
+	}
+
+	public boolean apply(N operator1, N operator2) {
+		return helper.lowerThan(operator1, operator2);
+	}
+
+}

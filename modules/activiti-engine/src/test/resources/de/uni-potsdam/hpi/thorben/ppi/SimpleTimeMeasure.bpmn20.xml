@@ -24,7 +24,7 @@
 					sourceRef="oryx_time1" id="timeConnector2" />
 
 				<!-- PPIs -->
-				<ppinot:ppi id="oryx_myid"
+				<ppinot:ppi id="my_ppi"
 					measuredBy="aggMeasure" />
 			</ppinot:ppiset>
 		</extensionElements>

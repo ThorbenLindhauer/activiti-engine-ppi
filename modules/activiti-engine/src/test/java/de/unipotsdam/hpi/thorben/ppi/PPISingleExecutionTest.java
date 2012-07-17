@@ -65,6 +65,25 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		System.out.println(result);
 	}
 	
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
+	public void testPPICalculation() {
+		RuntimeService runtime = processEngine.getRuntimeService();
+		runtime.startProcessInstanceByKey(COUNT_MEASURE_DEFINITION_ID);
+		
+		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
+		PPIService ppiService = engine.getPPIService();
+		
+		Number result = ppiService.calculatePPI("my_ppi", COUNT_MEASURE_DEFINITION_ID);
+		Assert.assertEquals(1, result);
+		
+		boolean fulfilled = ppiService.PPIfulfilled("my_ppi", COUNT_MEASURE_DEFINITION_ID);
+		Assert.assertTrue(fulfilled);
+	}
+	
+	public void testUnfulfilledPPI() {
+		// TODO implement
+	}
+	
 	public void testDataMeasureExecutionWithNonExistingVariables() {
 		// TODO: implement
 	}

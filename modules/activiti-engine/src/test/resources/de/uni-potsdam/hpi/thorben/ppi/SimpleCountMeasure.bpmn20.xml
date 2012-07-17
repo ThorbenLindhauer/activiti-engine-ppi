@@ -23,7 +23,7 @@
 					 id="appliesToConnector"/>
 					                 
 				<!-- PPIs -->
-				<ppinot:ppi id="oryx_myid"
+				<ppinot:ppi id="my_ppi"
 					measuredBy="aggMeasure" />
 			</ppinot:ppiset>
 		</extensionElements>

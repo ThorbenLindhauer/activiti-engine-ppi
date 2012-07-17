@@ -25,6 +25,7 @@ import org.activiti.engine.impl.pvm.runtime.ExecutionImpl;
 import org.activiti.engine.impl.pvm.runtime.InterpretableExecution;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 
 
@@ -43,12 +44,21 @@ public class ProcessDefinitionImpl extends ScopeImpl implements PvmProcessDefini
   protected List<LaneSet> laneSets;
   protected ParticipantProcess participantProcess;
   
+  protected List<PPI> ppis = new ArrayList<PPI>();
   protected List<ProcessMeasure<?>> processMeasures = new ArrayList<ProcessMeasure<?>>();
   protected Map<String, List<DataMeasure>> dataMeasures = new HashMap<String, List<DataMeasure>>();
 
   public ProcessDefinitionImpl(String id) {
     super(id, null);
     processDefinition = this;
+  }
+  
+  public void addPPI(PPI ppi) {
+	  ppis.add(ppi);
+  }
+  
+  public List<PPI> getPPIs() {
+	  return ppis;
   }
   
   public void addProcessMeasure(ProcessMeasure<?> measure) {
