@@ -11,12 +11,12 @@ import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.GetSingleTimeValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.GetTimeMeasureInstanceCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertSingleTimeValueCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertTimeInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.GetSingleTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.GetTimeMeasureInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.InsertSingleTimeValueCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.InsertTimeInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
 
 public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> {

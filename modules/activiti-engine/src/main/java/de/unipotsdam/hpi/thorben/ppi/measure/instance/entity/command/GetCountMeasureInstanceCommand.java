@@ -1,7 +1,9 @@
-package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
+package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command;
 
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
+
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
 
 
 public class GetCountMeasureInstanceCommand implements

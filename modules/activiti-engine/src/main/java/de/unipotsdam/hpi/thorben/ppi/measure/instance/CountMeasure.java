@@ -11,8 +11,8 @@ import org.activiti.engine.repository.ProcessDefinition;
 import de.unipotsdam.hpi.thorben.ppi.condition.PPICondition;
 import de.unipotsdam.hpi.thorben.ppi.condition.event.ConditionEvent;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.GetCountMeasureInstanceCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertCountInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.GetCountMeasureInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.InsertCountInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQuery;
 
 public class CountMeasure extends EventListeningBaseMeasure<CountMeasureInstance> {

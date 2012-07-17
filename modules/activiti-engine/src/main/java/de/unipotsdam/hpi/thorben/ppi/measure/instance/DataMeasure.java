@@ -9,8 +9,8 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.repository.ProcessDefinition;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.GetDataMeasureInstanceCommand;
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.InsertDataInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.GetDataMeasureInstanceCommand;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.command.InsertDataInstanceCommand;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQuery;
 
 public class DataMeasure extends BaseMeasure<DataMeasureInstance> {
