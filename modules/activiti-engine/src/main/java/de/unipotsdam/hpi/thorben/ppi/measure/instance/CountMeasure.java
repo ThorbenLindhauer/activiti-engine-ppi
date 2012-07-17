@@ -39,6 +39,9 @@ public class CountMeasure extends EventListeningBaseMeasure<CountMeasureInstance
 
 	/**
 	 * Finds a count measure instance (or creates one) and ensures that it is in Activiti's cache
+	 * 
+	 * It is also added to a local cache in this CountMeasure, as the select commands do not access the Activiti cache.
+	 * Otherwise a CountMeasureInstance that was already created before, but not committed, could not be found.
 	 * @param processInstanceId
 	 * @return
 	 */

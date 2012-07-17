@@ -83,8 +83,12 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 
 	/**
 	 * Finds a count measure instance (or creates one) and ensures that it is in
-	 * Activiti's cache. Note: The reference SingleTimeMeasureValues are not in
-	 * Activiti's cache as referenced objects are not added to it. This means,
+	 * Activiti's cache. 
+	 * It is also added to a local cache in this TimeMeasure, as the select commands do not access the Activiti cache.
+	 * Otherwise a TimeMeasureInstance that was already created before, but not committed, could not be found.
+	 * 
+	 * Note: The in the TimeMeasureInstance referenced SingleTimeMeasureValues are loaded to Activiti's cache
+	 * when the owning TimeMeasureInstance is loaded. This means,
 	 * that if you later want to ensure that they are added to Activiti's cache,
 	 * you have to explicitly load them again from the database.
 	 * 
@@ -111,10 +115,6 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 
 		return timeMeasureValue;
 	}
-
-	// private String buildCacheId(String measureId, String processInstanceId) {
-	// return measureId + "--" + processInstanceId;
-	// }
 
 	@Override
 	public List<TimeMeasureInstance> getAllValues() {

@@ -29,7 +29,10 @@ public class DataMeasure extends BaseMeasure<DataMeasureInstance> {
 	}
 
 	/**
-	 * Finds a data measure instance (or creates one) and ensures that it is in Activiti's cache
+	 * Finds a data measure instance (or creates one) and ensures that it is in Activiti's cache.
+	 * 
+	 * It is also added to a local cache in this DataMeasure, as the select commands do not access the Activiti cache.
+	 * Otherwise a DataMeasureInstance that was already created before, but not committed, could not be found.
 	 * @param processInstanceId
 	 * @return
 	 */
