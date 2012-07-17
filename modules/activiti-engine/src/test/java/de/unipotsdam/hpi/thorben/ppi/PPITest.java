@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.unipotsdam.hpi.thorben.ppi.measure.process.GreaterThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LowerThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
@@ -26,5 +27,15 @@ public class PPITest {
 		
 		fulfilled = ppi.isFulfilledBy(new Integer(5));
 		Assert.assertFalse(fulfilled);
+	}
+	
+	@Test
+	public void testPPIGreaterThanTargetFunction() {
+		ppi.setTargetFunction(new GreaterThanFunction<Integer>(new IntegerHelper()));
+		boolean fulfilled = ppi.isFulfilledBy(new Integer(4));
+		Assert.assertFalse(fulfilled);
+		
+		fulfilled = ppi.isFulfilledBy(new Integer(6));
+		Assert.assertTrue(fulfilled);
 	}
 }

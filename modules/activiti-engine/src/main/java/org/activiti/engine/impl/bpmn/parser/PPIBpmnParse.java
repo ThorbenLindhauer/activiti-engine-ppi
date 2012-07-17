@@ -28,6 +28,7 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DoubleHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.GreaterThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LowerThanFunction;
@@ -322,6 +323,8 @@ public class PPIBpmnParse extends BpmnParse {
 			String targetFunctionName, TypeHelper<N> typeHelper) {
 		if (targetFunctionName.equals("<")) {
 			return new LowerThanFunction<N>(typeHelper);
+		} else if (targetFunctionName.equals(">")) {
+			return new GreaterThanFunction<N>(typeHelper);
 		} else {
 			throw new ActivitiException("Unsupported target function type "
 					+ targetFunctionName);

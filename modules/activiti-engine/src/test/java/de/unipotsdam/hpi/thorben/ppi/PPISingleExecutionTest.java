@@ -27,6 +27,7 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
+		System.out.println(result);
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
