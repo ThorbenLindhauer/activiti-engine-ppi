@@ -7,14 +7,10 @@ public class GetSingleTimeValueCommand implements
 		Command<SingleTimeMeasureValue> {
 	
 	private String id;
-	
-	
 
 	public GetSingleTimeValueCommand(String id) {
 		this.id = id;
 	}
-
-
 
 	public SingleTimeMeasureValue execute(CommandContext commandContext) {
 		SingleTimeMeasureValue persistedSingleValue = commandContext

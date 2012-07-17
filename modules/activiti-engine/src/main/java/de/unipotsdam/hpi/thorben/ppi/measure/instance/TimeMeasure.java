@@ -25,7 +25,6 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 	private PPICondition toCondition;
 	
 	private Map<String, TimeMeasureInstance> instancesCache = new HashMap<String, TimeMeasureInstance>();
-	private Map<String, SingleTimeMeasureValue> singleValuesCache = new HashMap<String, SingleTimeMeasureValue>();
 	
 	public TimeMeasure(String id, ProcessDefinition processDefinition) {
 		super(id, processDefinition);
@@ -37,25 +36,6 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 	
 	public void setToCondition(PPICondition toCondition) {
 		this.toCondition = toCondition;
-	}
-	
-	private TimeMeasureInstance findTimeMeasureInstance(String processInstanceId) {
-		CommandContext commandContext = Context.getCommandContext();
-		String cacheId = buildCacheId(id, processInstanceId);
-		
-		TimeMeasureInstance timeMeasureValue = new GetTimeMeasureInstanceCommand(id, processInstanceId).execute(commandContext);
-		if (timeMeasureValue == null) {
-			timeMeasureValue = instancesCache.get(cacheId);
-		}
-		if (timeMeasureValue == null) {
-			timeMeasureValue = new TimeMeasureInstance();
-			timeMeasureValue.setMeasureId(id);
-			timeMeasureValue.setProcessInstanceId(processInstanceId);
-			new InsertTimeInstanceCommand(timeMeasureValue).execute(commandContext);
-		}
-		instancesCache.put(cacheId, timeMeasureValue);
-		
-		return timeMeasureValue;
 	}
 
 	@Override
@@ -95,9 +75,27 @@ public class TimeMeasure extends EventListeningBaseMeasure<TimeMeasureInstance> 
 		
 	}
 	
-	private String buildCacheId(String measureId, String processInstanceId) {
-		return measureId + "--" + processInstanceId;
+	private TimeMeasureInstance findTimeMeasureInstance(String processInstanceId) {
+		CommandContext commandContext = Context.getCommandContext();
+		
+		TimeMeasureInstance timeMeasureValue = new GetTimeMeasureInstanceCommand(id, processInstanceId).execute(commandContext);
+		if (timeMeasureValue == null) {
+			timeMeasureValue = instancesCache.get(processInstanceId);
+		}
+		if (timeMeasureValue == null) {
+			timeMeasureValue = new TimeMeasureInstance();
+			timeMeasureValue.setMeasureId(id);
+			timeMeasureValue.setProcessInstanceId(processInstanceId);
+			new InsertTimeInstanceCommand(timeMeasureValue).execute(commandContext);
+		}
+		instancesCache.put(processInstanceId, timeMeasureValue);
+		
+		return timeMeasureValue;
 	}
+	
+//	private String buildCacheId(String measureId, String processInstanceId) {
+//		return measureId + "--" + processInstanceId;
+//	}
 
 	@Override
 	public List<TimeMeasureInstance> getAllValues() {
