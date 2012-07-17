@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi;
+package de.unipotsdam.hpi.thorben.ppi.aspects;
 
 import java.lang.reflect.Field;
 import java.util.List;

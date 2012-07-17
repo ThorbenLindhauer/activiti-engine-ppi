@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi;
+package de.unipotsdam.hpi.thorben.ppi.aspects;
 
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;

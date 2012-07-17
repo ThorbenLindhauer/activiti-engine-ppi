@@ -1,4 +1,4 @@
-package de.unipotsdam.hpi.thorben.ppi;
+package de.unipotsdam.hpi.thorben.ppi.aspects;
 
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
