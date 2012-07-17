@@ -13,7 +13,7 @@ public abstract class AbstractTargetFunction<N extends Number> implements
 	}
 
 	public boolean apply(Number operator1, Number operator2) {
-		return applySpecific((N) operator1, (N) operator2);
+		return applySpecific(helper.asType(operator1), helper.asType(operator2));
 	}
 
 	public abstract boolean applySpecific(N operator1, N operator2);
