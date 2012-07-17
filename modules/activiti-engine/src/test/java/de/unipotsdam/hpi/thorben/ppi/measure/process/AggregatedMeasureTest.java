@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.TimeMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.LongHelper;
 
 public class AggregatedMeasureTest {
 

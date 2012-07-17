@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.IntegerHelper;
 
 public class AggregationFunctionTest {
 

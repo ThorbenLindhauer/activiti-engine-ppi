@@ -3,6 +3,8 @@ package de.unipotsdam.hpi.thorben.ppi.measure.process;
 import org.junit.Assert;
 import org.junit.Before;
 
+import de.unipotsdam.hpi.thorben.ppi.typehelper.DoubleHelper;
+
 public class DoubleHelperTest extends AbstractTypeHelperTest {
 
 	private Double valueA = new Double(4.0);

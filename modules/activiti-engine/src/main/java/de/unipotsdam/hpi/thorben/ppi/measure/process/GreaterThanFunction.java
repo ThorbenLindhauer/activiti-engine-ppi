@@ -1,5 +1,7 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
+import de.unipotsdam.hpi.thorben.ppi.typehelper.TypeHelper;
+
 public class GreaterThanFunction<N extends Number> extends AbstractTargetFunction<N> {
 
 	public GreaterThanFunction(TypeHelper<N> typeHelper) {

@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.unipotsdam.hpi.thorben.ppi.typehelper.IntegerHelper;
+
 public class IntegerHelperTest extends AbstractTypeHelperTest {
 
 	private Integer valueA = new Integer(4);

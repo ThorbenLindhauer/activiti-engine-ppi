@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.unipotsdam.hpi.thorben.ppi.typehelper.LongHelper;
+
 public class LongHelperTest extends AbstractTypeHelperTest {
 
 	private Long valueA = new Long(4);

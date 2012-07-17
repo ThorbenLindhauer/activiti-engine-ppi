@@ -5,6 +5,7 @@ import java.util.List;
 import org.activiti.engine.ActivitiException;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.BaseMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.TypeHelper;
 
 public abstract class AbstractAggregationFunction<T extends Number, K extends BaseMeasureInstance>
 		implements AggregationFunction<T, K> {

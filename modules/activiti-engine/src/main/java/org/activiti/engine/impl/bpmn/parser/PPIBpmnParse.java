@@ -27,10 +27,7 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregatedMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AggregationFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.AverageFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.DoubleHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.GreaterThanFunction;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LowerThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.MaximumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.MinimumFunction;
@@ -38,7 +35,10 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.SumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.TargetFunction;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.DoubleHelper;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.IntegerHelper;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.TypeHelper;
 
 public class PPIBpmnParse extends BpmnParse {
 

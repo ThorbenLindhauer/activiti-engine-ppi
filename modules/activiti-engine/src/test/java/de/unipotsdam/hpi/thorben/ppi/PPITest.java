@@ -5,9 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.process.GreaterThanFunction;
-import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LowerThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
+import de.unipotsdam.hpi.thorben.ppi.typehelper.IntegerHelper;
 
 public class PPITest {
 
