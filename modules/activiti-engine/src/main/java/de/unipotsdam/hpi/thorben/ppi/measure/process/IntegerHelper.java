@@ -34,4 +34,8 @@ public class IntegerHelper implements TypeHelper<Integer> {
 		return valueA < valueB;
 	}
 
+	public Integer parseType(String s) {
+		return Integer.parseInt(s);
+	}
+
 }

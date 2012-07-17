@@ -34,4 +34,8 @@ public class LongHelper implements TypeHelper<Long> {
 		return valueA < valueB;
 	}
 
+	public Long parseType(String s) {
+		return Long.parseLong(s);
+	}
+
 }

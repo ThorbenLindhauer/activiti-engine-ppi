@@ -8,7 +8,7 @@ import org.activiti.engine.impl.javax.el.ExpressionFactory;
 import org.activiti.engine.impl.javax.el.ValueExpression;
 import org.activiti.engine.impl.juel.ExpressionFactoryImpl;
 
-public class DerivedProcessMeasure implements ProcessMeasure<Number> {
+public class DerivedProcessMeasure implements ProcessMeasure<Double> {
 
 	private String id;
 	private String juelFunction;
@@ -22,13 +22,13 @@ public class DerivedProcessMeasure implements ProcessMeasure<Number> {
 		return id;
 	}
 
-	public Number calculate() {
+	public Double calculate() {
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		DerivedMeasureValueResolver resolver = new DerivedMeasureValueResolver(variableContext);
 		ActivitiElContext context = new ActivitiElContext(resolver);
-		ValueExpression expression = factory.createValueExpression(context, juelFunction, Number.class);
+		ValueExpression expression = factory.createValueExpression(context, juelFunction, Double.class);
 
-		return (Number) expression.getValue(context);
+		return (Double) expression.getValue(context);
 	}
 
 	public void setFunction(String juelFunction) {

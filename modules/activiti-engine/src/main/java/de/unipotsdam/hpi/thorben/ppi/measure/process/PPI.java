@@ -1,12 +1,16 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
-public class PPI<N extends Number> {
+import java.rmi.activation.ActivateFailedException;
+
+import org.activiti.engine.ActivitiException;
+
+public class PPI {
 
 	private String id;
 	private ProcessMeasure<?> processMeasure;
-	private N targetValue;
+	private Number targetValue;
 	
-	private TargetFunction<N> targetFunction;
+	private TargetFunction targetFunction;
 	
 	public String getId() {
 		return id;
@@ -20,14 +24,17 @@ public class PPI<N extends Number> {
 	public void setProcessMeasure(ProcessMeasure<?> processMeasure) {
 		this.processMeasure = processMeasure;
 	}
-	public void setTargetValue(N targetValue) {
+	public void setTargetValue(Number targetValue) {
 		this.targetValue = targetValue;
 	}
-	public void setTargetFunction(TargetFunction<N> targetFunction) {
+	public void setTargetFunction(TargetFunction targetFunction) {
 		this.targetFunction = targetFunction;
 	}
 	
-	public boolean isFulfilledBy(N number) {
+	public boolean isFulfilledBy(Number number) {
+		if (targetFunction == null || targetValue == null) {
+			throw new ActivitiException("No target function or value was specified for this ppi.");
+		}
 		return targetFunction.apply(number, targetValue);
 	}
 	

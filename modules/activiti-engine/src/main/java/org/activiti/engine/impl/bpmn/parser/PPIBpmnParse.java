@@ -1,5 +1,6 @@
 package org.activiti.engine.impl.bpmn.parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +30,13 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.DerivedProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.DoubleHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.IntegerHelper;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.LongHelper;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.LowerThanFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.MaximumFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.MinimumFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.ProcessMeasure;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.SumFunction;
+import de.unipotsdam.hpi.thorben.ppi.measure.process.TargetFunction;
 import de.unipotsdam.hpi.thorben.ppi.measure.process.TypeHelper;
 
 public class PPIBpmnParse extends BpmnParse {
@@ -42,6 +46,8 @@ public class PPIBpmnParse extends BpmnParse {
 	protected Map<String, DataMeasure> dataMeasures = new HashMap<String, DataMeasure>();
 	protected Map<String, ProcessMeasure<?>> derivableProcessMeasures = new HashMap<String, ProcessMeasure<?>>();
 	protected Map<String, DerivedProcessMeasure> derivingMeasures = new HashMap<String, DerivedProcessMeasure>();
+	
+	protected Map<String, List<Element>> ppisForProcessMeasure = new HashMap<String, List<Element>>();
 	
 	// DataObjects: Id -> Name
 	protected Map<String, String> dataObjects = new HashMap<String, String>();
@@ -95,8 +101,13 @@ public class PPIBpmnParse extends BpmnParse {
 
 	protected void parsePPISet(Element ppiSetElement,
 			ProcessDefinition definition) {
-		// TODO: parse all necessary elements, as are: aggregatedMeasure,
-		// TimeConnector, ppi (in the first example)
+
+		List<Element> ppiElements = ppiSetElement.elementsNS(
+				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppi");
+		for (Element ppi : ppiElements) {
+			registerPPIElementForProcessMeasure(ppi, definition);
+		}
+		
 		List<Element> aggMeasureElements = ppiSetElement.elementsNS(
 				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "aggregatedMeasure");
 		for (Element aggMeasure : aggMeasureElements) {
@@ -127,11 +138,6 @@ public class PPIBpmnParse extends BpmnParse {
 			parseUsesConnector(usesConnector, definition);
 		}
 
-		List<Element> ppiElements = ppiSetElement.elementsNS(
-				BpmnParser.PPI_BPMN_EXTENSIONS_NS, "ppi");
-		for (Element ppi : ppiElements) {
-			parsePPI(ppi, definition);
-		}
 	}
 
 
@@ -147,6 +153,12 @@ public class PPIBpmnParse extends BpmnParse {
 		definitionImpl.addProcessMeasure(measure);
 		derivingMeasures.put(measureId, measure);
 		
+		List<Element> ppisToRegisterFor = ppisForProcessMeasure.get(measureId);
+		if (ppisToRegisterFor != null) {
+			for (Element ppiElement : ppisToRegisterFor) {
+				parsePPI(ppiElement, new DoubleHelper(), measure, definition);
+			}
+		}
 	}
 
 	private void parseUsesConnector(Element usesConnector,
@@ -241,6 +253,13 @@ public class PPIBpmnParse extends BpmnParse {
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
 		definitionImpl.addProcessMeasure(measure);
 		derivableProcessMeasures.put(aggMeasureId, measure);
+		
+		List<Element> ppisToRegisterFor = ppisForProcessMeasure.get(aggMeasureId);
+		if (ppisToRegisterFor != null) {
+			for (Element ppiElement : ppisToRegisterFor) {
+				parsePPI(ppiElement, doubleHelper, measure, definition);
+			}
+		}
 	}
 
 	private void parseTimeMeasure(Element aggregatedMeasure,
@@ -267,7 +286,61 @@ public class PPIBpmnParse extends BpmnParse {
 		ProcessDefinitionImpl definitionImpl = (ProcessDefinitionImpl) definition;
 		definitionImpl.addProcessMeasure(measure);
 		derivableProcessMeasures.put(aggMeasureId, measure);
+		
+		List<Element> ppisToRegisterFor = ppisForProcessMeasure.get(aggMeasureId);
+		if (ppisToRegisterFor != null) {
+			for (Element ppiElement : ppisToRegisterFor) {
+				parsePPI(ppiElement, longHelper, measure, definition);
+			}
+		}
+		
 	}
+	
+	private <N extends Number> void parsePPI(Element ppiElement, TypeHelper<N> typeHelper, ProcessMeasure<N> measure, ProcessDefinition definition) {
+		String targetAttribute = ppiElement.attribute("target");
+		TargetFunction targetFunction = null;
+		N targetValue = null;
+		
+		if (targetAttribute != null) {
+			String[] target = ppiElement.attribute("target").trim().split(" ");
+			targetFunction = parseTargetFunction(target[0], typeHelper);				
+			targetValue = typeHelper.parseType(target[1]);
+		}
+
+		String ppiId = ppiElement.attribute("id");
+		
+		PPI ppi = new PPI();
+		ppi.setId(ppiId);
+		ppi.setTargetFunction(targetFunction);
+		ppi.setTargetValue(targetValue);
+		ppi.setProcessMeasure(measure);
+		
+		((ProcessDefinitionImpl) definition).addPPI(ppi);
+	}
+	
+	private <N extends Number> TargetFunction parseTargetFunction(
+			String targetFunctionName, TypeHelper<N> typeHelper) {
+		if (targetFunctionName.equals("<")) {
+			return new LowerThanFunction<N>(typeHelper);
+		} else {
+			throw new ActivitiException("Unsupported target function type "
+					+ targetFunctionName);
+		}		
+	}
+
+//	private PPI parsePPI(Element ppiElement, TargetFunction targetFunction,
+//			Number targetValue,
+//			ProcessMeasure<?> measure, ProcessDefinition definition) {
+//		
+//		String ppiId = ppiElement.attribute("id");
+//		
+//		PPI ppi = new PPI();
+//		ppi.setId(ppiId);
+//		ppi.setTargetFunction(targetFunction);
+//		ppi.setTargetValue(targetValue);
+//		ppi.setProcessMeasure(measure);
+//		return ppi;
+//	}
 
 	private void parseCountMeasure(Element aggregatedMeasure,
 			Element baseMeasure, ProcessDefinition definition) {
@@ -291,13 +364,25 @@ public class PPIBpmnParse extends BpmnParse {
 		definitionImpl.addProcessMeasure(measure);
 		derivableProcessMeasures.put(aggMeasureId, measure);
 
+		List<Element> ppisToRegisterFor = ppisForProcessMeasure.get(aggMeasureId);
+		if (ppisToRegisterFor != null) {
+			for (Element ppiElement : ppisToRegisterFor) {
+				parsePPI(ppiElement, intHelper, measure, definition);
+			}
+		}
 	}
 
-	private void parsePPI(Element ppi, ProcessDefinition definition) {
-		// TODO Auto-generated method stub
-
+	private void registerPPIElementForProcessMeasure(Element ppiElement, ProcessDefinition definition) {
+		String measuredBy = ppiElement.attribute("measuredBy");
+		
+		List<Element> ppis = ppisForProcessMeasure.get(measuredBy);
+		if (ppis == null) {
+			ppis = new ArrayList<Element>();
+			ppisForProcessMeasure.put(measuredBy, ppis);
+		}
+		ppis.add(ppiElement);		
 	}
-	
+
 	private void parseAppliesToActivity(CountMeasure measure, Element appliesToConnector,
 			ProcessDefinition definition) {
 		

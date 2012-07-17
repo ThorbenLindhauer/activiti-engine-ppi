@@ -34,4 +34,8 @@ public class DoubleHelper implements TypeHelper<Double> {
 		return valueA < valueB;
 	}
 
+	public Double parseType(String s) {
+		return Double.parseDouble(s);
+	}
+
 }

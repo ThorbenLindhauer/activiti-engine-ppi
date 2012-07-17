@@ -15,7 +15,6 @@ public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureIn
 		List<V> values = baseMeasure.getAllValues();
 		return aggregationFunction.calculate(values);
 	}
-	
 
 	public String getId() {
 		return id;
@@ -38,7 +37,4 @@ public class AggregatedMeasure<M extends BaseMeasure<V>, V extends BaseMeasureIn
 		this.aggregationFunction = function;
 		
 	}
-	
-	
-
 }

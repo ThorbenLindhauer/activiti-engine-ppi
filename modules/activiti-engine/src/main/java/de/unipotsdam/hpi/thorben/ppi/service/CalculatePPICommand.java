@@ -25,7 +25,7 @@ public class CalculatePPICommand implements Command<Number> {
 				.findDeployedLatestProcessDefinitionByKey(
 						processDefinitionId);
 		
-		for (PPI<?> ppi : processDefinition.getPPIs()) {
+		for (PPI ppi : processDefinition.getPPIs()) {
 			if (ppi.getId().equals(ppiID)) {
 				ProcessMeasure<?> measure = ppi.getProcessMeasure();
 				return measure.calculate();

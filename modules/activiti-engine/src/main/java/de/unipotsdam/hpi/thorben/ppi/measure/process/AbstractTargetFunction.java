@@ -1,7 +1,7 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
 public abstract class AbstractTargetFunction<N extends Number> implements
-		TargetFunction<N> {
+		TargetFunction {
 	
 	protected TypeHelper<N> helper;
 	
@@ -9,6 +9,9 @@ public abstract class AbstractTargetFunction<N extends Number> implements
 		this.helper = typeHelper;
 	}
 
-	public abstract boolean apply(N operator1, N operator2);
+	public boolean apply(Number operator1, Number operator2) {
+		return applySpecific((N) operator1, (N) operator2);
+	}
 
+	public abstract boolean applySpecific(N operator1, N operator2);
 }

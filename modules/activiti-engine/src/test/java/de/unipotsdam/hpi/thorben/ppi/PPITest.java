@@ -10,11 +10,11 @@ import de.unipotsdam.hpi.thorben.ppi.measure.process.PPI;
 
 public class PPITest {
 
-	private PPI<Integer> ppi;
+	private PPI ppi;
 	
 	@Before
 	public void setUp() {
-		ppi = new PPI<Integer>();
+		ppi = new PPI();
 		ppi.setTargetValue(new Integer(5));
 	}
 	

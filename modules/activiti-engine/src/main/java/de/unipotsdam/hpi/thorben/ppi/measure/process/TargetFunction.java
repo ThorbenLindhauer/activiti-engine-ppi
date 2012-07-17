@@ -1,6 +1,6 @@
 package de.unipotsdam.hpi.thorben.ppi.measure.process;
 
-public interface TargetFunction<N extends Number> {
+public interface TargetFunction {
 
-	boolean apply(N operator1, N operator2);
+	boolean apply(Number operator1, Number operator2);
 }

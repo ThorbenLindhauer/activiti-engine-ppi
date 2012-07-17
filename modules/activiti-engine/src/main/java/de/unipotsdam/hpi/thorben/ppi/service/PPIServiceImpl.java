@@ -13,7 +13,6 @@ public class PPIServiceImpl extends ServiceImpl implements PPIService {
 	}
 
 	public boolean PPIfulfilled(String id, String processDefinitionId) {
-		// TODO Auto-generated method stub
-		return false;
+		return commandExecutor.execute(new PPIFulfilledCommand(id, processDefinitionId));
 	}
 }

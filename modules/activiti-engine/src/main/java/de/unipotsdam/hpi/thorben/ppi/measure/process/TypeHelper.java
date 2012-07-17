@@ -29,4 +29,6 @@ public interface TypeHelper<T extends Number> {
 	 * @return
 	 */
 	boolean lowerThan(T valueA, T valueB);
+	
+	T parseType(String s);
 }
