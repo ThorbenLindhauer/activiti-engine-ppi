@@ -31,7 +31,6 @@ public aspect TimeInstantConditionAspect {
 	 */
 	before(AtomicOperationActivityExecute operation, ExecutionEntity execution) : execute(operation, execution) {
 		ActivityImpl activity = (ActivityImpl) execution.getActivity();
-		System.out.println("In execution " + execution.toString() + " Start of " + activity.toString() + " with behavior " + operation.toString());
 		
 		ConditionEvent event = new ActivityStartEvent(activity);
 		event.setProcessInstanceId(execution.getProcessInstanceId());
@@ -53,7 +52,6 @@ public aspect TimeInstantConditionAspect {
 	 */
 	before(AtomicOperationTransitionDestroyScope operation, ExecutionEntity execution) : finish(operation, execution) {
 		ActivityImpl activity = (ActivityImpl) execution.getActivity();
-		System.out.println("In execution " + execution.toString() + " End of " + activity.toString() + " with behavior " + operation.toString());
 
 		ConditionEvent event = new ActivityEndEvent(activity);
 		event.setProcessInstanceId(execution.getProcessInstanceId());
