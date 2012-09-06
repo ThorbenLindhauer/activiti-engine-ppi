@@ -17,6 +17,8 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 	private static final String COUNT_MEASURE_DEFINITION_ID = "simpleCountMeasure";
 	private static final String DERIVED_MEASURE_DEFINITION_ID = "simpleDerivedProcessMeasure";
 	private static final String DATA_MEASURE_DEFINITION_ID = "simpleDataMeasure";
+	
+	private static final String UNFULFILLABLE_PPI_DEFINITION_ID = "unfulfillablePPI";
 
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleTimeMeasure.bpmn20.xml" })
 	public void testTimeMeasureExecution() throws InterruptedException {
@@ -88,8 +90,16 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		Assert.assertTrue(fulfilled);
 	}
 	
+	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/UnfulfillablePPI.bpmn20.xml" })
 	public void testUnfulfilledPPI() {
-		// TODO implement
+		RuntimeService runtime = processEngine.getRuntimeService();
+		runtime.startProcessInstanceByKey(UNFULFILLABLE_PPI_DEFINITION_ID);
+		
+		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
+		PPIService ppiService = engine.getPPIService();
+		
+		boolean fulfilled = ppiService.PPIfulfilled("my_ppi", UNFULFILLABLE_PPI_DEFINITION_ID);
+		Assert.assertFalse(fulfilled);
 	}
 	
 	public void testDataMeasureExecutionWithNonExistingVariables() {
