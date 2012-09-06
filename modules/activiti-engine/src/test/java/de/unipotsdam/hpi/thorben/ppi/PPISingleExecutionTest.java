@@ -3,6 +3,7 @@ package de.unipotsdam.hpi.thorben.ppi;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.test.Deployment;
 import org.junit.Assert;
@@ -82,8 +83,14 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		
 		PPIProcessEngine engine = (PPIProcessEngine)processEngine;
 		PPIService ppiService = engine.getPPIService();
-		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", DATA_MEASURE_DEFINITION_ID);
-		Assert.assertNull(result);
+		
+		try {
+			ppiService.calculateAggregatedMeasure("aggMeasure", DATA_MEASURE_DEFINITION_ID);
+			Assert.fail("This should not succeed.");
+		} catch (ActivitiException e) {
+			// happy path
+		}
+		
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
