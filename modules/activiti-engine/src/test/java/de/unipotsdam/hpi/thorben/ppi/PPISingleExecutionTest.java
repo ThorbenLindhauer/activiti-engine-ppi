@@ -53,7 +53,7 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("derivedMeasure", DERIVED_MEASURE_DEFINITION_ID);
 		Assert.assertFalse(new Long(0).equals(result));
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleAggregatedDataMeasure.bpmn20.xml" })
@@ -70,7 +70,7 @@ public class PPISingleExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", DATA_MEASURE_DEFINITION_ID);
 		Assert.assertEquals(4.0, result);
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })

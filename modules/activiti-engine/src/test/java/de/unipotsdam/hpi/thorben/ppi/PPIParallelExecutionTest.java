@@ -74,7 +74,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", TIME_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleCountMeasure.bpmn20.xml" })
@@ -97,7 +97,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", COUNT_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0, result);
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 	
 	@Deployment(resources = { "de/uni-potsdam/hpi/thorben/ppi/SimpleAggregatedDataMeasure.bpmn20.xml" })
@@ -127,7 +127,7 @@ public class PPIParallelExecutionTest extends AbstractPPITest {
 		PPIService ppiService = engine.getPPIService();
 		Number result = ppiService.calculateAggregatedMeasure("aggMeasure", DATA_MEASURE_DEFINITION_ID);
 		Assert.assertNotSame(0.0, result);
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 	
 }

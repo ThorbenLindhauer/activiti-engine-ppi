@@ -66,7 +66,7 @@ public class MeasureIsolationTest extends AbstractPPITest {
 						+ DATA_MEASURE_DEFINITION_ID
 						+ " should only return values that were actually measured by process instances of it.",
 				INSTANCES * (double) number, result);
-		System.out.println(result);
+		LOGGER.info(result.toString());
 	}
 
 	private Thread startProcessInstance(String definitionId,
