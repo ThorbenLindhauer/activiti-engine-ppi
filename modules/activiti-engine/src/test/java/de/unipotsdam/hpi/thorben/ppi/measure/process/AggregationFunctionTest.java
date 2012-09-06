@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.CountMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.DataMeasureInstance;
 import de.unipotsdam.hpi.thorben.ppi.typehelper.IntegerHelper;
 
 public class AggregationFunctionTest {
@@ -74,8 +75,6 @@ public class AggregationFunctionTest {
 		Integer calculatedMinimum = minFunction.calculate(instances);
 		Assert.assertEquals(minimum, calculatedMinimum);
 	}
-	
-	// TODO test function behavior with no instance values present
 
 	/**
 	 * Tests whether return values of another type are treated as the specified
@@ -110,6 +109,19 @@ public class AggregationFunctionTest {
 		} catch (ActivitiException e) {
 			// happy path
 		}
+	}
+	
+	@Test
+	public void testNonExistingInstances() {
+		AverageFunction<Integer, DataMeasureInstance> avgFunction = new AverageFunction<Integer, DataMeasureInstance>(new IntegerHelper());
+		
+		try {
+			avgFunction.calculate(null);
+			Assert.fail("The function should not be calculated successfully.");
+		} catch (ActivitiException e) {
+			// happy path
+		}
+		
 	}
 
 }
