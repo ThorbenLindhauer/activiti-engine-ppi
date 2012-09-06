@@ -31,7 +31,7 @@
 		<startEvent id="start" name="">
 		</startEvent>
 		<serviceTask id="serviceTask" name="print Hello World"
-			activiti:class="de.unipotsdam.hpi.thorben.ppi.SysoutDelegate">
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.TimeoutDelegate">
 		</serviceTask>
 		<endEvent id="end" name="">
 		</endEvent>

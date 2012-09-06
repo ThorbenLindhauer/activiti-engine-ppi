@@ -45,10 +45,10 @@
 		<startEvent id="start" name="">
 		</startEvent>
 		<serviceTask id="serviceTask1" name="print Hello World"
-			activiti:class="de.unipotsdam.hpi.thorben.ppi.SysoutDelegate">
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.TimeoutDelegate">
 		</serviceTask>
 		<serviceTask id="serviceTask2" name="print Hello World"
-			activiti:class="de.unipotsdam.hpi.thorben.ppi.SysoutDelegate">
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.TimeoutDelegate">
 		</serviceTask>
 		<endEvent id="end" name="">
 		</endEvent>
