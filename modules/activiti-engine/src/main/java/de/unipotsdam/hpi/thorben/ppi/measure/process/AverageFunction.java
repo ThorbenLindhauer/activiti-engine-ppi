@@ -16,10 +16,6 @@ public class AverageFunction<T extends Number, K extends BaseMeasureInstance> ex
 		for (K k : baseMeasureValues) {
 			sum = helper.add(sum, helper.asType(k.calculate()));
 		}
-		if (baseMeasureValues.size() != 0) {
-			return helper.divide(sum, helper.asType(baseMeasureValues.size()));
-		} else {
-			return helper.createZero();
-		}
+		return helper.divide(sum, helper.asType(baseMeasureValues.size()));
 	}
 }
