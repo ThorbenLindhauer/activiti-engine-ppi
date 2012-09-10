@@ -1,3 +1,6 @@
+/* Copyright 2010-2012 Alfresco Software, Ltd. */
+/* Copyright 2012 Thorben Lindhauer */
+
 create table ACT_GE_PROPERTY (
     NAME_ varchar(64),
     VALUE_ varchar(300),

@@ -13,7 +13,6 @@
 
 package org.activiti.engine.impl.persistence.entity;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.activiti.engine.ActivitiException;
 import org.activiti.engine.impl.EventSubscriptionQueryImpl;
 import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.JobQueryImpl;
@@ -59,8 +57,6 @@ import org.activiti.engine.impl.variable.VariableDeclaration;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.Job;
 import org.activiti.engine.runtime.ProcessInstance;
-
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.DataMeasure;
 
 
 /**
@@ -1008,11 +1004,6 @@ public class ExecutionEntity extends VariableScopeImpl implements ActivityExecut
         historicVariableUpdate.setActivityInstanceId(historicActivityInstance.getId());
       }
     }
-  }
-  
-  @Override
-  public void setVariable(String variableName, Object value) {		
-		super.setVariable(variableName, value);
   }
 
   // persistent state /////////////////////////////////////////////////////////

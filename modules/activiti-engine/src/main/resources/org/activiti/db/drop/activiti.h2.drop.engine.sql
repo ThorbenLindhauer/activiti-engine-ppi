@@ -1,3 +1,6 @@
+/* Copyright 2010-2012 Alfresco Software, Ltd. */
+/* Copyright 2012 Thorben Lindhauer */
+
 drop index ACT_IDX_EXEC_BUSKEY;
 drop index ACT_IDX_TASK_CREATE;
 drop index ACT_IDX_IDENT_LNK_USER;
