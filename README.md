@@ -62,4 +62,26 @@ The top level element is the PPI element. It references the measure the PPI is d
 measuredBy="aggMeasure" target="&lt; 7000" />
 ```
 
+You can run the process just like any other Activiti process. For PPI support you have to set the process engine configuration class in your activiti.cfg as follows:
+```xml
+<bean id="processEngineConfiguration" class="de.unipotsdam.hpi.thorben.ppi.engine.PPIStandaloneProcessEngineConfiguration">
+```
+
+The measures values are then written to the Activiti database. Supported databases are H2 and MySQL so far.
+**Note**: There is no schema upgrade defined for the PPI tables and I recommend to use this prototype with a clean database.
+
+You can then use the PPIService to request PPI values and check, whether a PPI is currently fulfilled:
+
+```java
+PPIProcessEngine engine = (PPIProcessEngine) processEngine;
+PPIService ppiService = engine.getPPIService();
+Number result = ppiService.calculatePPI("my_ppi", "simpleTimeMeasure");
+boolean fulfilled = ppiService.PPIfulfilled("my_ppi", "simpleTimeMeasure");
+```
+
+Limitations
+===========
+
+Here I will write about the limitations of the implementation as is.
+
 More documentation will be added in the future.
