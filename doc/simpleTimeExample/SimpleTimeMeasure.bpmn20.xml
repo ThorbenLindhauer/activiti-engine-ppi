@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:activiti="http://activiti.org/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd"
+	xmlns:ppinot="http://www.isa.us.es/ppinot">
+	<process id="simpleTimeMeasure" isExecutable="true">
+		<extensionElements>
+			<ppinot:ppiset>
+				<!-- Measures -->
+				<ppinot:aggregatedMeasure analysisperiod=""
+					samplingfrequency="" aggregationfunction="Average" id="aggMeasure">
+					<ppinot:timeMeasure id="oryx_time1"
+						unitofmeasure="" scale="" description="" name="" />
+				</ppinot:aggregatedMeasure>
+
+				<!-- Connectors -->
+				<ppinot:TimeConnector conditiontype="From"
+					counatend="Start" targetRef="serviceTask" sourceRef="oryx_time1"
+					id="timeConnector1" />
+				<ppinot:TimeConnector conditiontype="To"
+					counatend="End" targetRef="serviceTask2" sourceRef="oryx_time1" id="timeConnector2" />
+
+				<!-- PPIs -->
+				<ppinot:ppi id="my_ppi" measuredBy="aggMeasure" target="&lt; 7000" />
+			</ppinot:ppiset>
+		</extensionElements>
+		<startEvent id="start" name="">
+		</startEvent>
+		<serviceTask id="serviceTask" name="A"
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.TimeoutDelegate">
+		</serviceTask>
+		<serviceTask id="serviceTask2" name="B"
+			activiti:class="de.unipotsdam.hpi.thorben.ppi.TimeoutDelegate">
+		</serviceTask>
+		<endEvent id="end" name="">
+		</endEvent>
+
+		<sequenceFlow id="flow1" name="" sourceRef="start"
+			targetRef="serviceTask" />
+		<sequenceFlow id="flow2" name="" sourceRef="serviceTask"
+			targetRef="serviceTask2" />
+		<sequenceFlow id="flow3" name="" sourceRef="serviceTask2"
+			targetRef="end" />
+	</process>
+</definitions>
