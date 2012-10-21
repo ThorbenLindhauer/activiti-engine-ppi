@@ -1,5 +1,9 @@
 [simpleTimeProcess]: https://raw.github.com/ThorbenLindhauer/activiti-engine-ppi/master/doc/simpleTimeExample/process.png "A simple example process with PPIs"
 [simpleTimeProcessXml]: https://raw.github.com/ThorbenLindhauer/activiti-engine-ppi/master/doc/simpleTimeExample/SimpleTimeMeasure.bpmn20.xml
+[ppinotHome]: http://www.isa.us.es/ppinot/
+[ppinotEditor]: http://www.isa.us.es/ppinot/?PPINOT_Tool_Suite:PPINOT_Graphical_Editor
+[ppinotLiterature]: http://www.isa.us.es/user/24/publications
+[linksSection]: https://github.com/ThorbenLindhauer/activiti-engine-ppi#links
 
 Measuring Process Performance Indicators with Activiti
 ======================================================
@@ -7,15 +11,20 @@ Measuring Process Performance Indicators with Activiti
 This is a modified version of the Activiti open source BPM engine.
 I have added support for the definition of Process Performance Indicators (PPIs) in a model-driven fashion as an outcome of a seminar work at university.
 
+This prototype is based on an ontology and graphical notation that has been created and published by a team of researchers from the University of Sevilla. 
+You find resources on the ontology and the types of measures it includes, as well as an editor that is based on Oryx to create BPMN models with PPI elements in the [Links][linksSection] section.
+
 Links
 =====
 
-PPINOT Ontology: http://www.isa.us.es/ppinot/
+* [PPINOT Ontology][ppinotHome]
+* [Graphical editor][ppinotEditor]
+* The publication that introduces the PPI ontology: Adela Del-Río-Ortega, Manuel Resinas, and Antonio Ruiz-Cortés. *Defining process performance indicators: an ontological approach.* In Proceedings of the 2010 inter-national conference on On the move to meaningful internet systems - Volume Part I, OTM'10, pages 555{572, Berlin, Heidelberg, 2010. Springer-Verlag. [PDF][ppinotLiterature]
 
 Example Usage
 =============
 
-This is a Hello-World-like example process that measures a time duration in a process.
+To benefit from the added features, you need a process model that contains PPI elements, such as this Hello-World-like example process that measures a time duration in a process.
 ![alt text][simpleTimeProcess]
 
 The time between the beginning of activity "A" and the end of activity "B" is concerned and is supposed to be less than seven seconds.
@@ -68,6 +77,7 @@ You can run the process just like any other Activiti process. For PPI support yo
 ```
 
 The measures values are then written to the Activiti database. Supported databases are H2 and MySQL so far.
+
 **Note**: There is no schema upgrade defined for the PPI tables and I recommend to use this prototype with a clean database.
 
 You can then use the PPIService to request PPI values and check, whether a PPI is currently fulfilled:
@@ -81,7 +91,7 @@ boolean fulfilled = ppiService.PPIfulfilled("my_ppi", "simpleTimeMeasure");
 
 Limitations
 ===========
-
-Here I will write about the limitations of the implementation as is.
-
-More documentation will be added in the future.
+* Condition Measures are not part of the prototype yet. These measures represent a condition in a process, for example if an activity has been executed.
+* PPI and Measure calculations are not time-bounded yet, which means that for the calculation of a certain measure/PPI all existing values are regarded.
+* As it is a prototype I have so far only looked at correctly defined and meaningful measures. Meaningless measures like for example a time measure with an end trigger that is located in the process before the start trigger may lead to runtime errors.
+Not complete yet.
