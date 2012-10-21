@@ -19,12 +19,13 @@ Links
 
 * [PPINOT Ontology][ppinotHome]
 * [Graphical editor][ppinotEditor]
-* The publication that introduces the PPI ontology: Adela Del-Río-Ortega, Manuel Resinas, and Antonio Ruiz-Cortés. *Defining process performance indicators: an ontological approach.* In Proceedings of the 2010 inter-national conference on On the move to meaningful internet systems - Volume Part I, OTM'10, pages 555{572, Berlin, Heidelberg, 2010. Springer-Verlag. [PDF][ppinotLiterature]
+* The publication that introduces the PPI ontology: Adela Del-Río-Ortega, Manuel Resinas, and Antonio Ruiz-Cortés. *Defining process performance indicators: an ontological approach.* In Proceedings of the 2010 inter-national conference on On the move to meaningful internet systems - Volume Part I, OTM'10, pages 555-572, Berlin, Heidelberg, 2010. Springer-Verlag. [PDF][ppinotLiterature]
 
 Example Usage
 =============
 
 To benefit from the added features, you need a process model that contains PPI elements, such as this Hello-World-like example process that measures a time duration in a process.
+
 ![alt text][simpleTimeProcess]
 
 The time between the beginning of activity "A" and the end of activity "B" is concerned and is supposed to be less than seven seconds.
