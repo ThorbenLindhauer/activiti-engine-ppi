@@ -34,7 +34,8 @@ To benefit from the added features, you need a process model that contains PPI e
 
 ![alt text][simpleTimeProcess]
 
-The time between the beginning of activity "A" and the end of activity "B" is concerned and is supposed to be less than seven seconds.
+The time between the beginning of activity "A" and the end of activity "B" is concerned and is supposed to be less than seven seconds on average over all process instances.
+The element with the hourglass represents two measures: a Time Measure (defined on instance level) and an Aggregated Measure (on process level).
 
 You can find the full BPMN 2.0 XML [here][simpleTimeProcessXml].
 
