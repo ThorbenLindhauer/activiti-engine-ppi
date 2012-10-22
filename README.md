@@ -101,6 +101,7 @@ Implementation-specific details
 
 * Data Measures are measured, if the ExecutionEntity#setVariable method is called. If you simply modify a data object in Java without updating by calling this method, this change is not tracked. Something like a dynamic proxy object could be used to solve this.
 * Functions for derived measures are to be expressed using JUEL
+* As mentioned above, the editor exports the connectors attached to the aggregated measures and not to the base (time, count, data) measures. The parser expects them to be connected to the base measures. This has to be corrected manually in the XML.
 
 Limitations
 ===========
