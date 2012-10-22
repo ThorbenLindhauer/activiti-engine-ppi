@@ -4,15 +4,21 @@
 [ppinotEditor]: http://www.isa.us.es/ppinot/?PPINOT_Tool_Suite:PPINOT_Graphical_Editor
 [ppinotLiterature]: http://www.isa.us.es/user/24/publications
 [linksSection]: https://github.com/ThorbenLindhauer/activiti-engine-ppi#links
+[activitiPPIexample]: https://github.com/ThorbenLindhauer/activiti-engine-ppi-example
 
 Measuring Process Performance Indicators with Activiti
 ======================================================
 
 This is a modified version of the Activiti open source BPM engine.
 I have added support for the definition of Process Performance Indicators (PPIs) in a model-driven fashion as an outcome of a seminar work at university.
+The prototype allows you to measure time durations between activities (Time Measure), the times a certain activity is executed (Count Measure), 
+properties of data objects (Data Measure) and aggregate these values over all process instances applying aggregation functions like sum, min, max and average (Aggregation Measure).
+You may also derive new values from these aggregated ones (Dervied Process Measure).
 
 This prototype is based on an ontology and graphical notation that has been created and published by a team of researchers from the University of Sevilla. 
 You find resources on the ontology and the types of measures it includes, as well as an editor that is based on Oryx to create BPMN models with PPI elements in the [Links][linksSection] section.
+
+There exists a [sample application][activitiPPIexample] that demonstrates the capabilities of this extension.
 
 Links
 =====
@@ -90,9 +96,16 @@ Number result = ppiService.calculatePPI("my_ppi", "simpleTimeMeasure");
 boolean fulfilled = ppiService.PPIfulfilled("my_ppi", "simpleTimeMeasure");
 ```
 
+Implementation-specific details
+===============================
+
+* Data Measures are measured, if the ExecutionEntity#setVariable method is called. If you simply modify a data object in Java without updating by calling this method, this change is not tracked. Something like a dynamic proxy object could be used to solve this.
+* Functions for derived measures are to be expressed using JUEL
+
 Limitations
 ===========
 * Condition Measures are not part of the prototype yet. These measures represent a condition in a process, for example if an activity has been executed.
 * PPI and Measure calculations are not time-bounded yet, which means that for the calculation of a certain measure/PPI all existing values are regarded.
 * As it is a prototype I have so far only looked at correctly defined and meaningful measures. Meaningless measures like for example a time measure with an end trigger that is located in the process before the start trigger may lead to runtime errors.
+
 Not complete yet.
