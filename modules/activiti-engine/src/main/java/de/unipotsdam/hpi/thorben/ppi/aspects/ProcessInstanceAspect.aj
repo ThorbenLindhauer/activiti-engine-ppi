@@ -26,11 +26,13 @@ import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.PPIProcessInstanceE
 public aspect ProcessInstanceAspect {
 
 	pointcut newInstance(ProcessDefinitionEntity processDefinition) : target(processDefinition) && call(ExecutionEntity ProcessDefinitionEntity.createProcessInstance(String, ActivityImpl));
+
 	after(ProcessDefinitionEntity processDefinition) returning (ExecutionEntity processInstance): newInstance(processDefinition) {
-		PPIProcessInstanceEntity instanceEntity = PPIProcessInstanceEntity.fromExecution(processInstance);
-		CommandContext commandContext = Context.getCommandContext();
-		commandContext
-        .getDbSqlSession()
-        .insert(instanceEntity);
+		if (!processDefinition.getPPIs().isEmpty()) {
+			PPIProcessInstanceEntity instanceEntity = PPIProcessInstanceEntity
+					.fromExecution(processInstance);
+			CommandContext commandContext = Context.getCommandContext();
+			commandContext.getDbSqlSession().insert(instanceEntity);
+		}
 	}
 }
