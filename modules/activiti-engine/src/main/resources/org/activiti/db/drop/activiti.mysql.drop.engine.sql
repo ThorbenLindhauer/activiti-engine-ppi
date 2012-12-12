@@ -1,6 +1,8 @@
 /* Copyright 2010-2012 Alfresco Software, Ltd. */
 /* Copyright 2012 Thorben Lindhauer */
 
+drop index PPI_BASE_SINGLE_TIME_MEASURE_ID on PPI_BASE_SINGLE_TIME_MEASURE;
+
 drop index ACT_IDX_EXEC_BUSKEY on ACT_RU_EXECUTION;
 drop index ACT_IDX_TASK_CREATE on ACT_RU_TASK;
 drop index ACT_IDX_IDENT_LNK_USER on ACT_RU_IDENTITYLINK;
