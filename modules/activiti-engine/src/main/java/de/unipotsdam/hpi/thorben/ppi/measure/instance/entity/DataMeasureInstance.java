@@ -18,9 +18,12 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataMeasureInstance extends BaseMeasureInstance {
+import org.activiti.engine.impl.db.PersistentObject;
+
+public class DataMeasureInstance extends BaseMeasureInstance implements PersistentObject {
 
 	private String value;
+	private String id;
 	
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
@@ -34,6 +37,14 @@ public class DataMeasureInstance extends BaseMeasureInstance {
 	@Override
 	public Number calculate() {
 		return Double.parseDouble(value);
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getValue() {

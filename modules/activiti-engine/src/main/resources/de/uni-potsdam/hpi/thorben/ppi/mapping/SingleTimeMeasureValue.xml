@@ -5,21 +5,25 @@
   <!-- Write a measured value -->
 
   <insert id="insertSingleTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
-    insert into ${prefix}PPI_BASE_SINGLE_TIME_MEASURE (ID_, TIME_MEASURE_ID_, FROM_, TO_)
+    insert into ${prefix}PPI_BASE_SINGLE_TIME_MEASURE (ID_, PROC_INST_ID_, TIME_MEASURE_ID_, TIMESTAMP_, FROM_, TO_)
     values (
       #{id ,jdbcType=VARCHAR},
+      #{processInstanceId, jdbcType=VARCHAR},
       #{timeMeasureId ,jdbcType=VARCHAR},
-      #{from ,jdbcType=VARCHAR},
-      #{to ,jdbcType=VARCHAR}
+      #{timestamp ,jdbcType=VARCHAR},
+      #{from, ,jdbcType=BOOLEAN},
+      #{to, ,jdbcType=BOOLEAN}
     )
   </insert>
   
   <update id="updateSingleTimeMeasur" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
     update ${prefix}PPI_BASE_SINGLE_TIME_MEASURE set
       ID_ = #{id ,jdbcType=VARCHAR},
+      PROC_INST_ID_ = #{processInstanceId ,jdbcType=VARCHAR},
       TIME_MEASURE_ID_ = #{timeMeasureId ,jdbcType=VARCHAR},
-      FROM_ = #{from ,jdbcType=VARCHAR},
-      TO_ = #{to ,jdbcType=VARCHAR}
+      TIMESTAMP_ = #{timestamp ,jdbcType=VARCHAR},
+      FROM_ = #{from ,jdbcType=BOOLEAN},
+      TO_ = #{to ,jdbcType=BOOLEAN}
     where ID_ = #{id}
   </update>
   
@@ -35,8 +39,46 @@
   
   <resultMap id="singleTimeMeasureResultMap" type="de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue">
     <id property="id" column="ID_" jdbcType="VARCHAR" />
+    <result property="processInstanceId" column="PROC_INST_ID_" jdbcType="VARCHAR" />
     <result property="timeMeasureId" column="TIME_MEASURE_ID_" jdbcType="VARCHAR" />
-    <result property="from" column="FROM_" jdbcType="VARCHAR" />
-    <result property="to" column="TO_" jdbcType="VARCHAR" />
+    <result property="timestamp" column="TIMESTAMP_" jdbcType="VARCHAR" />
+    <result property="from" column="FROM_" jdbcType="BOOLEAN" />
+    <result property="to" column="TO_" jdbcType="BOOLEAN" />
   </resultMap>
+  
+  <select id="selectByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.SingleTimeMeasureValueQueryImpl" resultMap="singleTimeMeasureResultMap">
+  	${limitBefore}
+    select M.*
+    <include refid="selectByQueryCriteriaSql" />
+    <if test="orderBy != null">
+      order by ${orderBy}
+    </if>
+    ${limitAfter}
+  </select>
+  
+   <select id="selectCountByQueryCriteria" parameterType="de.unipotsdam.hpi.thorben.ppi.measure.query.SingleTimeMeasureValueQueryImpl" resultType="long">
+    select count(*)
+    <include refid="selectByQueryCriteriaSql" />
+  </select>
+  
+  <sql id="selectByQueryCriteriaSql">
+    from ${prefix}PPI_BASE_SINGLE_TIME_MEASURE M
+    <if test="processDefinitionId != null">
+    	inner join ${prefix}PPI_PROC_INST I on M.PROC_INST_ID_ = I.ID_
+    </if>
+    <where>
+      <if test="id != null">
+        ID_ = #{id}
+      </if>
+      <if test="timeMeasureId != null">
+        and TIME_MEASURE_ID_ = #{timeMeasureId}
+      </if>
+      <if test="processInstanceId != null">
+        and PROC_INST_ID_ = #{processInstanceId}
+      </if>      
+      <if test="processDefinitionId != null">
+        and I.PROC_DEF_ID_ = #{processDefinitionId}
+      </if>  
+    </where>
+  </sql>
 </mapper>

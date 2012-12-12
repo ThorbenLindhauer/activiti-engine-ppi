@@ -27,14 +27,10 @@ import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.CountMeasureInstanceQueryImpl;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQuery;
 import de.unipotsdam.hpi.thorben.ppi.measure.query.DataMeasureInstanceQueryImpl;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQuery;
-import de.unipotsdam.hpi.thorben.ppi.measure.query.TimeMeasureInstanceQueryImpl;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.SingleTimeMeasureValueQuery;
+import de.unipotsdam.hpi.thorben.ppi.measure.query.SingleTimeMeasureValueQueryImpl;
 
 public class BaseMeasureManager extends AbstractManager {
-
-	public void insertTimeMeasureInstance(TimeMeasureInstance value) {
-		getDbSqlSession().insert(value);
-	}
 
 	public void insertCountMeasureInstance(CountMeasureInstance value) {
 		getDbSqlSession().insert(value);
@@ -88,24 +84,24 @@ public class BaseMeasureManager extends AbstractManager {
 						parameters);
 	}
 
-	public TimeMeasureInstanceQuery createNewTimeMeasureInstanceQuery() {
-		return new TimeMeasureInstanceQueryImpl(Context
+	public SingleTimeMeasureValueQuery createNewSingleTimeMeasureValueQuery() {
+		return new SingleTimeMeasureValueQueryImpl(Context
 				.getProcessEngineConfiguration().getCommandExecutorTxRequired());
 	}
 
-	public long findTimeMeasureInstanceCountByQueryCriteria(
-			TimeMeasureInstanceQueryImpl query) {
+	public long findSingleTimeMeasureValueCountByQueryCriteria(
+			SingleTimeMeasureValueQueryImpl query) {
 		return (Long) getDbSqlSession()
 				.selectOne(
-						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria",
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue.selectByQueryCriteria",
 						query);
 	}
 
-	public List<TimeMeasureInstance> findTimeMeasureInstanceByQueryCriteria(
-			TimeMeasureInstanceQueryImpl query, Page page) {
+	public List<SingleTimeMeasureValue> findSingleTimeMeasureValueByQueryCriteria(
+			SingleTimeMeasureValueQueryImpl query, Page page) {
 		return getDbSqlSession()
 				.selectList(
-						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance.selectByQueryCriteria",
+						"de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue.selectByQueryCriteria",
 						query, page);
 	}
 

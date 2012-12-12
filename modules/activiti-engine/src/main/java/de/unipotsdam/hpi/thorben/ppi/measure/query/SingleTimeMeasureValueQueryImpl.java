@@ -23,29 +23,40 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.interceptor.CommandExecutor;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue;
 
-public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInstanceQuery, TimeMeasureInstance> implements TimeMeasureInstanceQuery {
+public class SingleTimeMeasureValueQueryImpl extends AbstractQuery<SingleTimeMeasureValueQuery, SingleTimeMeasureValue> implements SingleTimeMeasureValueQuery {
 
 	private static final long serialVersionUID = -6573102800086133707L;
 	protected String id;
-	protected String measureId;
-	protected String processInstanceId;
 	protected String processDefinitionId;
+	protected String processInstanceId;
+	protected String timeMeasureId;
 	
-	public TimeMeasureInstanceQueryImpl(CommandExecutor commandExecutor) {
+	public SingleTimeMeasureValueQueryImpl(CommandExecutor commandExecutor) {
 		super(commandExecutor);
 	}
 	
-	public TimeMeasureInstanceQuery measureId(String measureId) {
-		if (measureId == null) {
-		      throw new ActivitiException("Provided measureId is null");
+	@Override
+	public SingleTimeMeasureValueQuery processDefinitionId(
+			String processDefinitionId) {
+		if (processDefinitionId == null) {
+		      throw new ActivitiException("Provided timeMeasureId is null");
 		    }
-		this.measureId = measureId;
+		this.processDefinitionId = processDefinitionId;
 		return this;
 	}
 
-	public TimeMeasureInstanceQuery processInstanceId(String processInstanceId) {
+	public SingleTimeMeasureValueQueryImpl timeMeasureId(
+			String timeMeasureId) {
+		if (timeMeasureId == null) {
+		      throw new ActivitiException("Provided timeMeasureId is null");
+		    }
+		this.timeMeasureId = timeMeasureId;
+		return this;
+	}
+
+	public SingleTimeMeasureValueQueryImpl processInstanceId(String processInstanceId) {
 		if (processInstanceId == null) {
 		      throw new ActivitiException("Provided processInstanceId is null");
 		    }
@@ -53,8 +64,8 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 		return this;
 	}
 
-	public String getMeasureId() {
-		return measureId;
+	public String getProcessDefinitionId() {
+		return processDefinitionId;
 	}
 
 	public String getProcessInstanceId() {
@@ -69,23 +80,16 @@ public class TimeMeasureInstanceQueryImpl extends AbstractQuery<TimeMeasureInsta
 		checkQueryOk();
 	    return commandContext
 	      .getBaseMeasureManager()
-	      .findTimeMeasureInstanceCountByQueryCriteria(this);
+	      .findSingleTimeMeasureValueCountByQueryCriteria(this);
 	}
 
-	public List<TimeMeasureInstance> executeList(CommandContext commandContext,
+	public List<SingleTimeMeasureValue> executeList(CommandContext commandContext,
 			Page page) {
 		checkQueryOk();
 	    return commandContext
 	      .getBaseMeasureManager()
-	      .findTimeMeasureInstanceByQueryCriteria(this, page);
+	      .findSingleTimeMeasureValueByQueryCriteria(this, page);
 	}
 
-	public TimeMeasureInstanceQuery processDefinitionId(
-			String processDefinitionId) {
-		if (processDefinitionId == null) {
-		      throw new ActivitiException("Provided processDefinitionId is null");
-		    }
-		this.processDefinitionId = processDefinitionId;
-		return this;
-	}
+
 }

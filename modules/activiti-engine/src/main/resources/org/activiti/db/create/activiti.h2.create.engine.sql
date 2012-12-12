@@ -152,18 +152,14 @@ create table PPI_PROC_INST (
 	primary key (ID_)
 );
 
+
 create table PPI_BASE_SINGLE_TIME_MEASURE (
 	ID_ varchar(64) not null,
-	TIME_MEASURE_ID_ varchar(64),
-	FROM_ timestamp null,
-	TO_ timestamp null,
-	primary key (ID_)
-);
-
-create table PPI_BASE_TIME_MEASURE (
-	ID_ varchar(64) not null,
-	MEASURE_ID_ varchar(64),
 	PROC_INST_ID_ varchar(64),
+	TIME_MEASURE_ID_ varchar(64),
+	TIMESTAMP_ timestamp null,
+	FROM_ boolean,
+	TO_ boolean,
 	primary key (ID_)
 );
 

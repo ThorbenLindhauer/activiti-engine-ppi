@@ -17,18 +17,18 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import org.activiti.engine.impl.db.PersistentObject;
 
-public abstract class BaseMeasureInstance implements PersistentObject {
+public abstract class BaseMeasureInstance {
 
-	protected String id;
+//	protected String id;
 	protected String measureId;
 	protected String processInstanceId;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+//	public String getId() {
+//		return id;
+//	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
 	public String getMeasureId() {
 		return measureId;
 	}

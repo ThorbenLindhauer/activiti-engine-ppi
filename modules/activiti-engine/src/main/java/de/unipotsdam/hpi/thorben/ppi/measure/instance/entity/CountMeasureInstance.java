@@ -18,9 +18,12 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CountMeasureInstance extends BaseMeasureInstance {
+import org.activiti.engine.impl.db.PersistentObject;
+
+public class CountMeasureInstance extends BaseMeasureInstance implements PersistentObject {
 
 	private int count;
+	private String id;
 	
 	public CountMeasureInstance() {
 		count = 0;
@@ -46,6 +49,16 @@ public class CountMeasureInstance extends BaseMeasureInstance {
 	@Override
 	public Number calculate() {
 		return count;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

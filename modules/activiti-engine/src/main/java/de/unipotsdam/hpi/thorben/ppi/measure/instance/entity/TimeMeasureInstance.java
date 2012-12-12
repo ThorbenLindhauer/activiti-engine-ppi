@@ -17,9 +17,7 @@ package de.unipotsdam.hpi.thorben.ppi.measure.instance.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.activiti.engine.ActivitiException;
 
@@ -31,16 +29,8 @@ public class TimeMeasureInstance extends BaseMeasureInstance {
 		return singleValues;
 	}
 
-	public void setSingleValues(List<SingleTimeMeasureValue> singleValues) {
-		this.singleValues = singleValues;
-	}
-
-	public Object getPersistentState() {
-		Map<String, Object> persistentState = new HashMap<String, Object>();
-		persistentState.put("id", id);
-		persistentState.put("measureId", measureId);
-		persistentState.put("processInstanceId", processInstanceId);
-		return persistentState;
+	public void addSingleValue(SingleTimeMeasureValue singleValue) {
+		this.singleValues.add(singleValue);
 	}
 
 	/**
@@ -52,13 +42,19 @@ public class TimeMeasureInstance extends BaseMeasureInstance {
 		Date earliestFrom = null;
 		Date latestTo = null;
 		for (SingleTimeMeasureValue singleValue : singleValues) {
-			Date currentFrom = singleValue.getFrom();
-			Date currentTo = singleValue.getTo();
+			Date currentFrom = null;
+			Date currentTo = null;
+			
+			if (singleValue.isFrom()) {
+				currentFrom = singleValue.getTimetamp();
+			} else if (singleValue.isTo()) {
+				currentTo = singleValue.getTimetamp();
+			}
 
-			if (earliestFrom == null || currentFrom.compareTo(earliestFrom) < 0) {
+			if (currentFrom != null && (earliestFrom == null || currentFrom.compareTo(earliestFrom) < 0)) {
 				earliestFrom = currentFrom;
 			}
-			if (latestTo == null || currentTo.compareTo(latestTo) > 0) {
+			if (currentTo != null && (latestTo == null || currentTo.compareTo(latestTo) > 0)) {
 				latestTo = currentTo;
 			}
 		}

@@ -17,13 +17,13 @@ package de.unipotsdam.hpi.thorben.ppi.measure.query;
 
 import org.activiti.engine.query.Query;
 
-import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.TimeMeasureInstance;
+import de.unipotsdam.hpi.thorben.ppi.measure.instance.entity.SingleTimeMeasureValue;
 
-public interface TimeMeasureInstanceQuery extends Query<TimeMeasureInstanceQuery, TimeMeasureInstance> {
+public interface SingleTimeMeasureValueQuery extends Query<SingleTimeMeasureValueQuery, SingleTimeMeasureValue> {
 
-	TimeMeasureInstanceQuery measureId(String measureId);
+	SingleTimeMeasureValueQuery processInstanceId(String processInstanceId);
 	
-	TimeMeasureInstanceQuery processInstanceId(String processInstanceId);
+	SingleTimeMeasureValueQuery timeMeasureId(String timeMeasureId);
 	
-	TimeMeasureInstanceQuery processDefinitionId(String processDefinitionId);
+	SingleTimeMeasureValueQuery processDefinitionId(String processDefinitionId);
 }

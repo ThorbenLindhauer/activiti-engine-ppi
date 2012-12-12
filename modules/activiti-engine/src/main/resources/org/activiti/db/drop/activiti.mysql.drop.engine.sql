@@ -63,7 +63,6 @@ drop table if exists ACT_RU_JOB;
 drop table if exists ACT_RU_EVENT_SUBSCR;
 
 /* PPI tables */
-drop table if exists PPI_BASE_TIME_MEASURE;
 drop table if exists PPI_BASE_SINGLE_TIME_MEASURE;
 drop table if exists PPI_BASE_DATA_MEASURE;
 drop table if exists PPI_BASE_COUNT_MEASURE;

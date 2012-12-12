@@ -24,9 +24,11 @@ import org.activiti.engine.impl.db.PersistentObject;
 public class SingleTimeMeasureValue implements PersistentObject {
 
 	private String id;
-	private Date from;
-	private Date to;
+	private Date timestamp;
 	private String timeMeasureId;
+	private String processInstanceId;
+	private boolean from;
+	private boolean to;
 
 	public String getId() {
 		return id;
@@ -44,37 +46,50 @@ public class SingleTimeMeasureValue implements PersistentObject {
 		this.timeMeasureId = timeMeasureId;
 	}
 	
-	public Date getFrom() {
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	public Date getTimetamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public boolean isFrom() {
 		return from;
 	}
 
-	public void setFrom(Date from) {
+	public void setFrom(boolean from) {
 		this.from = from;
 	}
 
-	public Date getTo() {
+	public boolean isTo() {
 		return to;
 	}
 
-	public void setTo(Date to) {
+	public void setTo(boolean to) {
 		this.to = to;
 	}
 
 	public Object getPersistentState() {
 		Map<String, Object> persistentState = new HashMap<String, Object>();
 	    persistentState.put("id", id);
-	    persistentState.put("from", from);
-	    persistentState.put("to", to);
+	    persistentState.put("timestamp", timestamp);
 	    persistentState.put("timeMeasureId", timeMeasureId);
+	    persistentState.put("processInstanceId", processInstanceId);
 	    return persistentState;
 	}
 
 	public void update(SingleTimeMeasureValue value) {
-		if (value.from != null) {
-			this.from = value.from;
-		}
-		if (value.to != null) {
-			this.to = value.to;
+		if (value.timestamp != null) {
+			this.timestamp = value.timestamp;
 		}
 	}
 }
